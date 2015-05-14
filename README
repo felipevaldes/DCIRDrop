@@ -1,0 +1,5 @@
+DC-IR-Drop solver for PCB design and simulation.
+
+Features:
+ - Includes thermal effect on the conductivity of materials
+ - Computes temperature based on computed currents and heat sinks/sources
