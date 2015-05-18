@@ -1,27 +1,28 @@
-#####################################################
-# File:     CMakeLists.txt 
-# Author:   Felipe Valdes
-# Date:     May/2015
-#####################################################
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8)
 
 SET( LIB_TYPE "SHARED" CACHE STRING "Static or Shared libraries generated [STATIC|SHARED]" )
+SET( cem_ROOT ${CMAKE_CURRENT_SOURCE_DIR} CACHE PATH "PWD" )
+SET( EXTERNAL_LIBS_DIR )
+SET( LIB_DIR "${cem_ROOT}/lib/${CMAKE_BUILD_TYPE}/${LIB_TYPE}" )
+SET( BIN_DIR "${cem_ROOT}/bin/${CMAKE_BUILD_TYPE}/${LIB_TYPE}")
 
-# External variables
-SET( CEM_ROOT ${CMAKE_CURRENT_SOURCE_DIR} CACHE PATH "PWD" )
-SET( LIB_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}/${LIB_TYPE}")
-SET( BIN_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE}/${LIB_TYPE}")
+SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR} )
+SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIR} )
+SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIB_DIR} )
 
+project(CEM)
 
+# Include directories:
+INCLUDE_DIRECTORIES( ${EXTERNAL_LIBS} )
+INCLUDE_DIRECTORIES( ${cem_ROOT}/src/src1 )
+INCLUDE_DIRECTORIES( ${cem_ROOT}/src/src2 )
 
+# Binaries:
+ADD_SUBDIRECTORY( src/cemProducts/cemDCIRDrop )
 
-# Project Name: nSys
-set( BIN_NAME cemDCIRDrop )
-project( ${BIN_NAME} )
+# Sources:
+ADD_SUBDIRECTORY( src/cemCommon )
+ADD_SUBDIRECTORY( src/cemCore )
+ADD_SUBDIRECTORY( src/cemMath )
 
-enable_testing()
-
-
-add_subdirectory( src/cemCommon )
-
-
+#EOF
