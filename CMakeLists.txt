@@ -14,15 +14,16 @@ project(CEM)
 
 # Include directories:
 INCLUDE_DIRECTORIES( ${EXTERNAL_LIBS} )
-INCLUDE_DIRECTORIES( ${cem_ROOT}/src/src1 )
-INCLUDE_DIRECTORIES( ${cem_ROOT}/src/src2 )
+INCLUDE_DIRECTORIES( ${cem_ROOT}/src/cemCommon )
+#INCLUDE_DIRECTORIES( ${cem_ROOT}/src/cemCore )
+#INCLUDE_DIRECTORIES( ${cem_ROOT}/src/cemMath )
 
 # Binaries:
 ADD_SUBDIRECTORY( src/cemProducts/cemDCIRDrop )
 
 # Sources:
 ADD_SUBDIRECTORY( src/cemCommon )
-ADD_SUBDIRECTORY( src/cemCore )
-ADD_SUBDIRECTORY( src/cemMath )
+#ADD_SUBDIRECTORY( src/cemCore )
+#ADD_SUBDIRECTORY( src/cemMath )
 
 #EOF

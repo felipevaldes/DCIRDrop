@@ -17,8 +17,9 @@ SET(	CONSOLE_FILES
 
 # cemLibraries to be used:
 SET( 	LIBRARIES
-	cemCore
-	cemMath
+        cemCommon
+#	cemCore
+#	cemMath
    )
 
 ADD_EXECUTABLE( ${CONSOLE_NAME} ${CONSOLE_FILES} )
