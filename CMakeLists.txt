@@ -20,6 +20,7 @@ INCLUDE_DIRECTORIES( ${cem_ROOT}/src/cemCommon )
 
 # Binaries:
 ADD_SUBDIRECTORY( src/cemProducts/cemDCIRDrop )
+ADD_SUBDIRECTORY( src/cemProducts/TestSuite )
 
 # Sources:
 ADD_SUBDIRECTORY( src/cemCommon )
