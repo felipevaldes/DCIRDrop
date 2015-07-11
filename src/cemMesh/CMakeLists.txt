@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Project Name:
-SET( LIB_NAME cemMath )
+SET( LIB_NAME cemMesh )
 PROJECT( ${LIB_NAME} )
 
 # Source Files:
