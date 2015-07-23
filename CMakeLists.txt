@@ -16,6 +16,7 @@ project(CEM)
 INCLUDE_DIRECTORIES( ${EXTERNAL_LIBS} )
 INCLUDE_DIRECTORIES( ${cem_ROOT}/src/cemCommon )
 INCLUDE_DIRECTORIES( ${cem_ROOT}/src/cemCore )
+INCLUDE_DIRECTORIES( ${cem_ROOT}/src/cemMesh )
 #INCLUDE_DIRECTORIES( ${cem_ROOT}/src/cemMath )
 
 # Binaries:
@@ -25,6 +26,7 @@ ADD_SUBDIRECTORY( src/cemProducts/TestSuite )
 # Sources:
 ADD_SUBDIRECTORY( src/cemCommon )
 ADD_SUBDIRECTORY( src/cemCore )
+ADD_SUBDIRECTORY( src/cemMesh )
 #ADD_SUBDIRECTORY( src/cemMath )
 
 #EOF

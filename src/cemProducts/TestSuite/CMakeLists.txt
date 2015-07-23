@@ -15,10 +15,12 @@ SET(	CONSOLE_FILES
 	TestSuite.cpp
    )
 
+aux_source_directory(TestCEMSpace   CONSOLE_FILES)
+
 # cemLibraries to be used:
 SET( 	LIBRARIES
         cemCommon
-#	cemCore
+        cemCore
 #	cemMath
    )
 

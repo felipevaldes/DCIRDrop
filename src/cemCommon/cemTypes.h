@@ -4,7 +4,7 @@
 #pragma once
 #include <complex>
 
-namespace CEMDef
+namespace cem_def
 {
 // Basic type definitions:
 typedef bool cemBOOL;
