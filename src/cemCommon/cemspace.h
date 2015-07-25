@@ -26,12 +26,19 @@ public:
     {coord_[0] = x1; coord_[1] = x2; coord_[2] = x3;}
 
     // Copy constructor:
-    V3<T>(const V3<T>& V) {*this = V;}
+    V3<T>(const V3<T>& V)
+    {
+        coord_[0] = V.coord_[0];
+        coord_[1] = V.coord_[1];
+        coord_[2] = V.coord_[2];
+    }
 
     // Copy operator:
     V3<T>& operator=(const V3<T>& V)
     {
-        *this = V;
+        coord_[0] = V.coord_[0];
+        coord_[1] = V.coord_[1];
+        coord_[2] = V.coord_[2];
         return *this;
     }
 
@@ -103,7 +110,7 @@ public:
     // Norm Squared:
     T NormSquared () const
     {
-        return *this->Dot(*this);
+        return this->Dot(*this);
     }
 
     // Norm:
@@ -241,7 +248,7 @@ public:
     // Norm Squared:
     T NormSquared () const
     {
-        return *this->Dot(*this);
+        return this->Dot(*this);
     }
 
     // Norm:

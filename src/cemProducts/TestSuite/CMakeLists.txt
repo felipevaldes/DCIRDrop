@@ -1,24 +1,31 @@
 cmake_minimum_required(VERSION 2.8)
 
+# External Variables:
+SET( EXTERNAL_LIBS_DIR )
+
 # Project Name:
-SET( BIN_NAME TestSuite )
-PROJECT( ${BIN_NAME} )
+set( BIN_NAME TestSuite )
+project( ${BIN_NAME} )
 
 # Source Files:
-SET( GUI_NAME ${BIN_NAME} )
-SET(	GUI_FILES
+set( GUI_NAME ${BIN_NAME} )
+set(	GUI_FILES
 	TestSuite.cpp
    )
 
-SET( CONSOLE_NAME ${BIN_NAME}Console )
-SET(	CONSOLE_FILES
+set( CONSOLE_NAME ${BIN_NAME}Console )
+set(	CONSOLE_FILES
 	TestSuite.cpp
    )
+
+include( ${cem_ROOT}/cem_CMake/CEM.cmake )
 
 aux_source_directory(TestCEMSpace   CONSOLE_FILES)
 
 # cemLibraries to be used:
-SET( 	LIBRARIES
+set( 	LIBRARIES
+        ${GTEST_DIR}/libgtest.a
+        pthread
         cemCommon
         cemCore
 #	cemMath
