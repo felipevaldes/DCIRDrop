@@ -17,7 +17,6 @@ typedef unsigned int cemUINT;
 typedef std::complex<cemFLOAT> cemFCOMPLEX;
 typedef std::complex<cemDOUBLE> cemDCOMPLEX;
 typedef size_t cemSIZE;
-
 }
 
 

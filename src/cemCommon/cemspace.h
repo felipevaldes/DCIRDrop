@@ -11,6 +11,14 @@ namespace cem_space
 /////////////////////////////////////////////////////////////////////
 template <class T> class V3
 {
+protected:
+    void copy(const V3<T>& V)
+    {
+        coord_[0] = V.coord_[0];
+        coord_[1] = V.coord_[1];
+        coord_[2] = V.coord_[2];
+    }
+
 private:
     T coord_[3];
 
@@ -26,21 +34,11 @@ public:
     {coord_[0] = x1; coord_[1] = x2; coord_[2] = x3;}
 
     // Copy constructor:
-    V3<T>(const V3<T>& V)
-    {
-        coord_[0] = V.coord_[0];
-        coord_[1] = V.coord_[1];
-        coord_[2] = V.coord_[2];
-    }
+    V3<T>(const V3<T>& V) {copy(V);}
+
 
     // Copy operator:
-    V3<T>& operator=(const V3<T>& V)
-    {
-        coord_[0] = V.coord_[0];
-        coord_[1] = V.coord_[1];
-        coord_[2] = V.coord_[2];
-        return *this;
-    }
+    V3<T>& operator=(const V3<T>& V) {copy(V);}
 
     // Destructor:
     ~V3<T>(void) {;}
@@ -158,6 +156,11 @@ inline std::ostream& operator << (std::ostream& out_stream, const V3D& V)
 /////////////////////////////////////////////////////////////////////
 template <class T> class V2
 {
+
+protected:
+    void copy(const V2<T>& V)
+    {coord_[0] = V.coord_[0]; coord_[1] = V.coord_[1];}
+
 private:
     T coord_[2];
 
@@ -173,14 +176,12 @@ public:
     {coord_[0] = x1; coord_[1] = x2;}
 
     // Copy constructor:
-    V2<T>(const V2<T>& V)
-    {coord_[0] = V.coord_[0]; coord_[1] = V.coord_[1];}
+    V2<T>(const V2<T>& V) {copy(V);}
 
     // Copy operator:
     V2<T>& operator=(const V2<T>& V)
     {
-        coord_[0] = V.coord_[0];
-        coord_[1] = V.coord_[1];
+        copy(V);
         return *this;
     }
 

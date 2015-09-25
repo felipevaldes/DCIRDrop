@@ -18,7 +18,8 @@ SET(	CONSOLE_FILES
 # cemLibraries to be used:
 SET( 	LIBRARIES
         cemCommon
-#	cemCore
+        cemCore
+        cemMesh
 #	cemMath
    )
 

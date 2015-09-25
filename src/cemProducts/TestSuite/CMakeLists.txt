@@ -28,6 +28,7 @@ set( 	LIBRARIES
         pthread
         cemCommon
         cemCore
+        cemMesh
 #	cemMath
    )
 
