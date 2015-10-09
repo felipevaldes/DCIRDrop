@@ -2,6 +2,7 @@
 #define TESTCASEDECLARATIONS_H
 
 int RunTestCEMSpace(int argc, char* argv[]);
+int RunTestCEMMesh(int argc, char* argv[]);
 
 #endif // TESTCASEDECLARATIONS_H
 
