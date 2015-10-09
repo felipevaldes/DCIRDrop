@@ -11,18 +11,19 @@
 namespace cemcommon
 {
 
+//************************************************************************************************//
+/** @brief The Exception class : Used for error handling. */
+//************************************************************************************************//
 class Exception
 {
 public:
-    // Constructor:
     Exception(std::string tag_string, std::string prob_string);
 
-    // Print Exception:
     void PrintException() const;
 
 private:
-    std::string tag_;
-    std::string problem_;
+    std::string tag_;       /**< Short string tag for the error message. */
+    std::string problem_;   /**< Long string that describes the error in more detail. */
 
 };
 

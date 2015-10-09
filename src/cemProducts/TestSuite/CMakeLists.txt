@@ -21,6 +21,7 @@ set(	CONSOLE_FILES
 include( ${cem_ROOT}/cem_CMake/CEM.cmake )
 
 aux_source_directory(TestCEMSpace   CONSOLE_FILES)
+aux_source_directory(TestCEMMesh   CONSOLE_FILES)
 
 # cemLibraries to be used:
 set( 	LIBRARIES
