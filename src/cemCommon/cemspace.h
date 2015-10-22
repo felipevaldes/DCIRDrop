@@ -6,54 +6,34 @@
 namespace cem_space
 {
 
-/////////////////////////////////////////////////////////////////////
-/// 3D Vector:
-/////////////////////////////////////////////////////////////////////
+///***********************************************************************************************//
+/// CLASS: V3
+///***********************************************************************************************//
 template <class T> class V3
 {
-protected:
-    void copy(const V3<T>& V)
-    {
-        coord_[0] = V.coord_[0];
-        coord_[1] = V.coord_[1];
-        coord_[2] = V.coord_[2];
-    }
-
-private:
-    T coord_[3];
-
 public:
-    //====================================================
-    // Constructors and Destructors:
-    //====================================================
-    // Default constructor:
+    /** @brief V3<T> : Default constructor */
     V3<T>() {coord_[0] = coord_[1] = coord_[2] = 0.0;}
 
-    // Constructor from given coordinates:
+    /** @brief V3<T> : Constructor with parameters. */
     V3<T>(const T& x1, const T& x2, const T& x3)
     {coord_[0] = x1; coord_[1] = x2; coord_[2] = x3;}
 
-    // Copy constructor:
+    /** @brief V3<T> : Copy constructor. */
     V3<T>(const V3<T>& V) {copy(V);}
 
-
-    // Copy operator:
+    /** @brief operator = : Copy operator. */
     V3<T>& operator=(const V3<T>& V) {copy(V);}
 
-    // Destructor:
-    ~V3<T>(void) {;}
-
-    // Random access
+    /** @brief operator [] : Random access operator. */
     const T& operator[](const cem_def::cemINT& i) const {return coord_[i];}
     const T& operator[](const cem_def::cemUINT& i) const {return coord_[i];}
 
-    // Random access assignment
+    /** @brief operator [] : Random access asignment. */
     T& operator[](const cem_def::cemINT& i) {return coord_[i];}
     T& operator[](const cem_def::cemUINT& i) {return coord_[i];}
 
-    //====================================================
-    // Math Operations:
-    //====================================================
+    /** @brief operator == : Equal operator: TRUE if all coordinates are equal. */
     cem_def::cemBOOL operator == (const V3<T>& other) const
     {
         if (coord_[0] == other.coord_[0] &&
@@ -64,7 +44,7 @@ public:
             return false;
     }
 
-    // Multiply by scalar:
+    /** @brief operator *= : Multiply vector by scalar. */
     V3<T> operator *= (const T& scalar)
     {
         coord_[0] *= scalar;
@@ -73,51 +53,55 @@ public:
         return *this;
     }
 
-    // Add 3D Vector:
+    /** @brief Add : Vector addition. */
     void Add(const V3<T>& V)
     {
         coord_[0] += V.coord_[0];
         coord_[1] += V.coord_[1];
         coord_[2] += V.coord_[2];
     }
+
+    /** @brief operator + : Vector addition operator. */
     V3<T> operator + (const V3<T>& V)
     {
         this->Add(V);
         return *this;
     }
 
-    // Substract 3D Vector:
+    /** @brief Substract : Vector substraction. */
     void Substract(const V3<T>& V)
     {
         coord_[0] -= V.coord_[0];
         coord_[1] -= V.coord_[1];
         coord_[2] -= V.coord_[2];
     }
+
+    /** @brief operator - : Vector substraction operator. */
     V3<T> operator - (const V3<T>& V)
     {
         this->Substract(V);
         return *this;
     }
 
-    // Dot Product:
+    /** @brief Dot : Vector dot (scalar) product. */
     T Dot (const V3<T>& V) const
     {
         return (coord_[0]*V.coord_[0] + coord_[1]*V.coord_[1] + coord_[2]*V.coord_[2]);
     }
 
-    // Norm Squared:
+    /** @brief NormSquared : Computes Norm-2 squared of vector. */
     T NormSquared () const
     {
         return this->Dot(*this);
     }
 
-    // Norm:
+    /** @brief Norm : Computes Norm-2 of vector. */
     T Norm () const
     {
         return sqrt(NormSquared());
     }
 
-    // Cross Product:
+    /** @brief Cross : Computes Vector Cross Product. */
     V3<T> Cross (const V3<T>& V) const
     {
         return V3<T>(
@@ -125,12 +109,26 @@ public:
                 coord_[2]*V.coord_[0] - coord_[0]*V.coord_[2],
                 coord_[0]*V.coord_[1] - coord_[1]*V.coord_[0]);
     }
+
+protected:
+    /** @brief copy: Deep copy of V3. */
+    void copy(const V3<T>& V)
+    {
+        coord_[0] = V.coord_[0];
+        coord_[1] = V.coord_[1];
+        coord_[2] = V.coord_[2];
+    }
+
+private:
+    T coord_[3];        /**< 3 coordinates vector */
 };
 
 
-/////////////////////////////////////////////////////////////////////
-/// Double precision 3D Vector:
-/////////////////////////////////////////////////////////////////////
+
+
+///***********************************************************************************************//
+/// TYPEDEF: V3D
+///***********************************************************************************************//
 typedef V3<cem_def::cemDOUBLE> V3D;
 
 inline std::ostream& operator << (std::ostream& out_stream, const V3D& V)
@@ -150,55 +148,38 @@ inline std::ostream& operator << (std::ostream& out_stream, const V3D& V)
 
 
 
-
-/////////////////////////////////////////////////////////////////////
-/// 2D Vector:
-/////////////////////////////////////////////////////////////////////
+///***********************************************************************************************//
+/// CLASS: V2
+///***********************************************************************************************//
 template <class T> class V2
 {
-
-protected:
-    void copy(const V2<T>& V)
-    {coord_[0] = V.coord_[0]; coord_[1] = V.coord_[1];}
-
-private:
-    T coord_[2];
-
 public:
-    //====================================================
-    // Constructors and Destructors:
-    //====================================================
-    // Default constructor:
+    /** @brief V2<T> : Default constructor */
     V2<T>() {coord_[0] = coord_[1] = 0.0;}
 
-    // Constructor from given coordinates:
+    /** @brief V2<T> : Constructor with parameters. */
     V2<T>(const T& x1, const T& x2)
     {coord_[0] = x1; coord_[1] = x2;}
 
-    // Copy constructor:
+    /** @brief V2<T> : Copy constructor. */
     V2<T>(const V2<T>& V) {copy(V);}
 
-    // Copy operator:
+    /** @brief operator = : Copy operator. */
     V2<T>& operator=(const V2<T>& V)
     {
         copy(V);
         return *this;
     }
 
-    // Destructor:
-    ~V2<T>(void) {;}
-
-    // Random access
+    /** @brief operator [] : Random access operator. */
     const T& operator[](const cem_def::cemINT& i) const {return coord_[i];}
     const T& operator[](const cem_def::cemUINT& i) const {return coord_[i];}
 
-    // Random access assignment
+    /** @brief operator [] : Random access asignment. */
     T& operator[](const cem_def::cemINT& i) {return coord_[i];}
     T& operator[](const cem_def::cemUINT& i) {return coord_[i];}
 
-    //====================================================
-    // Math Operations:
-    //====================================================
+    /** @brief operator == : Equal operator: TRUE if all coordinates are equal. */
     cem_def::cemBOOL operator == (const V2<T>& other) const
     {
         if (coord_[0] == other.coord_[0] &&
@@ -208,7 +189,7 @@ public:
             return false;
     }
 
-    // Multiply by scalar:
+    /** @brief operator *= : Multiply vector by scalar. */
     V2<T> operator *= (const T& scalar)
     {
         coord_[0] *= scalar;
@@ -216,58 +197,69 @@ public:
         return *this;
     }
 
-    // Add 2D Vector:
+    /** @brief Add : Vector addition. */
     void Add(const V2<T>& V)
     {
         coord_[0] += V.coord_[0];
         coord_[1] += V.coord_[1];
     }
+
+    /** @brief operator + : Vector addition operator. */
     V2<T> operator + (const V2<T>& V)
     {
         this->Add(V);
         return *this;
     }
 
-    // Substract 2D Vector:
+    /** @brief Substract : Vector substraction. */
     void Substract(const V2<T>& V)
     {
         coord_[0] -= V.coord_[0];
         coord_[1] -= V.coord_[1];
     }
+
+    /** @brief operator - : Vector substraction operator. */
     V2<T> operator - (const V2<T>& V)
     {
         this->Substract(V);
         return *this;
     }
 
-    // Dot Product:
+    /** @brief Dot : Vector dot (scalar) product. */
     T Dot (const V2<T>& V) const
     {
         return (coord_[0]*V.coord_[0] + coord_[1]*V.coord_[1]);
     }
 
-    // Norm Squared:
+    /** @brief NormSquared : Computes Norm-2 squared of vector. */
     T NormSquared () const
     {
         return this->Dot(*this);
     }
 
-    // Norm:
+    /** @brief Norm : Computes Norm-2 of vector. */
     T Norm () const
     {
         return sqrt(NormSquared());
     }
 
-    // Cross Product:
+    /** @brief Cross : Computes Vector Cross Product. */
     T Cross (const V2<T>& V) const
     {
         return coord_[0]*V.coord_[1] - coord_[1]*V.coord_[0];
     }
+
+protected:
+    void copy(const V2<T>& V)
+    {coord_[0] = V.coord_[0]; coord_[1] = V.coord_[1];}
+
+private:
+    T coord_[2];
 };
 
-/////////////////////////////////////////////////////////////////////
-/// Double precision 2D Vector:
-/////////////////////////////////////////////////////////////////////
+///***********************************************************************************************//
+/// TYPEDEF: V2D
+///***********************************************************************************************//
 typedef V2<cem_def::cemDOUBLE> V2D;
 
 inline std::ostream& operator << (std::ostream& out_stream, const V2D& V)

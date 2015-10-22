@@ -34,12 +34,18 @@ int RunTestCEMMesh(int argc, char* argv[])
 
 int TestMeshBasics()
 {
-    std::cout << "Hi Felipe, you are AWESEOME !!" << std::endl;
 
     Mesh mesh1;
 
     mesh1.ReadFromGmshFile("airbus380_blade.msh");
-    mesh1.WriteToGmshFile("output.msh");
+
+    Mesh mesh2(mesh1);
+
+
+
+    mesh2.WriteToGmshFile("output.msh");
+
+    std::cout << "Hi Felipe, you are AWESEOME !!" << std::endl;
 
     return 0;
 }

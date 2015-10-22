@@ -226,6 +226,7 @@ void Node::initialize()
 void Node::copy(const cem_mesh::Node &node)
 {
     V3D::copy(node);
+    node_id_ = node.node_id_;
     has_been_checked_in_ = node.has_been_checked_in_;
     is_element_boundary_ = node.is_element_boundary_;
     is_surface_boundary_ = node.is_surface_boundary_;
@@ -375,7 +376,7 @@ Element& Element::operator=(const Element& elem) {initialize(); copy(elem);}
 
 
 //************************************************************************************************//
-/*! @brief Element::initialize : Initializes an element with default data. */
+/** @brief Element::initialize : Initializes an element with default data. */
 //************************************************************************************************//
 void Element::initialize()
 {
@@ -392,28 +393,30 @@ void Element::initialize()
 
 
 //************************************************************************************************//
-/*! @brief Element::copy : Deep copy of an element.
+/** @brief Element::copy : Deep copy of an element.
  * Node pointers of the new element point to the same nodes pointed by the original element.
  * @param [in] elem : element to be copied */
 //************************************************************************************************//
 void Element::copy(const cem_mesh::Element &elem)
 {
-    type_ = elem.type_;
-    is_surface_boundary_ = elem.is_surface_boundary_;
-    order_ = elem.order_;
-    num_nodes_ = elem.num_nodes_;
-    physical_id_ = elem.physical_id_;
+    element_id_ = elem.element_id_;
     geometrical_id_ = elem.geometrical_id_;
+    is_complete_ = elem.is_complete_;
+    is_surface_boundary_ = elem.is_surface_boundary_;
     num_partitions_ = elem.num_partitions_;
     partitions_ = elem.partitions_;
+    order_ = elem.order_;
+    physical_id_ = elem.physical_id_;
+    type_ = elem.type_;
 
+    num_nodes_ = elem.num_nodes_;
     node_ptrs_.resize(elem.node_ptrs_.size());
     node_ptrs_ = elem.node_ptrs_;
 }
 
 
 //************************************************************************************************//
-/*! @brief Element::set_element_id : Sets unique identifier whithin the mesh.
+/** @brief Element::set_element_id : Sets unique identifier whithin the mesh.
  * @param [in] elem_id */
 //************************************************************************************************//
 void Element::set_element_id(const cemINT& elem_id) {element_id_ = elem_id;}
@@ -427,7 +430,7 @@ cemINT Element::element_id() const {return element_id_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_type : Set the type of element.
+/** @brief Element::set_type : Set the type of element.
  * @param [in] type */
 //************************************************************************************************//
 void Element::set_type(const ElementType& type) {type_ = type;}
@@ -441,7 +444,7 @@ Element::ElementType Element::type() const {return type_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_order : Sets polynomial order of the element >= 1.
+/** @brief Element::set_order : Sets polynomial order of the element >= 1.
  * @param [in] order */
 //************************************************************************************************//
 void Element::set_order(const cemINT& order)
@@ -460,7 +463,7 @@ cemINT Element::order() const {return order_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_is_complete : Sets flag that records if polynomial expansion is complete.
+/** @brief Element::set_is_complete : Sets flag that records if polynomial expansion is complete.
  * @param [in] is_complete */
 //************************************************************************************************//
 void Element::set_is_complete(const cemBOOL& is_complete) {is_complete_ = is_complete;}
@@ -474,7 +477,7 @@ cemBOOL Element::is_complete() const {return is_complete_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_is_surface_boundary : Sets flag that records if element is in the surface's boundary.
+/** @brief Element::set_is_surface_boundary : Sets flag that records if element is in the surface's boundary.
  * @param [in] is_boundary */
 //************************************************************************************************//
 void Element::set_is_surface_boundary(const cemBOOL& is_boundary) {is_surface_boundary_ = is_boundary;}
@@ -488,7 +491,7 @@ cemBOOL Element::is_surface_boundary() const {return is_surface_boundary_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_node_ptrs : Sets vector of nodes that define the element.
+/** @brief Element::set_node_ptrs : Sets vector of nodes that define the element.
  * @param [in] nodes : Vector of pointers to the nodes that define the element. */
 //************************************************************************************************//
 void Element::set_node_ptrs(const std::vector<const Node*>& nodes)
@@ -507,7 +510,7 @@ std::vector<const Node*> Element::node_ptrs() const {return node_ptrs_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_num_nodes : Sets the number of nodes that define the element.
+/** @brief Element::set_num_nodes : Sets the number of nodes that define the element.
  * @param [in] num_nodes */
 //************************************************************************************************//
 void Element::set_num_nodes(const cemINT& num_nodes)
@@ -526,7 +529,7 @@ cemINT Element::num_nodes() const {return num_nodes_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_physical_id : Sets the physical entity to which element belongs.
+/** @brief Element::set_physical_id : Sets the physical entity to which element belongs.
  * @param [in] phys_id */
 //************************************************************************************************//
 void Element::set_physical_id(const cemINT& phys_id) {physical_id_ = phys_id;}
@@ -540,7 +543,7 @@ cemINT Element::physical_id() const {return physical_id_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_geometrical_id : Sets the geometrical entity to which element belongs.
+/** @brief Element::set_geometrical_id : Sets the geometrical entity to which element belongs.
  * @param [in] geom_id */
 //************************************************************************************************//
 void Element::set_geometrical_id(const cemINT& geom_id) {geometrical_id_ = geom_id;}
@@ -554,7 +557,7 @@ cemINT Element::geometrical_id() const {return geometrical_id_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_num_partitions : Sets the number of partitions to which element belongs.
+/** @brief Element::set_num_partitions : Sets the number of partitions to which element belongs.
  *
  * If the number of partitions is zero, it is understood that there is no partition at all.
  * @param [in] num_partitions */
@@ -570,7 +573,7 @@ cemINT Element::num_partitions() const {return num_partitions_;}
 
 
 //************************************************************************************************//
-/*! @brief Element::set_partitions : Sets the vector of partitions to which element belongs.
+/** @brief Element::set_partitions : Sets the vector of partitions to which element belongs.
  * @param [in] partitions */
 //************************************************************************************************//
 void Element::set_partitions(const std::vector<cemINT>& partitions) {partitions_ = partitions;}
@@ -860,6 +863,7 @@ void Element::ReadFromGmshFile(std::istream& mesh_file, NodeReader& reader)
     }
 
     // Get element nodes:
+    node_ptrs_.resize(num_nodes_);
     for (cemINT ii=0; ii<num_nodes_; ++ii)
     {
         node_ptrs_[ii] = reader.getNode();
