@@ -1,10 +1,14 @@
 #ifndef CEMMESH_H
 #define CEMMESH_H
-
+#pragma once
 
 #include <vector>
 #include <iostream>
-#include "element.h"
+#include "cemSpace.h"
+#include "cemTypes.h"
+
+using cem_space::V3D;
+using namespace cem_def;
 
 namespace cem_mesh
 {
@@ -252,14 +256,14 @@ public:
     /** @brief The ElementType enum : Defines the type of element */
     enum ElementType
     {
-        POINT,      /**< Single point element */
-        LINE,       /**< Line element: straight or curved */
-        TRI,        /**< Triangle: flat or curved */
-        QUAD,       /**< Quadrangle: flat or curved */
-        TET,        /**< Tetrahedron: flat or curved */
-        HEX,        /**< Hexahedron: flat or curved */
-        PRISM,      /**< Prism: flat or curved */
-        PYRA        /**< Pyramid: flat or curved */
+        POINT=0,      /**< Single point element */
+        LINE=1,       /**< Line element: straight or curved */
+        TRI=2,        /**< Triangle: flat or curved */
+        QUAD=3,       /**< Quadrangle: flat or curved */
+        TET=4,        /**< Tetrahedron: flat or curved */
+        HEX=5,        /**< Hexahedron: flat or curved */
+        PRISM=6,      /**< Prism: flat or curved */
+        PYRA=7        /**< Pyramid: flat or curved */
     };
 
     /** @brief Element : Default constructor */

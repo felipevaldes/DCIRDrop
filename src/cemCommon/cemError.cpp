@@ -1,5 +1,5 @@
 #include <iostream>
-#include "cemerror.h"
+#include "cemError.h"
 
 //************************************************************************************************//
 /** @brief cemcommon::Exception::Exception : Constructor with parameters.
