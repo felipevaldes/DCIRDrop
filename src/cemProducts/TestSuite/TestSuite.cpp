@@ -1,6 +1,6 @@
 #include <iostream>
 #include "testcasedeclarations.h"
-#include "cemerror.h"
+#include "cemError.h"
 
 int main(int argc,char *argv[])
 {

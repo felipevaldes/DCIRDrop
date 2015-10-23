@@ -1,6 +1,6 @@
 #include "test_cemMesh.h"
 #include "cemMesh.h"
-#include "cemerror.h"
+#include "cemError.h"
 #include "gtest/gtest.h"
 #include <iostream>
 #include <cstring>
