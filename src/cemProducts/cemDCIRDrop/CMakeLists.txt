@@ -20,7 +20,7 @@ SET( 	LIBRARIES
         cemCommon
         cemCore
         cemMesh
-#	cemMath
+        cemMath
    )
 
 ADD_EXECUTABLE( ${CONSOLE_NAME} ${CONSOLE_FILES} )
