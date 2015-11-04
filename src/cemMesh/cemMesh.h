@@ -67,7 +67,7 @@ public:
 
     // Copy constructor:
     Node(const Node& node);
-    Node& operator=(const Node& node);
+    Node& operator = (const Node& node);
 
     // Get data members:
     cemBOOL has_been_checked_in() const;
