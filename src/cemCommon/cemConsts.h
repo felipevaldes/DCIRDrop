@@ -29,7 +29,7 @@ const cem_def::cemDOUBLE ETA_0 = sqrt(MU_0/EPSILON_0);
 const cem_def::cemDOUBLE	DEG_TO_RAD = PI/180.0;
 const cem_def::cemDOUBLE	RAD_TO_DEG = 180.0/PI;
 const cem_def::cemDOUBLE	INCHES_TO_METERS = 0.0254;
-const cem_def::cemDOUBLE METERS_TO_MICRONS = 1000000;
+const cem_def::cemDOUBLE    METERS_TO_MICRONS = 1000000;
 
 // Unit Complex:
 const cem_def::cemDCOMPLEX CMPLX_ZERO = (0.0, 0.0);
