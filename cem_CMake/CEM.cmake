@@ -1,6 +1,6 @@
 ADD_DEFINITIONS( -DUSE_CMAKE )
 IF( UNIX )
-    INCLUDE (${cem_ROOT}/cem_CMake/Linux.cmake)
+    INCLUDE (${CEM_ROOT}/cem_CMake/Linux.cmake)
 ELSEIF( WIN32 )
-    INCLUDE (${cem_ROOT}/cem_CMake/Windows.cmake)
+    INCLUDE (${CEM_ROOT}/cem_CMake/Windows.cmake)
 ENDIF( )
