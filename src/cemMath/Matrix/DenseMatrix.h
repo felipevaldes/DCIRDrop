@@ -31,14 +31,14 @@ public:
 
     // Set data members:
     T& operator () (cemUINT row, cemUINT col);
-    void initialize(T value);
+    void initialize();
     void resize(cemUINT n_rows, cemUINT n_columns);
 
     // Math operations:
-    void add(const DenseMatrix<T>& other);
-    const DenseMatrix& operator += (const DenseMatrix<T>& other);
-    void substract(const DenseMatrix<T>& other);
-    const DenseMatrix& operator -= (const DenseMatrix<T>& other);
+    void add(const DenseMatrix<T>& B);
+    const DenseMatrix& operator += (const DenseMatrix<T>& B);
+    void substract(const DenseMatrix<T>& B);
+    const DenseMatrix& operator -= (const DenseMatrix<T>& B);
 
 private:
     cemINT  num_rows_;          /**< Number of rows of the matrix */

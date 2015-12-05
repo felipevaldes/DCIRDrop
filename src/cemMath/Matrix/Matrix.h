@@ -40,11 +40,11 @@ public:
     /** @brief colSize : (Virtual) Get number of columns */
     virtual cemUINT num_columns(void) const = 0;
 
-    /** @brief operator *= : (Virtual) Multiply matrix by scalar. */
-    virtual void operator *= (const T& scalar) = 0;
+//    /** @brief operator *= : (Virtual) Multiply matrix by scalar. */
+//    virtual void operator *= (const T& scalar) = 0;
 
-    /** @brief initialize : (Virtual) Initializes all entries to a given value. */
-    virtual void initialize(T value) = 0;
+    /** @brief initialize : (Virtual) Initializes all entries to zero. */
+    virtual void initialize() = 0;
 
 };
 

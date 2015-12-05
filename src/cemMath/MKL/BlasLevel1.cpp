@@ -3,6 +3,7 @@
 
 using namespace cem_math;
 
+
 //************************************************************************************************//
 /** @brief MKL_VectorPlusEqualVector : Adds two double precision vectors.
  * Computes \f$ y = x + y \f$ or equivalently, y +=x
@@ -10,7 +11,7 @@ using namespace cem_math;
  * @param [in,out] y : double precision vector
  * @param [in] x : double precision vector */
 //************************************************************************************************//
-void MKL_VectorPlusEqualVector(const cemINT N, cemDOUBLE *y, const cemDOUBLE *x)
+void cem_math::MKL_VectorPlusEqualVector(const cemINT N, cemDOUBLE* y, const cemDOUBLE* x)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -27,7 +28,7 @@ void MKL_VectorPlusEqualVector(const cemINT N, cemDOUBLE *y, const cemDOUBLE *x)
  * @param [in,out] y : single precision vector
  * @param [in] x : single precision vector */
 //************************************************************************************************//
-void MKL_VectorPlusEqualVector(const cemINT N, cemFLOAT *y, const cemFLOAT *x)
+void cem_math::MKL_VectorPlusEqualVector(const cemINT N, cemFLOAT *y, const cemFLOAT *x)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -44,7 +45,7 @@ void MKL_VectorPlusEqualVector(const cemINT N, cemFLOAT *y, const cemFLOAT *x)
  * @param [in,out] y : double precision complex vector
  * @param [in] x : double precision complex vector */
 //************************************************************************************************//
-void MKL_VectorPlusEqualVector(const cemINT N, cemDCOMPLEX *y, const cemDCOMPLEX *x)
+void cem_math::MKL_VectorPlusEqualVector(const cemINT N, cemDCOMPLEX *y, const cemDCOMPLEX *x)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -61,7 +62,7 @@ void MKL_VectorPlusEqualVector(const cemINT N, cemDCOMPLEX *y, const cemDCOMPLEX
  * @param [in,out] y : single precision complex vector
  * @param [in] x : single precision complex vector */
 //************************************************************************************************//
-void MKL_VectorPlusEqualVector(const cemINT N, cemFCOMPLEX *y, const cemFCOMPLEX *x)
+void cem_math::MKL_VectorPlusEqualVector(const cemINT N, cemFCOMPLEX *y, const cemFCOMPLEX *x)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -78,7 +79,7 @@ void MKL_VectorPlusEqualVector(const cemINT N, cemFCOMPLEX *y, const cemFCOMPLEX
  * @param [in,out] y : double precision vector
  * @param [in] x : double precision vector */
 //************************************************************************************************//
-void MKL_VectorMinusEqualVector(const cemINT N, cemDOUBLE *y, const cemDOUBLE *x)
+void cem_math::MKL_VectorMinusEqualVector(const cemINT N, cemDOUBLE *y, const cemDOUBLE *x)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -95,7 +96,7 @@ void MKL_VectorMinusEqualVector(const cemINT N, cemDOUBLE *y, const cemDOUBLE *x
  * @param [in,out] y : single precision vector
  * @param [in] x : single precision vector */
 //************************************************************************************************//
-void MKL_VectorMinusEqualVector(const cemINT N, cemFLOAT *y, const cemFLOAT *x)
+void cem_math::MKL_VectorMinusEqualVector(const cemINT N, cemFLOAT *y, const cemFLOAT *x)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -112,7 +113,7 @@ void MKL_VectorMinusEqualVector(const cemINT N, cemFLOAT *y, const cemFLOAT *x)
  * @param [in,out] y : double precision complex vector
  * @param [in] x : double precision complex vector */
 //************************************************************************************************//
-void MKL_VectorMinusEqualVector(const cemINT N, cemDCOMPLEX *y, const cemDCOMPLEX *x)
+void cem_math::MKL_VectorMinusEqualVector(const cemINT N, cemDCOMPLEX *y, const cemDCOMPLEX *x)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -129,7 +130,7 @@ void MKL_VectorMinusEqualVector(const cemINT N, cemDCOMPLEX *y, const cemDCOMPLE
  * @param [in,out] y : single precision complex vector
  * @param [in] x : single precision complex vector */
 //************************************************************************************************//
-void MKL_VectorMinusEqualVector(const cemINT N, cemFCOMPLEX *y, const cemFCOMPLEX *x)
+void cem_math::MKL_VectorMinusEqualVector(const cemINT N, cemFCOMPLEX *y, const cemFCOMPLEX *x)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -146,7 +147,7 @@ void MKL_VectorMinusEqualVector(const cemINT N, cemFCOMPLEX *y, const cemFCOMPLE
  * @param [in,out] x : double precision vector
  * @param [in] alpha : double precision scalar */
 //************************************************************************************************//
-void MKL_ScalarTimesEqualVector(const cemINT N, cemDOUBLE *x, const cemDOUBLE alpha)
+void cem_math::MKL_ScalarTimesEqualVector(const cemINT N, cemDOUBLE *x, const cemDOUBLE alpha)
 {
     cemINT incx = 1;
     cblas_dscal(N, alpha, x, incx);
@@ -160,7 +161,7 @@ void MKL_ScalarTimesEqualVector(const cemINT N, cemDOUBLE *x, const cemDOUBLE al
  * @param [in,out] x : single precision vector
  * @param [in] alpha : single precision scalar */
 //************************************************************************************************//
-void MKL_ScalarTimesEqualVector(const cemINT N, cemFLOAT *x, const cemFLOAT alpha)
+void cem_math::MKL_ScalarTimesEqualVector(const cemINT N, cemFLOAT *x, const cemFLOAT alpha)
 {
     cemINT incx = 1;
     cblas_sscal(N, alpha, x, incx);
@@ -174,7 +175,7 @@ void MKL_ScalarTimesEqualVector(const cemINT N, cemFLOAT *x, const cemFLOAT alph
  * @param [in,out] x : double precision complex vector
  * @param [in] alpha : double precision complex scalar */
 //************************************************************************************************//
-void MKL_ScalarTimesEqualVector(const cemINT N, cemDCOMPLEX *x, const cemDCOMPLEX alpha)
+void cem_math::MKL_ScalarTimesEqualVector(const cemINT N, cemDCOMPLEX *x, const cemDCOMPLEX alpha)
 {
     cemINT incx = 1;
     cblas_zscal(N, &alpha, x, incx);
@@ -188,7 +189,7 @@ void MKL_ScalarTimesEqualVector(const cemINT N, cemDCOMPLEX *x, const cemDCOMPLE
  * @param [in,out] x : single precision complex vector
  * @param [in] alpha : single precision complex scalar */
 //************************************************************************************************//
-void MKL_ScalarTimesEqualVector(const cemINT N, cemFCOMPLEX *x, const cemFCOMPLEX alpha)
+void cem_math::MKL_ScalarTimesEqualVector(const cemINT N, cemFCOMPLEX *x, const cemFCOMPLEX alpha)
 {
     cemINT incx = 1;
     cblas_cscal(N, &alpha, x, incx);
@@ -202,7 +203,7 @@ void MKL_ScalarTimesEqualVector(const cemINT N, cemFCOMPLEX *x, const cemFCOMPLE
  * @param [in,out] x : double precision complex vector
  * @param [in] alpha : double precision scalar */
 //************************************************************************************************//
-void MKL_ScalarTimesEqualVector(const cemINT N, cemDCOMPLEX *x, const cemDOUBLE alpha)
+void cem_math::MKL_ScalarTimesEqualVector(const cemINT N, cemDCOMPLEX *x, const cemDOUBLE alpha)
 {
     cemINT incx = 1;
     cblas_zdscal(N, alpha, x, incx);
@@ -216,7 +217,7 @@ void MKL_ScalarTimesEqualVector(const cemINT N, cemDCOMPLEX *x, const cemDOUBLE 
  * @param [in,out] x : single precision complex vector
  * @param [in] alpha : single precision scalar */
 //************************************************************************************************//
-void MKL_ScalarTimesEqualVector(const cemINT N, cemFCOMPLEX *x, const cemFLOAT alpha)
+void cem_math::MKL_ScalarTimesEqualVector(const cemINT N, cemFCOMPLEX *x, const cemFLOAT alpha)
 {
     cemINT incx = 1;
     cblas_csscal(N, alpha, x, incx);
@@ -232,11 +233,11 @@ void MKL_ScalarTimesEqualVector(const cemINT N, cemFCOMPLEX *x, const cemFLOAT a
  * @param [out] y : double precision vector where the copy is stored sixe >= (1 + (n-1)*abs(incy))
  * @param [in] incy : increments for the elements of y */
 //************************************************************************************************//
-void MKL_VectorCopy(const cemINT N,
-                    const cemDOUBLE* x,
-                    const cemINT incx,
-                    cemDOUBLE* y,
-                    const cemINT incy)
+void cem_math::MKL_VectorCopy(const cemINT N,
+                              const cemDOUBLE* x,
+                              const cemINT incx,
+                              cemDOUBLE* y,
+                              const cemINT incy)
 {
     cblas_dcopy(N, x, incx, y, incy);
 }
@@ -251,11 +252,11 @@ void MKL_VectorCopy(const cemINT N,
  * @param [out] y : single precision vector where the copy is stored sixe >= (1 + (n-1)*abs(incy))
  * @param [in] incy : increments for the elements of y */
 //************************************************************************************************//
-void MKL_VectorCopy(const cemINT N,
-                    const cemFLOAT* x,
-                    const cemINT incx,
-                    cemFLOAT* y,
-                    const cemINT incy)
+void cem_math::MKL_VectorCopy(const cemINT N,
+                              const cemFLOAT* x,
+                              const cemINT incx,
+                              cemFLOAT* y,
+                              const cemINT incy)
 {
     cblas_scopy(N, x, incx, y, incy);
 }
@@ -270,11 +271,11 @@ void MKL_VectorCopy(const cemINT N,
  * @param [out] y : double precision complex vector where the copy is stored sixe >= (1 + (n-1)*abs(incy))
  * @param [in] incy : increments for the elements of y */
 //************************************************************************************************//
-void MKL_VectorCopy(const cemINT N,
-                    const cemDCOMPLEX* x,
-                    const cemINT incx,
-                    cemDCOMPLEX* y,
-                    const cemINT incy)
+void cem_math::MKL_VectorCopy(const cemINT N,
+                              const cemDCOMPLEX* x,
+                              const cemINT incx,
+                              cemDCOMPLEX* y,
+                              const cemINT incy)
 {
     cblas_zcopy(N, x, incx, y, incy);
 }
@@ -289,11 +290,11 @@ void MKL_VectorCopy(const cemINT N,
  * @param [out] y : single precision complex vector where the copy is stored sixe >= (1 + (n-1)*abs(incy))
  * @param [in] incy : increments for the elements of y */
 //************************************************************************************************//
-void MKL_VectorCopy(const cemINT N,
-                    const cemFCOMPLEX* x,
-                    const cemINT incx,
-                    cemFCOMPLEX* y,
-                    const cemINT incy)
+void cem_math::MKL_VectorCopy(const cemINT N,
+                              const cemFCOMPLEX* x,
+                              const cemINT incx,
+                              cemFCOMPLEX* y,
+                              const cemINT incy)
 {
     cblas_ccopy(N, x, incx, y, incy);
 }
@@ -308,7 +309,7 @@ void MKL_VectorCopy(const cemINT N,
  * @param [in] y : double precision vector
  * @return \f$ r = \sum_{i=1}^{N} x_i y_i \f$ */
 //************************************************************************************************//
-cemDOUBLE MKL_VectorDotProduct(const cemINT N, const cemDOUBLE *x, const cemDOUBLE *y)
+cemDOUBLE cem_math::MKL_VectorDotProduct(const cemINT N, const cemDOUBLE *x, const cemDOUBLE *y)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -324,7 +325,7 @@ cemDOUBLE MKL_VectorDotProduct(const cemINT N, const cemDOUBLE *x, const cemDOUB
  * @param [in] y : single precision vector
  * @return \f$ r = \sum_{i=1}^{N} x_i y_i \f$ */
 //************************************************************************************************//
-cemFLOAT MKL_VectorDotProduct(const cemINT N, const cemFLOAT *x, const cemFLOAT *y)
+cemFLOAT cem_math::MKL_VectorDotProduct(const cemINT N, const cemFLOAT *x, const cemFLOAT *y)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -333,14 +334,14 @@ cemFLOAT MKL_VectorDotProduct(const cemINT N, const cemFLOAT *x, const cemFLOAT 
 
 
 //************************************************************************************************//
-/** @brief MKL_VectorDotProduct : Conjugated dot product between two double precision complex vectors.
+/** @brief MKL_VectorDotProductConjugated : Conjugated dot product between two double precision complex vectors.
  * Computes \f$ conjg(x) \cdot y \f$
  * @param [in] N : Number of elements in vectors
  * @param [in] x : double precision complex vector
  * @param [in] y : double precision complex vector
  * @return \f$ r = \sum_{i=1}^{N}conjg(x_i)y_i \f$ */
 //************************************************************************************************//
-cemDCOMPLEX MKL_VectorDotProductConjugated(const cemINT N, const cemDOUBLE *x, const cemDOUBLE *y)
+cemDCOMPLEX cem_math::MKL_VectorDotProductConjugated(const cemINT N, const cemDCOMPLEX *x, const cemDCOMPLEX *y)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -352,14 +353,14 @@ cemDCOMPLEX MKL_VectorDotProductConjugated(const cemINT N, const cemDOUBLE *x, c
 
 
 //************************************************************************************************//
-/** @brief MKL_VectorDotProduct : Conjugated dot product between two single precision complex vectors.
+/** @brief MKL_VectorDotProductConjugated : Conjugated dot product between two single precision complex vectors.
  * Computes \f$ conjg(x) \cdot y \f$
  * @param [in] N : Number of elements in vectors
  * @param [in] x : single precision complex vector
  * @param [in] y : single precision complex vector
  * @return \f$ r = \sum_{i=1}^{N}conjg(x_i)y_i \f$ */
 //************************************************************************************************//
-cemFCOMPLEX MKL_VectorDotProductConjugated(const cemINT N, const cemFCOMPLEX *x, const cemFCOMPLEX *y)
+cemFCOMPLEX cem_math::MKL_VectorDotProductConjugated(const cemINT N, const cemFCOMPLEX *x, const cemFCOMPLEX *y)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -378,7 +379,7 @@ cemFCOMPLEX MKL_VectorDotProductConjugated(const cemINT N, const cemFCOMPLEX *x,
  * @param [in] y : double precision complex vector
  * @return \f$ r = \sum_{i=1}^{N} x_i y_i \f$ */
 //************************************************************************************************//
-cemDCOMPLEX MKL_VectorDotProduct(const cemINT N, const cemDCOMPLEX *x, const cemDCOMPLEX *y)
+cemDCOMPLEX cem_math::MKL_VectorDotProduct(const cemINT N, const cemDCOMPLEX *x, const cemDCOMPLEX *y)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -397,7 +398,7 @@ cemDCOMPLEX MKL_VectorDotProduct(const cemINT N, const cemDCOMPLEX *x, const cem
  * @param [in] y : single precision complex vector
  * @return \f$ r = \sum_{i=1}^{N} x_i y_i \f$ */
 //************************************************************************************************//
-cemFCOMPLEX MKL_VectorDotProduct(const cemINT N, const cemFCOMPLEX *x, const cemFCOMPLEX *y)
+cemFCOMPLEX cem_math::MKL_VectorDotProduct(const cemINT N, const cemFCOMPLEX *x, const cemFCOMPLEX *y)
 {
     cemINT incx = 1;
     cemINT incy = 1;
@@ -414,7 +415,7 @@ cemFCOMPLEX MKL_VectorDotProduct(const cemINT N, const cemFCOMPLEX *x, const cem
  * @param [in] x : double precision vector
  * @return ||x|| */
 //************************************************************************************************//
-cemDOUBLE MKL_VectorNorm2(const cemINT N, const cemDOUBLE *x)
+cemDOUBLE cem_math::MKL_VectorNorm2(const cemINT N, const cemDOUBLE *x)
 {
     cemINT incx = 1;
     return cblas_dnrm2(N, x, incx);
@@ -427,7 +428,7 @@ cemDOUBLE MKL_VectorNorm2(const cemINT N, const cemDOUBLE *x)
  * @param [in] x : single precision vector
  * @return ||x|| */
 //************************************************************************************************//
-cemFLOAT MKL_VectorNorm2(const cemINT N, const cemFLOAT *x)
+cemFLOAT cem_math::MKL_VectorNorm2(const cemINT N, const cemFLOAT *x)
 {
     cemINT incx = 1;
     return cblas_snrm2(N, x, incx);
@@ -440,7 +441,7 @@ cemFLOAT MKL_VectorNorm2(const cemINT N, const cemFLOAT *x)
  * @param [in] x : double precision complex vector
  * @return ||x|| */
 //************************************************************************************************//
-cemDOUBLE MKL_VectorNorm2(const cemINT N, const cemDCOMPLEX *x)
+cemDOUBLE cem_math::MKL_VectorNorm2(const cemINT N, const cemDCOMPLEX *x)
 {
     cemINT incx = 1;
     return cblas_dznrm2(N, x, incx);
@@ -453,7 +454,7 @@ cemDOUBLE MKL_VectorNorm2(const cemINT N, const cemDCOMPLEX *x)
  * @param [in] x : single precision complex vector
  * @return ||x|| */
 //************************************************************************************************//
-cemFLOAT MKL_VectorNorm2(const cemINT N, const cemFCOMPLEX *x)
+cemFLOAT cem_math::MKL_VectorNorm2(const cemINT N, const cemFCOMPLEX *x)
 {
     cemINT incx = 1;
     return cblas_scnrm2(N, x, incx);

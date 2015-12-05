@@ -3,11 +3,15 @@
 #pragma once
 
 #include "cemTypes.h"
+#include <iostream>
 
 using namespace cem_def;
 
 
 namespace cem_math {
+
+void myFunction(const cemINT N, cemDOUBLE* y, cemDOUBLE* x);
+
 
 // Vector-vector sum:
 void MKL_VectorPlusEqualVector(const cemINT N, cemDOUBLE* y, const cemDOUBLE* x);
@@ -51,10 +55,6 @@ cemDOUBLE MKL_VectorNorm2(const cemINT N, const cemDOUBLE* x);
 cemFLOAT MKL_VectorNorm2(const cemINT N, const cemFLOAT* x);
 cemDOUBLE MKL_VectorNorm2(const cemINT N, const cemDCOMPLEX* x);
 cemFLOAT MKL_VectorNorm2(const cemINT N, const cemFCOMPLEX* x);
-
-
-
-
 }
 
 

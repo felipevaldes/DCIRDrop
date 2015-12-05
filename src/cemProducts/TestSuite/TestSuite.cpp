@@ -27,12 +27,14 @@ int main(int argc,char *argv[])
             std::cout << argv[i] << std::endl;
         }
 
-
         if (test_case_name == "TESTCEMSPACE")
             return_result = RunTestCEMSpace(sub_argc,sub_argv);
 
         if (test_case_name == "TESTCEMMESH")
             return_result = RunTestCEMMesh(sub_argc,sub_argv);
+
+        if (test_case_name == "TESTCEMMATH")
+            return_result = RunTestCEMMath(sub_argc,sub_argv);
 
     }
     catch (cemcommon::Exception& error)
