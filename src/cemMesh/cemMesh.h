@@ -253,7 +253,7 @@ private:
 class Element
 {
 public:
-    /** @brief The ElementType enum : Defines the type of element */
+    /** @brief The ElementType enum : Defines the type of element. */
     enum ElementType
     {
         POINT=0,      /**< Single point element */
@@ -266,7 +266,7 @@ public:
         PYRA=7        /**< Pyramid: flat or curved */
     };
 
-    /** @brief Element : Default constructor */
+    /** @brief Element : Default constructor. */
     Element() {initialize();}
 
     // Constructor with parameters:
@@ -298,6 +298,7 @@ public:
     cemINT order() const;
     cemBOOL is_complete() const;
     std::vector<const Node*> node_ptrs() const;
+    const Node* node(const cemINT& i) const;
     cemINT num_nodes() const;
     cemINT physical_id() const;
     cemINT geometrical_id() const;
@@ -311,17 +312,17 @@ public:
 
 private:
     // Private atributes:
-    cemINT              element_id_;            /**< Unique identifier whithin the mesh */
-    ElementType         type_;                  /**< Type of element */
-    cemBOOL             is_complete_;           /**< TRUE if polynomial expansion is complete */
-    cemBOOL             is_surface_boundary_;   /**< TRUE if element is in the surface boundary */
-    cemINT              order_;                 /**< Polynomial order of the element >= 1 */
-    cemINT              physical_id_;           /**< Physical entity to which element belongs */
-    cemINT              geometrical_id_;        /**< Geometrical entity to which element belongs */
-    cemINT              num_partitions_;        /**< Number of partitions to which element belongs */
-    std::vector<cemINT> partitions_;            /**< Vector of partitions to which element belongs */
-    cemINT              num_nodes_;             /**< Number of nodes that define the element */
-    std::vector<const Node*>  node_ptrs_;       /**< Vector of nodes that define the element */
+    cemINT              element_id_;            //!< Unique identifier whithin the mesh
+    ElementType         type_;                  //!< Type of element
+    cemBOOL             is_complete_;           //!< TRUE if polynomial expansion is complete
+    cemBOOL             is_surface_boundary_;   //!< TRUE if element is in the surface boundary
+    cemINT              order_;                 //!< Polynomial order of the element >= 1
+    cemINT              physical_id_;           //!< Physical entity to which element belongs
+    cemINT              geometrical_id_;        //!< Geometrical entity to which element belongs
+    cemINT              num_partitions_;        //!< Number of partitions to which element belongs
+    std::vector<cemINT> partitions_;            //!< Vector of partitions to which element belongs
+    cemINT              num_nodes_;             //!< Number of nodes that define the element
+    std::vector<const Node*>  node_ptrs_;       //!< Vector of nodes that define the element
 
     // Private member functions:
     void initialize();

@@ -510,6 +510,14 @@ std::vector<const Node*> Element::node_ptrs() const {return node_ptrs_;}
 
 
 //************************************************************************************************//
+/** @brief Element::node : Gets i-th node.
+ * @param [in] i : index of node in node Element's node list
+ * @return : node_ptrs_[i] */
+//************************************************************************************************//
+const Node* Element::node(const cemINT& i) const {return node_ptrs_[i];}
+
+
+//************************************************************************************************//
 /** @brief Element::set_num_nodes : Sets the number of nodes that define the element.
  * @param [in] num_nodes */
 //************************************************************************************************//
