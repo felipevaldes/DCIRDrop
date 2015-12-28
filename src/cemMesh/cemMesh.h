@@ -40,10 +40,10 @@ public:
     friend NodeReader;
 
 private:
-    cemINT                  num_nodes_;         /**< Number of nodes in the mesh. */
-    cemINT                  num_elements_;      /**< Number of elements in the mesh. */
-    std::vector<Node>       node_table_;        /**< Nodes in the mesh, from 1 to num_nodes_. */
-    std::vector<Element>    element_table_;     /**< Elements in the mesh, from 1 to num_elements_ */
+    cemINT                  num_nodes_;         //!< Number of nodes in the mesh.
+    cemINT                  num_elements_;      //!< Number of elements in the mesh.
+    std::vector<Node>       node_table_;        //!< Nodes in the mesh, from 1 to num_nodes_.
+    std::vector<Element>    element_table_;     //!< Elements in the mesh, from 1 to num_elements_.
 
     void copy(const Mesh& mesh);
 };
@@ -79,10 +79,10 @@ public:
     void set_node_id(const cemINT& node_id);
 
 private:
-    cemINT  node_id_;                   /**< Unique identifier within the mesh. */
-    cemBOOL has_been_checked_in_;       /**< TRUE if other flags have been validated */
-    cemBOOL is_element_boundary_;       /**< TRUE if node is in element's boundary */
-    cemBOOL is_surface_boundary_;       /**< TRUE if node is in surfaces's boundary */
+    cemINT  node_id_;                   //!< Unique identifier within the mesh.
+    cemBOOL has_been_checked_in_;       //!< TRUE if other flags have been validated.
+    cemBOOL is_element_boundary_;       //!< TRUE if node is in element's boundary.
+    cemBOOL is_surface_boundary_;       //!< TRUE if node is in surfaces's boundary.
 
     // Private member functions:
     void initialize();
@@ -110,8 +110,8 @@ public:
     }
 
 private:
-    Mesh&           mesh_;              /**< Mesh from which has access to node_table */
-    std::istream&   input_stream_;      /**< Imput stream from wich the mesh is being read */
+    Mesh&           mesh_;              //!< Mesh from which has access to node_table.
+    std::istream&   input_stream_;      //!< Imput stream from wich the mesh is being read.
 };
 //************************************************************************************************//
 

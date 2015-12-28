@@ -54,9 +54,9 @@ public:
     void set_coefficient_order(const cemINT& order);
 
     // Matrices:
-    virtual void setUp_matrix_N_NxNx();
-    virtual void setUp_matrix_N_NyNy();
-    virtual void setUp_matrix_N_NN();
+    virtual void setUp_matrix_N_NxNx() = 0;
+    virtual void setUp_matrix_N_NyNy() = 0;
+    virtual void setUp_matrix_N_NN() = 0;
 
 
 
