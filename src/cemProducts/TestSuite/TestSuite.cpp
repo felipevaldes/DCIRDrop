@@ -36,6 +36,9 @@ int main(int argc,char *argv[])
         if (test_case_name == "TESTCEMMATH")
             return_result = RunTestCEMMath(sub_argc,sub_argv);
 
+        if (test_case_name == "TESTINTEGRATION")
+            return_result = RunTestIntegration(sub_argc,sub_argv);
+
     }
     catch (cemcommon::Exception& error)
     {
