@@ -1125,7 +1125,7 @@ TEST_F(TestLineQuadrature,IntegrateFunction_8)
  * @param [in] a : lower limit of interation
  * @param [in] b : upper limit of integration
  * @param [in] num_points : number of points to be used in quadrature rule.
- * @return : f$ \int\limits_{a}^{b}f(t)dt \f$ */
+ * @return : \f$ \int\limits_{a}^{b}f(t)dt \f$ */
 //************************************************************************************************//
 cemDOUBLE TestLineQuadrature::Integrate(const cemDOUBLE &a,
                                         const cemDOUBLE &b,
@@ -1163,7 +1163,7 @@ cemDOUBLE TestLineQuadrature::TestFunction_1(const cemDOUBLE x)
 
 
 //************************************************************************************************//
-/** @brief TestLineQuadrature::TestFunction_2: \f$ f(x) = x^2\atan(x) \f$ */
+/** @brief TestLineQuadrature::TestFunction_2: \f$ f(x) = x^2\tan^{-1}(x) \f$ */
 //************************************************************************************************//
 cemDOUBLE TestLineQuadrature::TestFunction_2(const cemDOUBLE x)
 {
@@ -1183,8 +1183,8 @@ cemDOUBLE TestLineQuadrature::TestFunction_3(const cemDOUBLE x)
 
 
 //************************************************************************************************//
-/** @brief TestLineQuadrature::TestFunction_4 : \f$ \atan(a)/(a*(1 + x*x)) \f$, with
- * \f$ a = sqrt(2 + x*x) \f$ */
+/** @brief TestLineQuadrature::TestFunction_4 : \f$ \tan^{-1}(a)/(a*(1 + x*x)) \f$, with
+ * \f$ a = \sqrt(2 + x*x) \f$ */
 //************************************************************************************************//
 cemDOUBLE TestLineQuadrature::TestFunction_4(const cemDOUBLE x)
 {
@@ -2724,7 +2724,7 @@ cemDOUBLE TestTriQuadrature::TestFunction_9(const cemDOUBLE x, const cemDOUBLE y
 
 
 //************************************************************************************************//
-/** @brief TestTriQuadrature::TestFunction_10 : e^{x+y}\cos(\pi(x+y)) */
+/** @brief TestTriQuadrature::TestFunction_10 : \f$ e^{x+y}\cos(\pi(x+y)) \f$. */
 //************************************************************************************************//
 cemDOUBLE TestTriQuadrature::TestFunction_10(const cemDOUBLE x, const cemDOUBLE y)
 {
