@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "cemMesh.h"
+#include "BasisFunctions/BasisFunctions.h"
 #include "Matrix/DenseMatrix.h"
 
 using cem_mesh::Element;
@@ -140,6 +141,8 @@ private:
 
     // Private member functions:
     void setUpGeometry();
+
+
 
 };
 
