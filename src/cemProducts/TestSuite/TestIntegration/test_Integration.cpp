@@ -11,7 +11,7 @@ using cemcommon::Exception;
 //************************************************************************************************//
 int RunTestIntegration(int argc, char* argv[])
 {
-    std::cout << "Running cem_math Test" << std::endl;
+    std::cout << "Running Integration Test" << std::endl;
 
     if (argc < 2)
         throw(Exception("INSUFFICIENT_INPUT_ARGUMENTS","Must specify test to run"));
