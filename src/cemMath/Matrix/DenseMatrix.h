@@ -39,6 +39,10 @@ public:
     const DenseMatrix& operator += (const DenseMatrix<T>& B);
     void substract(const DenseMatrix<T>& B);
     const DenseMatrix& operator -= (const DenseMatrix<T>& B);
+    void multiply_by_scalar(const T& scalar);
+
+    T determinant() const;
+    DenseMatrix<T> inverse() const;
 
 private:
     cemINT  num_rows_;          /**< Number of rows of the matrix */

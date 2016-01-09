@@ -6,6 +6,7 @@
 
 using namespace cem_math;
 using namespace cem_def;
+using cemcommon::Exception;
 
 
 
@@ -165,7 +166,7 @@ void DenseMatrix<T>::resize(cemUINT n_rows, cemUINT n_columns)
     {
         cemUINT memory = size*sizeof(T)/1024/1024;
         std::string temp = cem_utils::NumberToString<cemUINT>(memory);
-        throw("MEMORY OVERFLOW", "Requested memory=" + temp + "Mb");
+        throw(Exception("MEMORY OVERFLOW", "Requested memory=" + temp + "Mb"));
     }
 }
 
@@ -179,7 +180,7 @@ template <class T>
 void DenseMatrix<T>::add(const DenseMatrix<T>& B)
 {
     if (num_columns_ != B.num_columns_ || num_rows_ != B.num_rows_ )
-        throw("INVALID MATRIX OPERATION","Matrix size mismatch");
+        throw(Exception("INVALID MATRIX OPERATION","Matrix size mismatch"));
 
     cemUINT8 size = num_rows_;
     size *= num_columns_;
@@ -202,6 +203,7 @@ const DenseMatrix<T>& DenseMatrix<T>::operator += (const DenseMatrix<T>& B)
 
 //************************************************************************************************//
 /** @brief DenseMatrix<T>::substract : Subtracts two matrices of the same size.
+ *
  * Computes \f$ A = A - B \f$ or equivalently, A -= B
  * @param [in] B : Matrix that is substracted to 'this' */
 //************************************************************************************************//
@@ -209,7 +211,7 @@ template <class T>
 void DenseMatrix<T>::substract(const DenseMatrix<T>& B)
 {
     if (num_columns_ != B.num_columns_ || num_rows_ != B.num_rows_ )
-        throw("INVALID MATRIX OPERATION","Matrix size mismatch");
+        throw(Exception("INVALID MATRIX OPERATION","Matrix size mismatch"));
 
     cemUINT8 size = num_rows_;
     size *= num_columns_;
@@ -228,6 +230,68 @@ const DenseMatrix<T>& DenseMatrix<T>::operator -= (const DenseMatrix<T>& B)
     this->substract(B);
     return *this;
 }
+
+
+//************************************************************************************************//
+/** @brief DenseMatrix<T>::multiply_by_scalar : Multiplies matrix by a scalar.
+ *
+ * Computes \f$ A = aA \f$, with \f$ A \f$ being the matrix, and \f$ a \f$ the scalar.
+ * @param [in] scalar : scalar to be multiplied to 'this' */
+//************************************************************************************************//
+template <class T>
+void DenseMatrix<T>::multiply_by_scalar(const T& scalar)
+{
+    cemUINT8 size = num_rows_;
+    size *= num_columns_;
+    MKL_ScalarTimesEqualVector(size, matrix_entries_, scalar);
+}
+
+
+//************************************************************************************************//
+/** @brief DenseMatrix<T>::determinant : Computes the determinant of a 2 by 2 matrix.
+ * @return \f$ \det A \f$ */
+//************************************************************************************************//
+template <class T>
+T DenseMatrix<T>::determinant() const
+{
+    // Only for 2 by 2 matrices:
+    if (num_rows_ > 2 || num_columns_ > 2)
+        throw(Exception("FEATURE NOT IMPLEMENTED","Cannot compute determinant of a matrix bigger than 2 by 2"));
+    if (num_rows_ != num_columns_)
+        throw(Exception("INPUT ERROR","Cannot compute determinant of a non-square matrix"));
+
+    if (num_rows_ == 1)
+        return matrix_entries_[0];
+
+    if (num_rows_ == 2)
+        return (*this)(1,1)*(*this)(2,2) - (*this)(1,2)*(*this)(2,1);
+}
+
+
+//************************************************************************************************//
+/** @brief DenseMatrix<T>::inverse : Computes inverse of a 2 by 2 matrix.
+ * @return \f$ A^{-1} \f$ */
+//************************************************************************************************//
+template <class T>
+DenseMatrix<T> DenseMatrix<T>::inverse() const
+{
+    // Only for 2 by 2 matrices:
+    if (num_rows_ != 2 || num_columns_ != 2)
+        throw(Exception("FEATURE NOT IMPLEMENTED","Can only compute the inverse of 2 by 2 matrices"));
+
+    DenseMatrix<T> inverse(2,2);
+    T det = this->determinant();
+    inverse(1,1) = (*this)(2,2)/det;
+    inverse(1,2) = -(*this)(1,2)/det;
+    inverse(2,1) = -(*this)(2,1)/det;
+    inverse(2,2) = (*this)(1,1)/det;
+
+    return inverse;
+}
+
+
+
+
 
 
 

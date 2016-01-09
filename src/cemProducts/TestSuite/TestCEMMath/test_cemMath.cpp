@@ -1646,3 +1646,284 @@ TEST(DenseMatrix,SubstractionOperatorFC)
         }
     }
 }
+
+TEST(DenseMatrix,MultiplyByScalarD)
+{
+    srand(time(NULL));
+    DenseMatrix<cemDOUBLE> A(10,5);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+            A(i,j) = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
+    }
+
+    cemDOUBLE scalar = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
+    DenseMatrix<cemDOUBLE> B(10,5);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+            B(i,j) = scalar*A(i,j);
+    }
+
+    A.multiply_by_scalar(scalar);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+            ASSERT_DOUBLE_EQ(B(i,j),A(i,j));
+    }
+}
+
+TEST(DenseMatrix,MultiplyByScalarF)
+{
+    srand(time(NULL));
+    DenseMatrix<cemFLOAT> A(10,5);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+            A(i,j) = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
+    }
+
+    cemFLOAT scalar = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
+    DenseMatrix<cemFLOAT> B(10,5);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+            B(i,j) = scalar*A(i,j);
+    }
+
+    A.multiply_by_scalar(scalar);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+            ASSERT_FLOAT_EQ(B(i,j),A(i,j));
+    }
+}
+
+TEST(DenseMatrix,MultiplyByScalarDC)
+{
+    srand(time(NULL));
+    DenseMatrix<cemDCOMPLEX> A(10,5);
+    cemDOUBLE a,b;
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+        {
+            a = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
+            b = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
+            A(i,j) = cemDCOMPLEX(a,b);
+        }
+    }
+
+    a = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
+    b = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
+    cemDCOMPLEX scalar = cemDCOMPLEX(a,b);
+    DenseMatrix<cemDCOMPLEX> B(10,5);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+            B(i,j) = scalar*A(i,j);
+    }
+
+    A.multiply_by_scalar(scalar);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+        {
+            // Check relative difference:
+            ASSERT_NEAR(B(i,j).real()/B(i,j).real(),A(i,j).real()/B(i,j).real(),1.0e-14);
+            ASSERT_NEAR(B(i,j).imag()/B(i,j).imag(),A(i,j).imag()/B(i,j).imag(),1.0e-14);
+        }
+    }
+}
+
+TEST(DenseMatrix,MultiplyByScalarFC)
+{
+    srand(time(NULL));
+    DenseMatrix<cemFCOMPLEX> A(10,5);
+    cemFLOAT a,b;
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+        {
+            a = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
+            b = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
+            A(i,j) = cemFCOMPLEX(a,b);
+        }
+    }
+
+    a = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
+    b = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
+    cemFCOMPLEX scalar = cemFCOMPLEX(a,b);
+    DenseMatrix<cemFCOMPLEX> B(10,5);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+            B(i,j) = scalar*A(i,j);
+    }
+
+    A.multiply_by_scalar(scalar);
+    for (cemINT j=1; j<=5; ++j)
+    {
+        for (cemINT i=1; i<=10; ++i)
+        {
+            ASSERT_NEAR(B(i,j).real()/B(i,j).real(),A(i,j).real()/B(i,j).real(),1.0e-5);
+            ASSERT_NEAR(B(i,j).imag()/B(i,j).imag(),A(i,j).imag()/B(i,j).imag(),1.0e-5);
+        }
+    }
+}
+
+TEST(DenseMatrix,DeterminantD)
+{
+    srand(time(NULL));
+    DenseMatrix<cemDOUBLE> A(2,2);
+    A(1,1) = 0.814723686393179;
+    A(1,2) = 0.126986816293506;
+    A(2,1) = 0.905791937075619;
+    A(2,2) = 0.913375856139019;
+    ASSERT_DOUBLE_EQ(0.629125310262547,A.determinant());
+
+    A.resize(2,3);
+    ASSERT_THROW(A.determinant(),Exception);
+
+    A.resize(3,3);
+    ASSERT_THROW(A.determinant(),Exception);
+}
+
+TEST(DenseMatrix,DeterminantF)
+{
+    srand(time(NULL));
+    DenseMatrix<cemFLOAT> A(2,2);
+    A(1,1) = 0.81472368;
+    A(1,2) = 0.12698681;
+    A(2,1) = 0.90579193;
+    A(2,2) = 0.91337585;
+    ASSERT_FLOAT_EQ(0.6291253,A.determinant());
+
+    A.resize(2,3);
+    ASSERT_THROW(A.determinant(),Exception);
+
+    A.resize(3,3);
+    ASSERT_THROW(A.determinant(),Exception);
+}
+
+TEST(DenseMatrix,DeterminantDC)
+{
+    srand(time(NULL));
+    DenseMatrix<cemDCOMPLEX> A(2,2);
+    A(1,1) = cemDCOMPLEX(0.814723686393179,0.632359246225410);
+    A(1,2) = cemDCOMPLEX(0.126986816293506,0.278498218867048);
+    A(2,1) = cemDCOMPLEX(0.905791937075619,0.097540404999410);
+    A(2,2) = cemDCOMPLEX(0.913375856139019,0.546881519204984);
+
+    ASSERT_NEAR(0.310464554063383,A.determinant().real(),1.0e-15);
+    ASSERT_NEAR(0.758491208624997,A.determinant().imag(),1.0e-15);
+
+    A.resize(2,3);
+    ASSERT_THROW(A.determinant(),Exception);
+
+    A.resize(3,3);
+    ASSERT_THROW(A.determinant(),Exception);
+}
+
+TEST(DenseMatrix,DeterminantFC)
+{
+    srand(time(NULL));
+    DenseMatrix<cemFCOMPLEX> A(2,2);
+    A(1,1) = cemFCOMPLEX(0.81472368,0.63235924);
+    A(1,2) = cemFCOMPLEX(0.12698681,0.27849821);
+    A(2,1) = cemFCOMPLEX(0.90579193,0.09754040);
+    A(2,2) = cemFCOMPLEX(0.91337585,0.54688151);
+
+    ASSERT_NEAR(0.31046455,A.determinant().real(),1.0e-7);
+    ASSERT_NEAR(0.75849121,A.determinant().imag(),1.0e-7);
+
+    A.resize(2,3);
+    ASSERT_THROW(A.determinant(),Exception);
+
+    A.resize(3,3);
+    ASSERT_THROW(A.determinant(),Exception);
+}
+
+TEST(DenseMatrix,InverseD)
+{
+    srand(time(NULL));
+    DenseMatrix<cemDOUBLE> A(2,2);
+    A(1,1) = 0.814723686393179;
+    A(1,2) = 0.126986816293506;
+    A(2,1) = 0.905791937075619;
+    A(2,2) = 0.913375856139019;
+    DenseMatrix<cemDOUBLE> B = A.inverse();
+
+    ASSERT_NEAR(1.451818646046602,B(1,1),1.0e-15);
+    ASSERT_NEAR(-0.201846618188850,B(1,2),1.0e-15);
+    ASSERT_NEAR(-1.439763942572289,B(2,1),1.0e-15);
+    ASSERT_NEAR(1.295010188118449,B(2,2),1.0e-15);
+
+    A.resize(2,3);
+    ASSERT_THROW(A.inverse(),Exception);
+
+    A.resize(3,3);
+    ASSERT_THROW(A.inverse(),Exception);
+}
+
+TEST(DenseMatrix,InverseF)
+{
+    srand(time(NULL));
+    DenseMatrix<cemFLOAT> A(2,2);
+    A(1,1) = 0.81472368;
+    A(1,2) = 0.12698681;
+    A(2,1) = 0.90579193;
+    A(2,2) = 0.91337585;
+    DenseMatrix<cemFLOAT> B = A.inverse();
+
+    ASSERT_NEAR(1.45181864,B(1,1),1.0e-7);
+    ASSERT_NEAR(-0.20184661,B(1,2),1.0e-7);
+    ASSERT_NEAR(-1.43976394,B(2,1),1.0e-7);
+    ASSERT_NEAR(1.295010188,B(2,2),1.0e-7);
+
+    A.resize(2,3);
+    ASSERT_THROW(A.inverse(),Exception);
+
+    A.resize(3,3);
+    ASSERT_THROW(A.inverse(),Exception);
+}
+
+TEST(DenseMatrix,InverseDC)
+{
+    srand(time(NULL));
+    DenseMatrix<cemDCOMPLEX> A(2,2);
+    A(1,1) = cemDCOMPLEX(0.814723686393179,0.632359246225410);
+    A(1,2) = cemDCOMPLEX(0.126986816293506,0.278498218867048);
+    A(2,1) = cemDCOMPLEX(0.905791937075619,0.097540404999410);
+    A(2,2) = cemDCOMPLEX(0.913375856139019,0.546881519204984);
+    DenseMatrix<cemDCOMPLEX> B = A.inverse();
+
+    ASSERT_NEAR(1.039718047544057,B(1,1).real(),1.0e-14);
+    ASSERT_NEAR(-0.778625051208193,B(1,1).imag(),1.0e-15);
+    ASSERT_NEAR(-0.373179125208346,B(1,2).real(),1.0e-15);
+    ASSERT_NEAR(0.014671133262186,B(1,2).imag(),1.0e-15);
+    ASSERT_NEAR(-0.528809490954782,B(2,1).real(),1.0e-15);
+    ASSERT_NEAR(0.977750731780093,B(2,1).imag(),1.0e-15);
+    ASSERT_NEAR(1.090642936005292,B(2,2).real(),1.0e-15);
+    ASSERT_NEAR(-0.627716851836727,B(2,2).imag(),1.0e-15);
+}
+
+TEST(DenseMatrix,InverseFC)
+{
+    srand(time(NULL));
+    DenseMatrix<cemFCOMPLEX> A(2,2);
+    A(1,1) = cemFCOMPLEX(0.81472368,0.63235924);
+    A(1,2) = cemFCOMPLEX(0.12698681,0.27849821);
+    A(2,1) = cemFCOMPLEX(0.90579193,0.09754040);
+    A(2,2) = cemFCOMPLEX(0.91337585,0.54688151);
+    DenseMatrix<cemFCOMPLEX> B = A.inverse();
+
+    ASSERT_NEAR(1.03971804,B(1,1).real(),1.0e-7);
+    ASSERT_NEAR(-0.77862505,B(1,1).imag(),1.0e-6);
+    ASSERT_NEAR(-0.37317912,B(1,2).real(),1.0e-7);
+    ASSERT_NEAR(0.01467113,B(1,2).imag(),1.0e-7);
+    ASSERT_NEAR(-0.52880949,B(2,1).real(),1.0e-7);
+    ASSERT_NEAR(0.97775073,B(2,1).imag(),1.0e-6);
+    ASSERT_NEAR(1.09064293,B(2,2).real(),1.0e-7);
+    ASSERT_NEAR(-0.62771685,B(2,2).imag(),1.0e-6);
+}
