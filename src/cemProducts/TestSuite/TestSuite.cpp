@@ -27,17 +27,20 @@ int main(int argc,char *argv[])
             std::cout << argv[i] << std::endl;
         }
 
-        if (test_case_name == "TESTCEMSPACE")
+        if (test_case_name == "TEST_CEMSPACE")
             return_result = RunTestCEMSpace(sub_argc,sub_argv);
 
-        if (test_case_name == "TESTCEMMESH")
+        if (test_case_name == "TEST_CEMMESH")
             return_result = RunTestCEMMesh(sub_argc,sub_argv);
 
-        if (test_case_name == "TESTCEMMATH")
+        if (test_case_name == "TEST_CEMMATH")
             return_result = RunTestCEMMath(sub_argc,sub_argv);
 
-        if (test_case_name == "TESTINTEGRATION")
+        if (test_case_name == "TEST_INTEGRATION")
             return_result = RunTestIntegration(sub_argc,sub_argv);
+
+        if (test_case_name == "TEST_BASISFUNCTIONS")
+            return_result = RunTestBasisFunctions(sub_argc,sub_argv);
 
     }
     catch (cemcommon::Exception& error)

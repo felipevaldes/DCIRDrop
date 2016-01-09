@@ -14,7 +14,7 @@ namespace cem_core {
 //************************************************************************************************//
 class ShapeFunction
 {
-protected:
+public:
     cemDOUBLE SilvesterPolynomial(const cemINT& order,
                                   const cemINT& index,
                                   const cemDOUBLE& ksi) const;
