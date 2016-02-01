@@ -1,4 +1,5 @@
 #include <iostream>
+#include "gtest/gtest.h"
 #include "testcasedeclarations.h"
 #include "cemError.h"
 
@@ -26,6 +27,12 @@ int main(int argc,char *argv[])
             sub_argv[i-1] = argv[i];
             std::cout << argv[i] << std::endl;
         }
+        if (test_case_name == "TEST_ALL")
+        {
+            ::testing::InitGoogleTest(&argc, argv);
+            ::testing::FLAGS_gtest_death_test_style = "fast";
+            return RUN_ALL_TESTS();
+        }
 
         if (test_case_name == "TEST_CEMSPACE")
             return_result = RunTestCEMSpace(sub_argc,sub_argv);
@@ -41,6 +48,9 @@ int main(int argc,char *argv[])
 
         if (test_case_name == "TEST_BASISFUNCTIONS")
             return_result = RunTestBasisFunctions(sub_argc,sub_argv);
+
+        if (test_case_name == "TEST_SOLVERELEMENT")
+            return_result = RunTestSolverElement(sub_argc,sub_argv);
 
     }
     catch (cemcommon::Exception& error)

@@ -45,25 +45,25 @@ int RunTestBasisFunctions(int argc, char* argv[])
 
 TEST(ShapeFunction,SilvesterPolynomial)
 {
-    cem_core::ShapeFunction silvester_poly;
+    cem_core::ShapeFunction silvester_poly(4);
     // Zeros of polynomial order 4, index 3
-    ASSERT_DOUBLE_EQ(0.0,silvester_poly.SilvesterPolynomial(4,3,0.0));
-    ASSERT_DOUBLE_EQ(0.0,silvester_poly.SilvesterPolynomial(4,3,0.25));
-    ASSERT_DOUBLE_EQ(0.0,silvester_poly.SilvesterPolynomial(4,3,0.5));
+    ASSERT_DOUBLE_EQ(0.0,silvester_poly.SilvesterPolynomial(3,0.0));
+    ASSERT_DOUBLE_EQ(0.0,silvester_poly.SilvesterPolynomial(3,0.25));
+    ASSERT_DOUBLE_EQ(0.0,silvester_poly.SilvesterPolynomial(3,0.5));
     // Unity of polynomial order 4, index 3
-    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(4,3,0.75));
+    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(3,0.75));
     // POlynomial of index 0 is 1 everywhere
-    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(4,0,0.9));
-    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(4,0,0.25));
-    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(4,0,0.5));
-    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(4,0,0.75));
-    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(4,0,1.0));
+    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(0,0.9));
+    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(0,0.25));
+    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(0,0.5));
+    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(0,0.75));
+    ASSERT_DOUBLE_EQ(1.0,silvester_poly.SilvesterPolynomial(0,1.0));
     // Polynomial order 4, index 3 at a few random points:
-    ASSERT_DOUBLE_EQ(2.039411434636285e-03,silvester_poly.SilvesterPolynomial(4,3,0.001543829598320));
-    ASSERT_DOUBLE_EQ(-1.938480422774855e-02,silvester_poly.SilvesterPolynomial(4,3,0.483948596305930));
-    ASSERT_DOUBLE_EQ(3.169139075451275e+00,silvester_poly.SilvesterPolynomial(4,3,0.948473819182819));
-    ASSERT_DOUBLE_EQ(1.875130946015111e+00,silvester_poly.SilvesterPolynomial(4,3,0.847327458294832));
-    ASSERT_DOUBLE_EQ(4.101757899136337e-02,silvester_poly.SilvesterPolynomial(4,3,0.183840202895423));
+    ASSERT_DOUBLE_EQ(2.039411434636285e-03,silvester_poly.SilvesterPolynomial(3,0.001543829598320));
+    ASSERT_DOUBLE_EQ(-1.938480422774855e-02,silvester_poly.SilvesterPolynomial(3,0.483948596305930));
+    ASSERT_DOUBLE_EQ(3.169139075451275e+00,silvester_poly.SilvesterPolynomial(3,0.948473819182819));
+    ASSERT_DOUBLE_EQ(1.875130946015111e+00,silvester_poly.SilvesterPolynomial(3,0.847327458294832));
+    ASSERT_DOUBLE_EQ(4.101757899136337e-02,silvester_poly.SilvesterPolynomial(3,0.183840202895423));
 }
 
 
@@ -71,10 +71,10 @@ TEST(ShapeFunction,SilvesterPolynomialDeriv)
 {
     // Test SilvesterPolynomialDeriv by integrating it and comparing the result with
     // the Silvester Polynomial itself.
-    cem_core::ShapeFunction silvester_poly;
-    ASSERT_NEAR(silvester_poly.SilvesterPolynomial(4,3,0.25),IntegrateSilvesterDeriv(0.0,0.25,4,3),1.0e-15);
-    ASSERT_NEAR(silvester_poly.SilvesterPolynomial(4,3,0.5),IntegrateSilvesterDeriv(0.0,0.5,4,3),1.0e-15);
-    ASSERT_DOUBLE_EQ(silvester_poly.SilvesterPolynomial(4,3,0.75),IntegrateSilvesterDeriv(0.0,0.75,4,3));
+    cem_core::ShapeFunction silvester_poly(4);
+    ASSERT_NEAR(silvester_poly.SilvesterPolynomial(3,0.25),IntegrateSilvesterDeriv(0.0,0.25,4,3),1.0e-15);
+    ASSERT_NEAR(silvester_poly.SilvesterPolynomial(3,0.5),IntegrateSilvesterDeriv(0.0,0.5,4,3),1.0e-15);
+    ASSERT_DOUBLE_EQ(silvester_poly.SilvesterPolynomial(3,0.75),IntegrateSilvesterDeriv(0.0,0.75,4,3));
     ASSERT_DOUBLE_EQ(2.039411434636285e-03,IntegrateSilvesterDeriv(0.0,0.001543829598320,4,3));
     ASSERT_NEAR(-1.938480422774855e-02,IntegrateSilvesterDeriv(0.0,0.483948596305930,4,3),1.0e-15);
     ASSERT_DOUBLE_EQ(3.169139075451275e+00,IntegrateSilvesterDeriv(0.0,0.948473819182819,4,3));
@@ -106,10 +106,10 @@ cemDOUBLE IntegrateSilvesterDeriv(cemDOUBLE a,cemDOUBLE b,cemINT order,cemINT in
     }
 
     // Compute the integral:
-    cem_core::ShapeFunction silvester_poly;
+    cem_core::ShapeFunction silvester_poly(order);
     cemDOUBLE integral = 0.0;
     for (cemINT i=0; i<num_points; ++i)
-        integral += silvester_poly.SilvesterPolynomialDeriv(order,index,ksi[i])*weights[i];
+        integral += silvester_poly.SilvesterPolynomialDeriv(index,ksi[i])*weights[i];
 
     return integral;
 }
@@ -122,49 +122,49 @@ cemDOUBLE IntegrateSilvesterDeriv(cemDOUBLE a,cemDOUBLE b,cemINT order,cemINT in
 
 TEST(TriShapeFunction,Evaluate)
 {
-    cem_core::TriShapeFunction shape_function;
-    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(6,2,1,2,0.0,0.0));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(6,2,1,2,1.0,0.0));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(6,2,1,2,0.0,1.0));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(6,2,1,2,0.5,0.0));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(6,2,1,2,0.5,0.5));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(6,2,1,2,0.0,0.5));
-    ASSERT_DOUBLE_EQ(-6.566400000000004e-01,shape_function.Evaluate(6,2,1,2,0.8,0.1));
-    ASSERT_DOUBLE_EQ(-6.566400000000004e-01,shape_function.Evaluate(6,2,1,2,0.1,0.1));
-    ASSERT_DOUBLE_EQ(6.912000000000001e-02,shape_function.Evaluate(6,2,1,2,0.1,0.8));
-    ASSERT_DOUBLE_EQ(2.177279999999999e+00,shape_function.Evaluate(6,2,1,2,0.3,0.3));
+    cem_core::TriShapeFunction shape_function(6);
+    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(2,1,2,0.0,0.0));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(2,1,2,1.0,0.0));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(2,1,2,0.0,1.0));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(2,1,2,0.5,0.0));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(2,1,2,0.5,0.5));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.Evaluate(2,1,2,0.0,0.5));
+    ASSERT_DOUBLE_EQ(-6.566400000000004e-01,shape_function.Evaluate(2,1,2,0.8,0.1));
+    ASSERT_DOUBLE_EQ(-6.566400000000004e-01,shape_function.Evaluate(2,1,2,0.1,0.1));
+    ASSERT_DOUBLE_EQ(6.912000000000001e-02,shape_function.Evaluate(2,1,2,0.1,0.8));
+    ASSERT_DOUBLE_EQ(2.177279999999999e+00,shape_function.Evaluate(2,1,2,0.3,0.3));
 }
 
 
 TEST(TriShapeFunction,EvaluateKsiDeriv)
 {
-    cem_core::TriShapeFunction shape_function;
-    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateKsiDeriv(6,2,1,2,0.0,0.0));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateKsiDeriv(6,2,1,2,1.0,0.0));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateKsiDeriv(6,2,1,2,0.0,1.0));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateKsiDeriv(6,2,1,2,0.5,0.0));
-    ASSERT_DOUBLE_EQ(27.0,shape_function.EvaluateKsiDeriv(6,2,1,2,0.5,0.5));
-    ASSERT_DOUBLE_EQ(-27.0,shape_function.EvaluateKsiDeriv(6,2,1,2,0.0,0.5));
-    ASSERT_NEAR(-5.1408e+00,shape_function.EvaluateKsiDeriv(6,2,1,2,0.8,0.1),1.0e-14);
-    ASSERT_NEAR(5.1408e+00,shape_function.EvaluateKsiDeriv(6,2,1,2,0.1,0.1),1.0e-14);
-    ASSERT_NEAR(0.0,shape_function.EvaluateKsiDeriv(6,2,1,2,0.1,0.8),1.0e-15);
-    ASSERT_DOUBLE_EQ(8.8128e+00,shape_function.EvaluateKsiDeriv(6,2,1,2,0.3,0.3));
+    cem_core::TriShapeFunction shape_function(6);
+    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateKsiDeriv(2,1,2,0.0,0.0));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateKsiDeriv(2,1,2,1.0,0.0));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateKsiDeriv(2,1,2,0.0,1.0));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateKsiDeriv(2,1,2,0.5,0.0));
+    ASSERT_DOUBLE_EQ(27.0,shape_function.EvaluateKsiDeriv(2,1,2,0.5,0.5));
+    ASSERT_DOUBLE_EQ(-27.0,shape_function.EvaluateKsiDeriv(2,1,2,0.0,0.5));
+    ASSERT_NEAR(-5.1408e+00,shape_function.EvaluateKsiDeriv(2,1,2,0.8,0.1),1.0e-14);
+    ASSERT_NEAR(5.1408e+00,shape_function.EvaluateKsiDeriv(2,1,2,0.1,0.1),1.0e-14);
+    ASSERT_NEAR(0.0,shape_function.EvaluateKsiDeriv(2,1,2,0.1,0.8),1.0e-15);
+    ASSERT_DOUBLE_EQ(8.8128e+00,shape_function.EvaluateKsiDeriv(2,1,2,0.3,0.3));
 }
 
 
 TEST(TriShapeFunction,EvaluateEtaDeriv)
 {
-    cem_core::TriShapeFunction shape_function;
-    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateEtaDeriv(6,2,1,2,0.0,0.0));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateEtaDeriv(6,2,1,2,1.0,0.0));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateEtaDeriv(6,2,1,2,0.0,1.0));
-    ASSERT_DOUBLE_EQ(54.0,shape_function.EvaluateEtaDeriv(6,2,1,2,0.5,0.0));
-    ASSERT_DOUBLE_EQ(27.0,shape_function.EvaluateEtaDeriv(6,2,1,2,0.5,0.5));
-    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateEtaDeriv(6,2,1,2,0.0,0.5));
-    ASSERT_NEAR(-9.8496e+00,shape_function.EvaluateEtaDeriv(6,2,1,2,0.8,0.1),1.0e-14);
-    ASSERT_NEAR(-4.7088e+00,shape_function.EvaluateEtaDeriv(6,2,1,2,0.1,0.1),1.0e-14);
-    ASSERT_NEAR(4.32e-01,shape_function.EvaluateEtaDeriv(6,2,1,2,0.1,0.8),1.0e-15);
-    ASSERT_NEAR(-7.5168e+00,shape_function.EvaluateEtaDeriv(6,2,1,2,0.3,0.3),1.0e-14);
+    cem_core::TriShapeFunction shape_function(6);
+    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateEtaDeriv(2,1,2,0.0,0.0));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateEtaDeriv(2,1,2,1.0,0.0));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateEtaDeriv(2,1,2,0.0,1.0));
+    ASSERT_DOUBLE_EQ(54.0,shape_function.EvaluateEtaDeriv(2,1,2,0.5,0.0));
+    ASSERT_DOUBLE_EQ(27.0,shape_function.EvaluateEtaDeriv(2,1,2,0.5,0.5));
+    ASSERT_DOUBLE_EQ(0.0,shape_function.EvaluateEtaDeriv(2,1,2,0.0,0.5));
+    ASSERT_NEAR(-9.8496e+00,shape_function.EvaluateEtaDeriv(2,1,2,0.8,0.1),1.0e-14);
+    ASSERT_NEAR(-4.7088e+00,shape_function.EvaluateEtaDeriv(2,1,2,0.1,0.1),1.0e-14);
+    ASSERT_NEAR(4.32e-01,shape_function.EvaluateEtaDeriv(2,1,2,0.1,0.8),1.0e-15);
+    ASSERT_NEAR(-7.5168e+00,shape_function.EvaluateEtaDeriv(2,1,2,0.3,0.3),1.0e-14);
 }
 
 
@@ -177,7 +177,7 @@ void PlotShapeFunction()
     myfile.open("TestShapeFunctions.out");
     myfile.precision(15);
 
-    cem_core::TriShapeFunction shape_function;
+    cem_core::TriShapeFunction shape_function(5);
     cemINT N = 100;
     std::vector<cemDOUBLE> x,y;
     for (cemINT i=0; i<N; ++i)
@@ -195,7 +195,7 @@ void PlotShapeFunction()
     for (cemINT i=0; i<x.size(); ++i)
         myfile << std::scientific << std::setw(25) << x[i]
                << std::setw(25) << y[i] <<
-                  std::setw(25) << shape_function.EvaluateEtaDeriv(5,1,2,2,x[i],y[i]) << std::endl;
+                  std::setw(25) << shape_function.EvaluateEtaDeriv(1,2,2,x[i],y[i]) << std::endl;
 }
 
 
@@ -207,19 +207,19 @@ int TestBasisFunctionsBasics()
     myfile.open("TestShapeFunctions.out");
     myfile.precision(15);
 
-    cem_core::TriShapeFunction shape_function;
+    cem_core::TriShapeFunction shape_function(6);
 
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,0.0,0.0) << std::endl;
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,1.0,0.0) << std::endl;
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,0.0,1.0) << std::endl;
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,0.5,0.0) << std::endl;
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,0.0,0.5) << std::endl;
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,0.5,0.5) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,0.0,0.0) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,1.0,0.0) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,0.0,1.0) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,0.5,0.0) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,0.0,0.5) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,0.5,0.5) << std::endl;
 
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,0.8,0.1) << std::endl;
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,0.1,0.1) << std::endl;
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,0.1,0.8) << std::endl;
-    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(6,2,1,2,0.3,0.3) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,0.8,0.1) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,0.1,0.1) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,0.1,0.8) << std::endl;
+    myfile << std::scientific << std::setw(25) << shape_function.EvaluateEtaDeriv(2,1,2,0.3,0.3) << std::endl;
 
 
     return 0;

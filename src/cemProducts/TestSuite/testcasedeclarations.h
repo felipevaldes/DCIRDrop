@@ -6,6 +6,7 @@ int RunTestCEMMesh(int argc, char* argv[]);
 int RunTestCEMMath(int argc, char* argv[]);
 int RunTestIntegration(int argc, char* argv[]);
 int RunTestBasisFunctions(int argc, char* argv[]);
+int RunTestSolverElement(int argc, char* argv[]);
 
 #endif // TESTCASEDECLARATIONS_H
 

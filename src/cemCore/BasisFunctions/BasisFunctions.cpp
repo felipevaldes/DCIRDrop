@@ -12,6 +12,35 @@ using cemcommon::Exception;
 /// CLASS ShapeFunction:
 ///***********************************************************************************************//
 
+
+//************************************************************************************************//
+/** @brief ShapeFunction::ShapeFunction : Constructor with parameters.
+ * @param [in] order : polynomial order of ShapeFunction */
+//************************************************************************************************//
+ShapeFunction::ShapeFunction(const cemINT& order)
+{
+    if (order < 1)
+        throw(Exception("INPUT ERROR","ShapeFunction's order must be >= 1"));
+
+    order_ = order;
+}
+
+
+//************************************************************************************************//
+/** @brief ShapeFunction::order : Gets polynomial order of ShapeFunction.
+ * @return order_ */
+//************************************************************************************************//
+cemINT ShapeFunction::order() const {return order_;}
+
+
+//************************************************************************************************//
+/** @brief ShapeFunction::set_order : Sets polynomial order of ShapeFunction.
+ * @param [in] order : polynomial order */
+//************************************************************************************************//
+void ShapeFunction::set_order(const cemINT &order) {order_ = order;}
+
+
+
 //************************************************************************************************//
 /** @brief ShapeFunction::SilvesterPolynomial : Evaluates Silvester Polynomial with given arguments.
  *
@@ -26,15 +55,11 @@ using cemcommon::Exception;
  * @param [in] ksi : point in real line \f$\xi\f$ in which to evaluate the polynomial
  * @return : \f$ P_{m}^{N}(\xi) \f$ */
 //************************************************************************************************//
-cemDOUBLE ShapeFunction::SilvesterPolynomial(const cemINT& order,
-                                             const cemINT& index,
+cemDOUBLE ShapeFunction::SilvesterPolynomial(const cemINT& index,
                                              const cemDOUBLE& ksi) const
 {
-    if (order < 1)
-        throw(Exception("INPUT ERROR","order must be >= 1"));
-
-    if (index > order)
-        throw(Exception("INPUT ERROR","index must be <= order"));
+    if (index > order_)
+        throw(Exception("INPUT ERROR","index must be <= order_"));
 
     cemDOUBLE poly = 1.0;
 
@@ -42,7 +67,7 @@ cemDOUBLE ShapeFunction::SilvesterPolynomial(const cemINT& order,
     {
         for (cemINT p=0; p<index; ++p)
         {
-            poly *= order*ksi - p;
+            poly *= order_*ksi - p;
         }
         poly /= cem_math::Factorial(index);
     }
@@ -62,15 +87,11 @@ cemDOUBLE ShapeFunction::SilvesterPolynomial(const cemINT& order,
  * @param [in] ksi : point in real line \f$\xi\f$ in which to evaluate the polynomial
  * @return : \f$ \frac{d}{d\xi}P_{m}^{N}(\xi) \f$ */
 //************************************************************************************************//
-cemDOUBLE ShapeFunction::SilvesterPolynomialDeriv(const cemINT &order,
-                                                  const cemINT &index,
+cemDOUBLE ShapeFunction::SilvesterPolynomialDeriv(const cemINT &index,
                                                   const cemDOUBLE &ksi) const
 {
-    if (order < 1)
-        throw(Exception("INPUT ERROR","order must be >= 1"));
-
-    if (index > order)
-        throw(Exception("INPUT ERROR","index must be <= order"));
+    if (index > order_)
+        throw(Exception("INPUT ERROR","index must be <= order_"));
 
     cemDOUBLE deriv = 0.0;
 
@@ -82,11 +103,11 @@ cemDOUBLE ShapeFunction::SilvesterPolynomialDeriv(const cemINT &order,
             for (cemINT p=0; p<index; ++p)
             {
                 if (p != j)
-                    poly *= order*ksi - p;
+                    poly *= order_*ksi - p;
             }
             deriv += poly;
         }
-        deriv *= order;
+        deriv *= order_;
         deriv /= cem_math::Factorial(index);
     }
 
@@ -114,19 +135,18 @@ cemDOUBLE ShapeFunction::SilvesterPolynomialDeriv(const cemINT &order,
  * @param [in] eta : point in the \f$\eta\f$ axis in which to evaluate (\f$ 0\leq \eta \leq \xi \f$)
  * @return : \f$ N_{i}(\xi,\eta) = P_{I}^{N}(\xi)P_{J}^{N}(\eta)P_{K}^{N}(1-\xi-\eta) \f$. */
 //************************************************************************************************//
-cemDOUBLE TriShapeFunction::Evaluate(const cemINT& order,
-                                     const cemINT& index_i,
+cemDOUBLE TriShapeFunction::Evaluate(const cemINT& index_i,
                                      const cemINT& index_j,
                                      const cemINT& index_k,
                                      const cemDOUBLE& ksi,
                                      const cemDOUBLE& eta) const
 {
-    if (index_i + index_j + index_k > order)
+    if (index_i + index_j + index_k > order_)
         throw(Exception("INPUT ERROR","Sum of indices must be <= order"));
 
-    cemDOUBLE result = SilvesterPolynomial(order,index_i,ksi);
-    result *= SilvesterPolynomial(order,index_j,eta);
-    result *= SilvesterPolynomial(order,index_k,1-ksi-eta);
+    cemDOUBLE result = SilvesterPolynomial(index_i,ksi);
+    result *= SilvesterPolynomial(index_j,eta);
+    result *= SilvesterPolynomial(index_k,1-ksi-eta);
 
     return result;
 }
@@ -147,20 +167,19 @@ cemDOUBLE TriShapeFunction::Evaluate(const cemINT& order,
  * @param [in] eta : point in the \f$\eta\f$ axis in which to evaluate (\f$ 0\leq \eta \leq \xi \f$)
  * @return : \f$ \frac{\partial}{\partial\xi}N_{i}(\xi,\eta) \f$. */
 //************************************************************************************************//
-cemDOUBLE TriShapeFunction::EvaluateKsiDeriv(const cemINT &order,
-                                             const cemINT &index_i,
+cemDOUBLE TriShapeFunction::EvaluateKsiDeriv(const cemINT &index_i,
                                              const cemINT &index_j,
                                              const cemINT &index_k,
                                              const cemDOUBLE &ksi,
                                              const cemDOUBLE &eta) const
 {
-    cemDOUBLE first_term = SilvesterPolynomialDeriv(order,index_i,ksi);
-    first_term *= SilvesterPolynomial(order,index_j,eta);
-    first_term *= SilvesterPolynomial(order,index_k,1-ksi-eta);
+    cemDOUBLE first_term = SilvesterPolynomialDeriv(index_i,ksi);
+    first_term *= SilvesterPolynomial(index_j,eta);
+    first_term *= SilvesterPolynomial(index_k,1-ksi-eta);
 
-    cemDOUBLE second_term = SilvesterPolynomial(order,index_i,ksi);
-    second_term *= SilvesterPolynomial(order,index_j,eta);
-    second_term *= SilvesterPolynomialDeriv(order,index_k,1-ksi-eta);
+    cemDOUBLE second_term = SilvesterPolynomial(index_i,ksi);
+    second_term *= SilvesterPolynomial(index_j,eta);
+    second_term *= SilvesterPolynomialDeriv(index_k,1-ksi-eta);
 
     return first_term-second_term;
 }
@@ -181,20 +200,19 @@ cemDOUBLE TriShapeFunction::EvaluateKsiDeriv(const cemINT &order,
  * @param [in] eta : point in the \f$\eta\f$ axis in which to evaluate (\f$ 0\leq \eta \leq \xi \f$)
  * @return : \f$ \frac{\partial}{\partial\eta}N_{i}(\xi,\eta) \f$. */
 //************************************************************************************************//
-cemDOUBLE TriShapeFunction::EvaluateEtaDeriv(const cemINT &order,
-                                             const cemINT &index_i,
+cemDOUBLE TriShapeFunction::EvaluateEtaDeriv(const cemINT &index_i,
                                              const cemINT &index_j,
                                              const cemINT &index_k,
                                              const cemDOUBLE &ksi,
                                              const cemDOUBLE &eta) const
 {
-    cemDOUBLE first_term = SilvesterPolynomial(order,index_i,ksi);
-    first_term *= SilvesterPolynomialDeriv(order,index_j,eta);
-    first_term *= SilvesterPolynomial(order,index_k,1-ksi-eta);
+    cemDOUBLE first_term = SilvesterPolynomial(index_i,ksi);
+    first_term *= SilvesterPolynomialDeriv(index_j,eta);
+    first_term *= SilvesterPolynomial(index_k,1-ksi-eta);
 
-    cemDOUBLE second_term = SilvesterPolynomial(order,index_i,ksi);
-    second_term *= SilvesterPolynomial(order,index_j,eta);
-    second_term *= SilvesterPolynomialDeriv(order,index_k,1-ksi-eta);
+    cemDOUBLE second_term = SilvesterPolynomial(index_i,ksi);
+    second_term *= SilvesterPolynomial(index_j,eta);
+    second_term *= SilvesterPolynomialDeriv(index_k,1-ksi-eta);
 
     return first_term-second_term;
 }
@@ -216,14 +234,13 @@ cemDOUBLE TriShapeFunction::EvaluateEtaDeriv(const cemINT &order,
  * @param [in] eta : points in the \f$\eta\f$ axis in which to evaluate (\f$ 0\leq \eta \leq \xi \f$)
  * @return : \f$ N_{i}(\xi,\eta) = P_{I}^{N}(\xi)P_{J}^{N}(\eta)P_{K}^{N}(1-\xi-\eta) \f$. */
 //************************************************************************************************//
-std::vector<cemDOUBLE> TriShapeFunction::Evaluate(const cemINT& order,
-                                                  const cemINT& index_i,
+std::vector<cemDOUBLE> TriShapeFunction::Evaluate(const cemINT& index_i,
                                                   const cemINT& index_j,
                                                   const cemINT& index_k,
                                                   const std::vector<cemDOUBLE>& ksi,
                                                   const std::vector<cemDOUBLE>& eta) const
 {
-    if (index_i + index_j + index_k > order)
+    if (index_i + index_j + index_k > order_)
         throw(Exception("INPUT ERROR","Sum of indices must be <= order"));
 
     cemINT N = ksi.size();
@@ -234,7 +251,7 @@ std::vector<cemDOUBLE> TriShapeFunction::Evaluate(const cemINT& order,
     result.resize(N);
 
     for (cemINT i=0; i<N; ++i)
-        result[i] = Evaluate(order,index_i,index_j,index_k,ksi[i],eta[i]);
+        result[i] = Evaluate(index_i,index_j,index_k,ksi[i],eta[i]);
 
     return result;
 }
@@ -255,14 +272,13 @@ std::vector<cemDOUBLE> TriShapeFunction::Evaluate(const cemINT& order,
  * @param [in] eta : points in the \f$\eta\f$ axis in which to evaluate (\f$ 0\leq \eta \leq \xi \f$)
  * @return : \f$ \frac{\partial}{\partial\xi}N_{i}(\xi,\eta) \f$. */
 //************************************************************************************************//
-std::vector<cemDOUBLE> TriShapeFunction::EvaluateKsiDeriv(const cemINT &order,
-                                                          const cemINT &index_i,
+std::vector<cemDOUBLE> TriShapeFunction::EvaluateKsiDeriv(const cemINT &index_i,
                                                           const cemINT &index_j,
                                                           const cemINT &index_k,
                                                           const std::vector<cemDOUBLE> &ksi,
                                                           const std::vector<cemDOUBLE> &eta) const
 {
-    if (index_i + index_j + index_k > order)
+    if (index_i + index_j + index_k > order_)
         throw(Exception("INPUT ERROR","Sum of indices must be <= order"));
 
     cemINT N = ksi.size();
@@ -273,7 +289,7 @@ std::vector<cemDOUBLE> TriShapeFunction::EvaluateKsiDeriv(const cemINT &order,
     result.resize(N);
 
     for (cemINT i=0; i<N; ++i)
-        result[i] = EvaluateKsiDeriv(order,index_i,index_j,index_k,ksi[i],eta[i]);
+        result[i] = EvaluateKsiDeriv(index_i,index_j,index_k,ksi[i],eta[i]);
 
     return result;
 }
@@ -294,14 +310,13 @@ std::vector<cemDOUBLE> TriShapeFunction::EvaluateKsiDeriv(const cemINT &order,
  * @param [in] eta : points in the \f$\eta\f$ axis in which to evaluate (\f$ 0\leq \eta \leq \xi \f$)
  * @return : \f$ \frac{\partial}{\partial\eta}N_{i}(\xi,\eta) \f$. */
 //************************************************************************************************//
-std::vector<cemDOUBLE> TriShapeFunction::EvaluateEtaDeriv(const cemINT &order,
-                                                          const cemINT &index_i,
+std::vector<cemDOUBLE> TriShapeFunction::EvaluateEtaDeriv(const cemINT &index_i,
                                                           const cemINT &index_j,
                                                           const cemINT &index_k,
                                                           const std::vector<cemDOUBLE> &ksi,
                                                           const std::vector<cemDOUBLE> &eta) const
 {
-    if (index_i + index_j + index_k > order)
+    if (index_i + index_j + index_k > order_)
         throw(Exception("INPUT ERROR","Sum of indices must be <= order"));
 
     cemINT N = ksi.size();
@@ -312,7 +327,7 @@ std::vector<cemDOUBLE> TriShapeFunction::EvaluateEtaDeriv(const cemINT &order,
     result.resize(N);
 
     for (cemINT i=0; i<N; ++i)
-        result[i] = EvaluateEtaDeriv(order,index_i,index_j,index_k,ksi[i],eta[i]);
+        result[i] = EvaluateEtaDeriv(index_i,index_j,index_k,ksi[i],eta[i]);
 
     return result;
 }

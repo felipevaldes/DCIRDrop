@@ -1,11 +1,11 @@
-#ifndef BASIS_FUNCTIONS_H
-#define BASIS_FUNCTIONS_H
+#ifndef SOLVER_ELEMENT_H
+#define SOLVER_ELEMENT_H
 
 #include <vector>
 #include <iostream>
 #include "cemMesh.h"
-#include "BasisFunctions/BasisFunctions.h"
 #include "Matrix/DenseMatrix.h"
+
 
 using cem_mesh::Element;
 using cem_math::DenseMatrix;
@@ -28,6 +28,7 @@ enum BasisFunctionField
 
 //************************************************************************************************//
 /** @brief The SolverElement class: Mesh element plus solver data.
+ *
  * SolverElement is the entity that "hosts" the basis functions used to expand
  * the solution of the FEM formulation. */
 //************************************************************************************************//
@@ -55,9 +56,9 @@ public:
     void set_coefficient_order(const cemINT& order);
 
     // Matrices:
-    virtual void setUp_matrix_N_NxNx() = 0;
-    virtual void setUp_matrix_N_NyNy() = 0;
-    virtual void setUp_matrix_N_NN() = 0;
+    virtual void setUp_matrix_N_NxNx(cemBOOL force_numerical_integration) = 0;
+    virtual void setUp_matrix_N_NyNy(cemBOOL force_numerical_integration) = 0;
+    virtual void setUp_matrix_N_NN(cemBOOL force_numerical_integration) = 0;
 
 
 
@@ -73,6 +74,8 @@ protected:
     std::vector< DenseMatrix<cemDOUBLE> > matrix_N_NyNy_;   //!< Product of y-derivatives.
     std::vector< DenseMatrix<cemDOUBLE> > matrix_N_NN_;     //!< Product of functions.
 
+    DenseMatrix<cemDOUBLE> jacobian_matrix_;            //!< Jacobian Matrix of spatial mapping.
+    DenseMatrix<cemDOUBLE> inverse_jacobian_matrix_;    //!< Inverse of Jacobian Matrix.
 
     // Protected member functions:
     void initialize();
@@ -112,9 +115,9 @@ public:
     void set_element_ptr(const Element* element_ptr);
 
     // Matrices:
-    void setUp_matrix_N_NxNx();
-    void setUp_matrix_N_NyNy();
-    void setUp_matrix_N_NN();
+    void setUp_matrix_N_NxNx(cemBOOL force_numerical_integration);
+    void setUp_matrix_N_NyNy(cemBOOL force_numerical_integration);
+    void setUp_matrix_N_NN(cemBOOL force_numerical_integration);
 
 private:
     cemBOOL geometry_is_Up_;    //!< TRUE if setUpGeometry() has been run succesfully
@@ -142,8 +145,31 @@ private:
     // Private member functions:
     void setUpGeometry();
 
+    cemDOUBLE Compute_N_NxNx_matrix_entry(const cemINT& coefficient_index,
+                                          const cemINT& test_function_index,
+                                          const cemINT& source_function_index) const;
 
+    cemDOUBLE Compute_N_NyNy_matrix_entry(const cemINT& coefficient_index,
+                                          const cemINT& test_function_index,
+                                          const cemINT& source_function_index) const;
 
+    cemDOUBLE Compute_N_NN_matrix_entry(const cemINT& coefficient_index,
+                                        const cemINT& test_function_index,
+                                        const cemINT& source_function_index) const;
+
+    void Compute_N_NxNx_matrix_numerically(const cemINT& coefficient_index);
+    void Compute_N_NyNy_matrix_numerically(const cemINT& coefficient_index);
+    void Compute_N_NN_matrix_numerically(const cemINT& coefficient_index);
+
+    void Compute_N_NxNx_matrix_analytically();
+    void Compute_N_NyNy_matrix_analytically();
+    void Compute_N_NN_matrix_analytically();
+
+    void GetShapeFunctionIndices(const cemINT& shape_function_order,
+                                 const cemINT& basis_function_index,
+                                 cemINT& index_i,
+                                 cemINT& index_j,
+                                 cemINT& index_k) const;
 };
 
 
@@ -152,4 +178,4 @@ private:
 
 
 
-#endif // BASIS_FUNCTIONS_H
+#endif // SOLVER_ELEMENT_H
