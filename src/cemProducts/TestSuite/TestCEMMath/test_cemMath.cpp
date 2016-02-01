@@ -33,6 +33,10 @@ int RunTestCEMMath(int argc, char* argv[])
         ::testing::FLAGS_gtest_filter = "DenseMatrix.*";
         return RUN_ALL_TESTS();
     }
+    if (!strcmp(argv[1],"-BasicTest"))
+    {
+        return TestMathBasics();
+    }
     return 1;
 }
 
@@ -1926,4 +1930,20 @@ TEST(DenseMatrix,InverseFC)
     ASSERT_NEAR(0.97775073,B(2,1).imag(),1.0e-6);
     ASSERT_NEAR(1.09064293,B(2,2).real(),1.0e-7);
     ASSERT_NEAR(-0.62771685,B(2,2).imag(),1.0e-6);
+}
+
+
+int TestMathBasics()
+{
+    DenseMatrix<cemFCOMPLEX> A(2,2);
+    A(1,1) = cemFCOMPLEX(0.81472368,0.63235924);
+    A(1,2) = cemFCOMPLEX(0.12698681,0.27849821);
+    A(2,1) = cemFCOMPLEX(0.90579193,0.09754040);
+    A(2,2) = cemFCOMPLEX(0.91337585,0.54688151);
+
+    std::ofstream myfile;
+    myfile.open("TestMatrix.out",std::ofstream::out);
+    myfile.precision(15);
+
+    A.WriteToFileByColumns(myfile);
 }

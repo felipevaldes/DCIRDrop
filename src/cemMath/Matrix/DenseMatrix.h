@@ -44,6 +44,11 @@ public:
     T determinant() const;
     DenseMatrix<T> inverse() const;
 
+    // Read-Write from file:
+    void WriteToFileByColumns(std::ostream& file);
+
+
+
 private:
     cemINT  num_rows_;          /**< Number of rows of the matrix */
     cemINT  num_columns_;       /**< Number of columns of the matrix */

@@ -14,8 +14,6 @@ template<class T>
 class Matrix
 {
 public:
-    typedef T value_type_;      /**< Allows to see what type of elements are stored in Matrix */
-
     /** @brief Matrix : Default constructor */
     Matrix() {}
 

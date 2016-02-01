@@ -2,7 +2,10 @@
 #include "cemError.h"
 #include "cemUtils.h"
 #include "MKL/BlasLevel1.h"
+#include <iomanip>
+#include <fstream>
 #include <cstring>
+#include <typeinfo>
 
 using namespace cem_math;
 using namespace cem_def;
@@ -290,6 +293,43 @@ DenseMatrix<T> DenseMatrix<T>::inverse() const
 }
 
 
+
+//************************************************************************************************//
+/** @brief DenseMatrix<T>::WriteToFileByColumns : Writes matrix to a file in columnwise fashion.
+ * @param [in,out] file File where the matriz is written. */
+//************************************************************************************************//
+template <class T>
+void DenseMatrix<T>::WriteToFileByColumns(std::ostream& file)
+{
+    // Check if dealinf with real or complex matrix:
+    cemBOOL is_complex = typeid(T()) == typeid(cemDCOMPLEX()) || typeid(T()) == typeid(cemFCOMPLEX());
+
+    // Write number of rows and columns:
+    if (is_complex)
+        file << std::setw(25) << num_rows_ <<
+                std::setw(25) << num_columns_ << std::endl;
+    else
+    {
+        file << std::setw(25) << num_rows_ << std::endl;
+        file << std::setw(25) << num_columns_ << std::endl;
+    }
+
+
+    // Write entries columnwise:
+    cemUINT8 size = num_rows_;
+    size *= num_columns_;
+
+    cemDCOMPLEX entry;
+    for (cemINT i=0; i<size; ++i)
+    {
+        entry = matrix_entries_[i];
+        if (is_complex)
+            file << std::setw(25) << entry.real() <<
+                    std::setw(25) << entry.imag() << std::endl;
+        else
+           file <<  std::setw(25) << entry.real() << std::endl;
+    }
+}
 
 
 
