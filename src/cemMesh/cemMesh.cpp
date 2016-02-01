@@ -40,7 +40,7 @@ void Mesh::copy(const Mesh &mesh)
     for (cemINT ii=1; ii<=this->num_elements_; ++ii)
     {
         Element& elem = element_table_[ii];
-        std::vector<const Node*> temp_array;
+        std::vector<Node*> temp_array;
         temp_array = elem.node_ptrs();
 
         // For each node pointer in temp_array, redirect to this->node_table_:
@@ -308,6 +308,12 @@ void Node::set_node_id(const cemINT& node_id) {node_id_ = node_id;}
 
 
 
+void Node::set_coordinates(const cemDOUBLE &x1, const cemDOUBLE &x2, const cemDOUBLE &x3)
+{
+    this->operator [](0) = x1;
+    this->operator [](1) = x2;
+    this->operator [](2) = x3;
+}
 
 
 
@@ -348,7 +354,7 @@ Element::Element(const ElementType& type, const cemINT& order)
  * @param [in] num_nodes : Number of nodes that define the element
  * @param [in] node_pointers : Vector of nodes that define the element */
 //************************************************************************************************//
-Element::Element(const cemINT& num_nodes, const std::vector<const Node*>& node_pointers)
+Element::Element(const cemINT& num_nodes, const std::vector<Node*>& node_pointers)
 {
     if (num_nodes < 1)
         throw (Exception("INVALID ARGUMENT", "Number of nodes must be greater than zero"));
@@ -494,7 +500,7 @@ cemBOOL Element::is_surface_boundary() const {return is_surface_boundary_;}
 /** @brief Element::set_node_ptrs : Sets vector of nodes that define the element.
  * @param [in] nodes : Vector of pointers to the nodes that define the element. */
 //************************************************************************************************//
-void Element::set_node_ptrs(const std::vector<const Node*>& nodes)
+void Element::set_node_ptrs(const std::vector<Node*>& nodes)
 {
     cemINT num_nodes = nodes.size();
     node_ptrs_.resize(num_nodes);
@@ -506,7 +512,7 @@ void Element::set_node_ptrs(const std::vector<const Node*>& nodes)
 /** @brief Element::node_ptrs : Gets vector of nodes that define the element.
  * @return node_ptrs_ */
 //************************************************************************************************//
-std::vector<const Node*> Element::node_ptrs() const {return node_ptrs_;}
+std::vector<Node*> Element::node_ptrs() const {return node_ptrs_;}
 
 
 //************************************************************************************************//

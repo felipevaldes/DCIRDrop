@@ -29,8 +29,18 @@ public:
     /** @brief Mesh : Default constructor. */
     Mesh() {;}
 
-    // Copy cosntructor:
+    // Copy constructor:
     Mesh(const Mesh& mesh);
+
+    // Get data members:
+    cemINT num_nodes() const;
+    cemINT num_elements() const;
+    const std::vector<Node>& node_table() const;
+    const std::vector<Element>& element_table() const;
+
+    // Set data members:
+    void set_node_table(const std::vector<Node>& nodes);
+    void set_element_table(const std::vector<Element>& elements);
 
     // Read and Write from file:
     void ReadFromGmshFile(const std::string filename);
@@ -77,6 +87,7 @@ public:
 
     // Set data members:
     void set_node_id(const cemINT& node_id);
+    void set_coordinates(const cemDOUBLE& x1, const cemDOUBLE& x2, const cemDOUBLE& x3);
 
 private:
     cemINT  node_id_;                   //!< Unique identifier within the mesh.
@@ -111,7 +122,7 @@ public:
 
 private:
     Mesh&           mesh_;              //!< Mesh from which has access to node_table.
-    std::istream&   input_stream_;      //!< Imput stream from wich the mesh is being read.
+    std::istream&   input_stream_;      //!< Input stream from wich the mesh is being read.
 };
 //************************************************************************************************//
 
@@ -272,7 +283,7 @@ public:
     // Constructor with parameters:
     Element(const ElementType& type);
     Element(const ElementType& type, const cemINT& order);
-    Element(const cemINT& num_nodes, const std::vector<const Node*>& node_pointers);
+    Element(const cemINT& num_nodes, const std::vector<Node*>& node_pointers);
 
     // Copy constructor:
     Element(const Element& elem);
@@ -284,7 +295,7 @@ public:
     void set_order(const cemINT& order);
     void set_is_complete(const cemBOOL& is_complete);
     void set_is_surface_boundary(const cemBOOL& is_boundary);
-    void set_node_ptrs(const std::vector<const Node*>& nodes);
+    void set_node_ptrs(const std::vector<Node*>& nodes);
     void set_num_nodes(const cemINT& num_nodes);
     void set_physical_id(const cemINT& phys_id);
     void set_geometrical_id(const cemINT& geom_id);
@@ -297,7 +308,7 @@ public:
     cemBOOL is_surface_boundary() const;
     cemINT order() const;
     cemBOOL is_complete() const;
-    std::vector<const Node*> node_ptrs() const;
+    std::vector<Node*> node_ptrs() const;
     const Node* node(const cemINT& i) const;
     cemINT num_nodes() const;
     cemINT physical_id() const;
@@ -322,7 +333,7 @@ private:
     cemINT              num_partitions_;        //!< Number of partitions to which element belongs
     std::vector<cemINT> partitions_;            //!< Vector of partitions to which element belongs
     cemINT              num_nodes_;             //!< Number of nodes that define the element
-    std::vector<const Node*>  node_ptrs_;       //!< Vector of nodes that define the element
+    std::vector<Node*>  node_ptrs_;             //!< Vector of nodes that define the element
 
     // Private member functions:
     void initialize();
