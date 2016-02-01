@@ -2614,7 +2614,7 @@ cemDOUBLE TestTriQuadrature::Integrate(cemDOUBLE (*function)(cemDOUBLE, cemDOUBL
     for (cemINT i=0; i<num_points; ++i)
         integral += function(ksi[i],eta[i])*weights[i];
 
-    return integral/2.0; // Multiplied by the area of the unit triangle.
+    return integral; // Multiplied by the area of the unit triangle.
 }
 
 
