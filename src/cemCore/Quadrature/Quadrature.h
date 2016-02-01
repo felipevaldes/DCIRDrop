@@ -46,7 +46,9 @@ protected:
 
 
 //************************************************************************************************//
-/** @brief The LineQuadrature class : Quadrature rules for Lines. */
+/** @brief The LineQuadrature class : Quadrature rules for Lines.
+ *
+ * Quadrature rules are designed to integrate functions defined on the interval [-1,1]. */
 //************************************************************************************************//
 class LineQuadrature : public Quadrature
 {
@@ -59,7 +61,10 @@ private:
 
 
 //************************************************************************************************//
-/** @brief The TriQuadrature class : Quadrature rules for Triangles. */
+/** @brief The TriQuadrature class : Quadrature rules for Triangles.
+ *
+ * Quadrature rules are designed to integrate functions defined on the unit triangle, i.e.
+ * right-angled triangle with 2 sides of length 1 (Area = 1/2). */
 //************************************************************************************************//
 class TriQuadrature : public Quadrature
 {
