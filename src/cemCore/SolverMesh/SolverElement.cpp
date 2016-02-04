@@ -313,7 +313,7 @@ void SolverTriangle::setUp_matrix_N_NxNx(cemBOOL force_numerical_integration)
     else
     {
         for (cemINT i=0; i<num_matrices; ++i)
-            Compute_N_NxNx_matrix_numerically(i+1);
+            Compute_N_NxNx_matrix_numerically(i);
     }
 }
 
@@ -337,7 +337,7 @@ void SolverTriangle::setUp_matrix_N_NyNy(cemBOOL force_numerical_integration)
     else
     {
         for (cemINT i=0; i<num_matrices; ++i)
-            Compute_N_NyNy_matrix_numerically(i+1);
+            Compute_N_NyNy_matrix_numerically(i);
     }
 }
 
@@ -361,7 +361,7 @@ void SolverTriangle::setUp_matrix_N_NN(cemBOOL force_numerical_integration)
     else
     {
         for (cemINT i=0; i<num_matrices; ++i)
-            Compute_N_NN_matrix_numerically(i+1);
+            Compute_N_NN_matrix_numerically(i);
     }
 }
 
@@ -387,143 +387,155 @@ void SolverTriangle::Compute_N_NxNx_matrix_analytically()
         if (basis_function_order_ == 1)
         {
             // Fill matrix column-wise (Matrix is simmetric):
-            matrix_N_NxNx_[0](1,1) = pow(b1_,2)/(4.0*delta_);
-            matrix_N_NxNx_[0](2,1) = (b1_*b2_)/(4.0*delta_);
-            matrix_N_NxNx_[0](3,1) = (b1_*b3_)/(4.0*delta_);
+            matrix_N_NxNx_[0](0,0) = pow(b1_,2)/(4.0*delta_);
+            matrix_N_NxNx_[0](1,0) = (b1_*b2_)/(4.0*delta_);
+            matrix_N_NxNx_[0](2,0) = (b1_*b3_)/(4.0*delta_);
 
+            matrix_N_NxNx_[0](0,1) = matrix_N_NxNx_[0](1,0);
+            matrix_N_NxNx_[0](1,1) = pow(b2_,2)/(4.0*delta_);
+            matrix_N_NxNx_[0](2,1) = (b2_*b3_)/(4.0*delta_);
+
+            matrix_N_NxNx_[0](0,2) = matrix_N_NxNx_[0](2,0);
             matrix_N_NxNx_[0](1,2) = matrix_N_NxNx_[0](2,1);
-            matrix_N_NxNx_[0](2,2) = pow(b2_,2)/(4.0*delta_);
-            matrix_N_NxNx_[0](3,2) = (b2_*b3_)/(4.0*delta_);
-
-            matrix_N_NxNx_[0](1,3) = matrix_N_NxNx_[0](3,1);
-            matrix_N_NxNx_[0](2,3) = matrix_N_NxNx_[0](3,2);
-            matrix_N_NxNx_[0](3,3) = pow(b3_,2)/(4.0*delta_);
+            matrix_N_NxNx_[0](2,2) = pow(b3_,2)/(4.0*delta_);
         }
         else if (basis_function_order_ == 2)
         {
             // Fill matrix column-wise (Matrix is simmetric):
-            matrix_N_NxNx_[0](1,1) = pow(b1_,2)/(4.0*delta_);
-            matrix_N_NxNx_[0](2,1) = -(b1_*b2_)/(12.0*delta_);
-            matrix_N_NxNx_[0](3,1) = -(b1_*b3_)/(12.0*delta_);
-            matrix_N_NxNx_[0](4,1) = (b1_*b2_)/(3.0*delta_);
+            matrix_N_NxNx_[0](0,0) = pow(b1_,2)/(4.0*delta_);
+            matrix_N_NxNx_[0](1,0) = -(b1_*b2_)/(12.0*delta_);
+            matrix_N_NxNx_[0](2,0) = -(b1_*b3_)/(12.0*delta_);
+            matrix_N_NxNx_[0](3,0) = (b1_*b2_)/(3.0*delta_);
+            matrix_N_NxNx_[0](4,0) = 0.0;
+            matrix_N_NxNx_[0](5,0) = (b1_*b3_)/(3.0*delta_);
+
+            matrix_N_NxNx_[0](0,1) = matrix_N_NxNx_[0](1,0);
+            matrix_N_NxNx_[0](1,1) = pow(b2_,2)/(4.0*delta_);
+            matrix_N_NxNx_[0](2,1) = -(b2_*b3_)/(12.0*delta_);
+            matrix_N_NxNx_[0](3,1) = (b1_*b2_)/(3.0*delta_);
+            matrix_N_NxNx_[0](4,1) = (b2_*b3_)/(3.0*delta_);
             matrix_N_NxNx_[0](5,1) = 0.0;
-            matrix_N_NxNx_[0](6,1) = (b1_*b3_)/(3.0*delta_);
 
+            matrix_N_NxNx_[0](0,2) = matrix_N_NxNx_[0](2,0);
             matrix_N_NxNx_[0](1,2) = matrix_N_NxNx_[0](2,1);
-            matrix_N_NxNx_[0](2,2) = pow(b2_,2)/(4.0*delta_);
-            matrix_N_NxNx_[0](3,2) = -(b2_*b3_)/(12.0*delta_);
-            matrix_N_NxNx_[0](4,2) = (b1_*b2_)/(3.0*delta_);
-            matrix_N_NxNx_[0](5,2) = (b2_*b3_)/(3.0*delta_);
-            matrix_N_NxNx_[0](6,2) = 0.0;
+            matrix_N_NxNx_[0](2,2) = pow(b3_,2)/(4.0*delta_);
+            matrix_N_NxNx_[0](3,2) = 0.0;
+            matrix_N_NxNx_[0](4,2) = (b2_*b3_)/(3.0*delta_);
+            matrix_N_NxNx_[0](5,2) = (b1_*b3_)/(3.0*delta_);
 
+            matrix_N_NxNx_[0](0,3) = matrix_N_NxNx_[0](3,0);
             matrix_N_NxNx_[0](1,3) = matrix_N_NxNx_[0](3,1);
             matrix_N_NxNx_[0](2,3) = matrix_N_NxNx_[0](3,2);
-            matrix_N_NxNx_[0](3,3) = pow(b3_,2)/(4.0*delta_);
-            matrix_N_NxNx_[0](4,3) = 0.0;
-            matrix_N_NxNx_[0](5,3) = (b2_*b3_)/(3.0*delta_);
-            matrix_N_NxNx_[0](6,3) = (b1_*b3_)/(3.0*delta_);
+            matrix_N_NxNx_[0](3,3) = (2.0*pow(b1_,2))/(3.0*delta_) + (2.0*b1_*b2_)/(3.0*delta_) + (2.0*pow(b2_,2))/(3.0*delta_);
+            matrix_N_NxNx_[0](4,3) = (b1_*b2_)/(3.0*delta_) + pow(b2_,2)/(3.0*delta_) + (2.0*b1_*b3_)/(3.0*delta_) + (b2_*b3_)/(3.0*delta_);
+            matrix_N_NxNx_[0](5,3) = pow(b1_,2)/(3.0*delta_) + (b1_*b2_)/(3.0*delta_) + (b1_*b3_)/(3.0*delta_) + (2.0*b2_*b3_)/(3.0*delta_);
 
+            matrix_N_NxNx_[0](0,4) = matrix_N_NxNx_[0](4,0);
             matrix_N_NxNx_[0](1,4) = matrix_N_NxNx_[0](4,1);
             matrix_N_NxNx_[0](2,4) = matrix_N_NxNx_[0](4,2);
             matrix_N_NxNx_[0](3,4) = matrix_N_NxNx_[0](4,3);
-            matrix_N_NxNx_[0](4,4) = (2.0*pow(b1_,2))/(3.0*delta_) + (2.0*b1_*b2_)/(3.0*delta_) + (2.0*pow(b2_,2))/(3.0*delta_);
-            matrix_N_NxNx_[0](5,4) = (b1_*b2_)/(3.0*delta_) + pow(b2_,2)/(3.0*delta_) + (2.0*b1_*b3_)/(3.0*delta_) + (b2_*b3_)/(3.0*delta_);
-            matrix_N_NxNx_[0](6,4) = pow(b1_,2)/(3.0*delta_) + (b1_*b2_)/(3.0*delta_) + (b1_*b3_)/(3.0*delta_) + (2.0*b2_*b3_)/(3.0*delta_);
+            matrix_N_NxNx_[0](4,4) = (2.0*pow(b2_,2))/(3.0*delta_) + (2.0*b2_*b3_)/(3.0*delta_) + (2.0*pow(b3_,2))/(3.0*delta_);
+            matrix_N_NxNx_[0](5,4) = (2.0*b1_*b2_)/(3.0*delta_) + (b1_*b3_)/(3.0*delta_) + (b2_*b3_)/(3.0*delta_) + pow(b3_,2)/(3.0*delta_);
 
+            matrix_N_NxNx_[0](0,5) = matrix_N_NxNx_[0](5,0);
             matrix_N_NxNx_[0](1,5) = matrix_N_NxNx_[0](5,1);
             matrix_N_NxNx_[0](2,5) = matrix_N_NxNx_[0](5,2);
             matrix_N_NxNx_[0](3,5) = matrix_N_NxNx_[0](5,3);
             matrix_N_NxNx_[0](4,5) = matrix_N_NxNx_[0](5,4);
-            matrix_N_NxNx_[0](5,5) = (2.0*pow(b2_,2))/(3.0*delta_) + (2.0*b2_*b3_)/(3.0*delta_) + (2.0*pow(b3_,2))/(3.0*delta_);
-            matrix_N_NxNx_[0](6,5) = (2.0*b1_*b2_)/(3.0*delta_) + (b1_*b3_)/(3.0*delta_) + (b2_*b3_)/(3.0*delta_) + pow(b3_,2)/(3.0*delta_);
-
-            matrix_N_NxNx_[0](1,6) = matrix_N_NxNx_[0](6,1);
-            matrix_N_NxNx_[0](2,6) = matrix_N_NxNx_[0](6,2);
-            matrix_N_NxNx_[0](3,6) = matrix_N_NxNx_[0](6,3);
-            matrix_N_NxNx_[0](4,6) = matrix_N_NxNx_[0](6,4);
-            matrix_N_NxNx_[0](5,6) = matrix_N_NxNx_[0](6,5);
-            matrix_N_NxNx_[0](6,6) = (2.0*pow(b1_,2))/(3.0*delta_) + (2.0*b1_*b3_)/(3.0*delta_) + (2.0*pow(b3_,2))/(3.0*delta_);
+            matrix_N_NxNx_[0](5,5) = (2.0*pow(b1_,2))/(3.0*delta_) + (2.0*b1_*b3_)/(3.0*delta_) + (2.0*pow(b3_,2))/(3.0*delta_);
         }
         else if (basis_function_order_ == 3)
         {
             // Fill matrix column-wise (Matrix is simmetric):
-            matrix_N_NxNx_[0](1,1) = (17*pow(b1_,2))/(80.*delta_);
-            matrix_N_NxNx_[0](2,1) = (7*b1_*b2_)/(160.*delta_);
-            matrix_N_NxNx_[0](3,1) = (7*b1_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](4,1) = (3*pow(b1_,2))/(160.*delta_) + (57*b1_*b2_)/(160.*delta_);
-            matrix_N_NxNx_[0](5,1) = (3*pow(b1_,2))/(160.*delta_) - (3*b1_*b2_)/(20.*delta_);
-            matrix_N_NxNx_[0](6,1) = (3*b1_*b2_)/(160.*delta_) + (3*b1_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](7,1) = (3*b1_*b2_)/(160.*delta_) + (3*b1_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](8,1) = (3*pow(b1_,2))/(160.*delta_) - (3*b1_*b3_)/(20.*delta_);
-            matrix_N_NxNx_[0](9,1) = (3*pow(b1_,2))/(160.*delta_) + (57*b1_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](10,1) = (9*pow(b1_,2))/(160.*delta_) + (9*b1_*b2_)/(160.*delta_) + (9*b1_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](0,0) = (17*pow(b1_,2))/(80.*delta_);
+            matrix_N_NxNx_[0](1,0) = (7*b1_*b2_)/(160.*delta_);
+            matrix_N_NxNx_[0](2,0) = (7*b1_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](3,0) = (3*pow(b1_,2))/(160.*delta_) + (57*b1_*b2_)/(160.*delta_);
+            matrix_N_NxNx_[0](4,0) = (3*pow(b1_,2))/(160.*delta_) - (3*b1_*b2_)/(20.*delta_);
+            matrix_N_NxNx_[0](5,0) = (3*b1_*b2_)/(160.*delta_) + (3*b1_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](6,0) = (3*b1_*b2_)/(160.*delta_) + (3*b1_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](7,0) = (3*pow(b1_,2))/(160.*delta_) - (3*b1_*b3_)/(20.*delta_);
+            matrix_N_NxNx_[0](8,0) = (3*pow(b1_,2))/(160.*delta_) + (57*b1_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](9,0) = (9*pow(b1_,2))/(160.*delta_) + (9*b1_*b2_)/(160.*delta_) + (9*b1_*b3_)/(160.*delta_);
 
+            matrix_N_NxNx_[0](0,1) = matrix_N_NxNx_[0](1,0);
+            matrix_N_NxNx_[0](1,1) = (17*pow(b2_,2))/(80.*delta_);
+            matrix_N_NxNx_[0](2,1) = (7*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](3,1) = (-3*b1_*b2_)/(20.*delta_) + (3*pow(b2_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](4,1) = (57*b1_*b2_)/(160.*delta_) + (3*pow(b2_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](5,1) = (3*pow(b2_,2))/(160.*delta_) + (57*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](6,1) = (3*pow(b2_,2))/(160.*delta_) - (3*b2_*b3_)/(20.*delta_);
+            matrix_N_NxNx_[0](7,1) = (3*b1_*b2_)/(160.*delta_) + (3*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](8,1) = (3*b1_*b2_)/(160.*delta_) + (3*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](9,1) = (9*b1_*b2_)/(160.*delta_) + (9*pow(b2_,2))/(160.*delta_) + (9*b2_*b3_)/(160.*delta_);
+
+            matrix_N_NxNx_[0](0,2) = matrix_N_NxNx_[0](2,0);
             matrix_N_NxNx_[0](1,2) = matrix_N_NxNx_[0](2,1);
-            matrix_N_NxNx_[0](2,2) = (17*pow(b2_,2))/(80.*delta_);
-            matrix_N_NxNx_[0](3,2) = (7*b2_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](4,2) = (-3*b1_*b2_)/(20.*delta_) + (3*pow(b2_,2))/(160.*delta_);
-            matrix_N_NxNx_[0](5,2) = (57*b1_*b2_)/(160.*delta_) + (3*pow(b2_,2))/(160.*delta_);
-            matrix_N_NxNx_[0](6,2) = (3*pow(b2_,2))/(160.*delta_) + (57*b2_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](7,2) = (3*pow(b2_,2))/(160.*delta_) - (3*b2_*b3_)/(20.*delta_);
-            matrix_N_NxNx_[0](8,2) = (3*b1_*b2_)/(160.*delta_) + (3*b2_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](9,2) = (3*b1_*b2_)/(160.*delta_) + (3*b2_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](10,2) = (9*b1_*b2_)/(160.*delta_) + (9*pow(b2_,2))/(160.*delta_) + (9*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](2,2) = (17*pow(b3_,2))/(80.*delta_);
+            matrix_N_NxNx_[0](3,2) = (3*b1_*b3_)/(160.*delta_) + (3*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](4,2) = (3*b1_*b3_)/(160.*delta_) + (3*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](5,2) = (-3*b2_*b3_)/(20.*delta_) + (3*pow(b3_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](6,2) = (57*b2_*b3_)/(160.*delta_) + (3*pow(b3_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](7,2) = (57*b1_*b3_)/(160.*delta_) + (3*pow(b3_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](8,2) = (-3*b1_*b3_)/(20.*delta_) + (3*pow(b3_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](9,2) = (9*b1_*b3_)/(160.*delta_) + (9*b2_*b3_)/(160.*delta_) + (9*pow(b3_,2))/(160.*delta_);
 
+            matrix_N_NxNx_[0](0,3) = matrix_N_NxNx_[0](3,0);
             matrix_N_NxNx_[0](1,3) = matrix_N_NxNx_[0](3,1);
             matrix_N_NxNx_[0](2,3) = matrix_N_NxNx_[0](3,2);
-            matrix_N_NxNx_[0](3,3) = (17*pow(b3_,2))/(80.*delta_);
-            matrix_N_NxNx_[0](4,3) = (3*b1_*b3_)/(160.*delta_) + (3*b2_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](5,3) = (3*b1_*b3_)/(160.*delta_) + (3*b2_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](6,3) = (-3*b2_*b3_)/(20.*delta_) + (3*pow(b3_,2))/(160.*delta_);
-            matrix_N_NxNx_[0](7,3) = (57*b2_*b3_)/(160.*delta_) + (3*pow(b3_,2))/(160.*delta_);
-            matrix_N_NxNx_[0](8,3) = (57*b1_*b3_)/(160.*delta_) + (3*pow(b3_,2))/(160.*delta_);
-            matrix_N_NxNx_[0](9,3) = (-3*b1_*b3_)/(20.*delta_) + (3*pow(b3_,2))/(160.*delta_);
-            matrix_N_NxNx_[0](10,3) = (9*b1_*b3_)/(160.*delta_) + (9*b2_*b3_)/(160.*delta_) + (9*pow(b3_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](3,3) = (27*pow(b1_,2))/(32.*delta_) + (27*b1_*b2_)/(32.*delta_) + (27*pow(b2_,2))/(32.*delta_);
+            matrix_N_NxNx_[0](4,3) = (-27*pow(b1_,2))/(160.*delta_) + (27*b1_*b2_)/(80.*delta_) - (27*pow(b2_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](5,3) = (-27*b1_*b2_)/(320.*delta_) - (27*pow(b2_,2))/(320.*delta_) - (27*b1_*b3_)/(160.*delta_) - (27*b2_*b3_)/(320.*delta_);
+            matrix_N_NxNx_[0](6,3) = (-27*b1_*b2_)/(320.*delta_) - (27*pow(b2_,2))/(320.*delta_) - (27*b1_*b3_)/(160.*delta_) - (27*b2_*b3_)/(320.*delta_);
+            matrix_N_NxNx_[0](7,3) = (-27*pow(b1_,2))/(320.*delta_) - (27*b1_*b2_)/(320.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](8,3) = (27*pow(b1_,2))/(64.*delta_) + (27*b1_*b2_)/(64.*delta_) + (27*b1_*b3_)/(64.*delta_) + (27*b2_*b3_)/(32.*delta_);
+            matrix_N_NxNx_[0](9,3) = (81*b1_*b2_)/(160.*delta_) + (81*pow(b2_,2))/(160.*delta_) + (81*b1_*b3_)/(80.*delta_) + (81*b2_*b3_)/(160.*delta_);
 
+            matrix_N_NxNx_[0](0,4) = matrix_N_NxNx_[0](4,0);
             matrix_N_NxNx_[0](1,4) = matrix_N_NxNx_[0](4,1);
             matrix_N_NxNx_[0](2,4) = matrix_N_NxNx_[0](4,2);
             matrix_N_NxNx_[0](3,4) = matrix_N_NxNx_[0](4,3);
             matrix_N_NxNx_[0](4,4) = (27*pow(b1_,2))/(32.*delta_) + (27*b1_*b2_)/(32.*delta_) + (27*pow(b2_,2))/(32.*delta_);
-            matrix_N_NxNx_[0](5,4) = (-27*pow(b1_,2))/(160.*delta_) + (27*b1_*b2_)/(80.*delta_) - (27*pow(b2_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](5,4) = (27*b1_*b2_)/(64.*delta_) + (27*pow(b2_,2))/(64.*delta_) + (27*b1_*b3_)/(32.*delta_) + (27*b2_*b3_)/(64.*delta_);
             matrix_N_NxNx_[0](6,4) = (-27*b1_*b2_)/(320.*delta_) - (27*pow(b2_,2))/(320.*delta_) - (27*b1_*b3_)/(160.*delta_) - (27*b2_*b3_)/(320.*delta_);
-            matrix_N_NxNx_[0](7,4) = (-27*b1_*b2_)/(320.*delta_) - (27*pow(b2_,2))/(320.*delta_) - (27*b1_*b3_)/(160.*delta_) - (27*b2_*b3_)/(320.*delta_);
+            matrix_N_NxNx_[0](7,4) = (-27*pow(b1_,2))/(320.*delta_) - (27*b1_*b2_)/(320.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(160.*delta_);
             matrix_N_NxNx_[0](8,4) = (-27*pow(b1_,2))/(320.*delta_) - (27*b1_*b2_)/(320.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](9,4) = (27*pow(b1_,2))/(64.*delta_) + (27*b1_*b2_)/(64.*delta_) + (27*b1_*b3_)/(64.*delta_) + (27*b2_*b3_)/(32.*delta_);
-            matrix_N_NxNx_[0](10,4) = (81*b1_*b2_)/(160.*delta_) + (81*pow(b2_,2))/(160.*delta_) + (81*b1_*b3_)/(80.*delta_) + (81*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](9,4) = (81*pow(b1_,2))/(160.*delta_) + (81*b1_*b2_)/(160.*delta_) + (81*b1_*b3_)/(160.*delta_) + (81*b2_*b3_)/(80.*delta_);
 
+            matrix_N_NxNx_[0](0,5) = matrix_N_NxNx_[0](5,0);
             matrix_N_NxNx_[0](1,5) = matrix_N_NxNx_[0](5,1);
             matrix_N_NxNx_[0](2,5) = matrix_N_NxNx_[0](5,2);
             matrix_N_NxNx_[0](3,5) = matrix_N_NxNx_[0](5,3);
             matrix_N_NxNx_[0](4,5) = matrix_N_NxNx_[0](5,4);
-            matrix_N_NxNx_[0](5,5) = (27*pow(b1_,2))/(32.*delta_) + (27*b1_*b2_)/(32.*delta_) + (27*pow(b2_,2))/(32.*delta_);
-            matrix_N_NxNx_[0](6,5) = (27*b1_*b2_)/(64.*delta_) + (27*pow(b2_,2))/(64.*delta_) + (27*b1_*b3_)/(32.*delta_) + (27*b2_*b3_)/(64.*delta_);
-            matrix_N_NxNx_[0](7,5) = (-27*b1_*b2_)/(320.*delta_) - (27*pow(b2_,2))/(320.*delta_) - (27*b1_*b3_)/(160.*delta_) - (27*b2_*b3_)/(320.*delta_);
-            matrix_N_NxNx_[0](8,5) = (-27*pow(b1_,2))/(320.*delta_) - (27*b1_*b2_)/(320.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](9,5) = (-27*pow(b1_,2))/(320.*delta_) - (27*b1_*b2_)/(320.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(160.*delta_);
-            matrix_N_NxNx_[0](10,5) = (81*pow(b1_,2))/(160.*delta_) + (81*b1_*b2_)/(160.*delta_) + (81*b1_*b3_)/(160.*delta_) + (81*b2_*b3_)/(80.*delta_);
+            matrix_N_NxNx_[0](5,5) = (27*pow(b2_,2))/(32.*delta_) + (27*b2_*b3_)/(32.*delta_) + (27*pow(b3_,2))/(32.*delta_);
+            matrix_N_NxNx_[0](6,5) = (-27*pow(b2_,2))/(160.*delta_) + (27*b2_*b3_)/(80.*delta_) - (27*pow(b3_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](7,5) = (-27*b1_*b2_)/(160.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(320.*delta_) - (27*pow(b3_,2))/(320.*delta_);
+            matrix_N_NxNx_[0](8,5) = (-27*b1_*b2_)/(160.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(320.*delta_) - (27*pow(b3_,2))/(320.*delta_);
+            matrix_N_NxNx_[0](9,5) = (81*b1_*b2_)/(80.*delta_) + (81*b1_*b3_)/(160.*delta_) + (81*b2_*b3_)/(160.*delta_) + (81*pow(b3_,2))/(160.*delta_);
 
+            matrix_N_NxNx_[0](0,6) = matrix_N_NxNx_[0](6,0);
             matrix_N_NxNx_[0](1,6) = matrix_N_NxNx_[0](6,1);
             matrix_N_NxNx_[0](2,6) = matrix_N_NxNx_[0](6,2);
             matrix_N_NxNx_[0](3,6) = matrix_N_NxNx_[0](6,3);
             matrix_N_NxNx_[0](4,6) = matrix_N_NxNx_[0](6,4);
             matrix_N_NxNx_[0](5,6) = matrix_N_NxNx_[0](6,5);
             matrix_N_NxNx_[0](6,6) = (27*pow(b2_,2))/(32.*delta_) + (27*b2_*b3_)/(32.*delta_) + (27*pow(b3_,2))/(32.*delta_);
-            matrix_N_NxNx_[0](7,6) = (-27*pow(b2_,2))/(160.*delta_) + (27*b2_*b3_)/(80.*delta_) - (27*pow(b3_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](7,6) = (27*b1_*b2_)/(32.*delta_) + (27*b1_*b3_)/(64.*delta_) + (27*b2_*b3_)/(64.*delta_) + (27*pow(b3_,2))/(64.*delta_);
             matrix_N_NxNx_[0](8,6) = (-27*b1_*b2_)/(160.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(320.*delta_) - (27*pow(b3_,2))/(320.*delta_);
-            matrix_N_NxNx_[0](9,6) = (-27*b1_*b2_)/(160.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(320.*delta_) - (27*pow(b3_,2))/(320.*delta_);
-            matrix_N_NxNx_[0](10,6) = (81*b1_*b2_)/(80.*delta_) + (81*b1_*b3_)/(160.*delta_) + (81*b2_*b3_)/(160.*delta_) + (81*pow(b3_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](9,6) = (81*b1_*b2_)/(160.*delta_) + (81*pow(b2_,2))/(160.*delta_) + (81*b1_*b3_)/(80.*delta_) + (81*b2_*b3_)/(160.*delta_);
 
+            matrix_N_NxNx_[0](0,7) = matrix_N_NxNx_[0](7,0);
             matrix_N_NxNx_[0](1,7) = matrix_N_NxNx_[0](7,1);
             matrix_N_NxNx_[0](2,7) = matrix_N_NxNx_[0](7,2);
             matrix_N_NxNx_[0](3,7) = matrix_N_NxNx_[0](7,3);
             matrix_N_NxNx_[0](4,7) = matrix_N_NxNx_[0](7,4);
             matrix_N_NxNx_[0](5,7) = matrix_N_NxNx_[0](7,5);
             matrix_N_NxNx_[0](6,7) = matrix_N_NxNx_[0](7,6);
-            matrix_N_NxNx_[0](7,7) = (27*pow(b2_,2))/(32.*delta_) + (27*b2_*b3_)/(32.*delta_) + (27*pow(b3_,2))/(32.*delta_);
-            matrix_N_NxNx_[0](8,7) = (27*b1_*b2_)/(32.*delta_) + (27*b1_*b3_)/(64.*delta_) + (27*b2_*b3_)/(64.*delta_) + (27*pow(b3_,2))/(64.*delta_);
-            matrix_N_NxNx_[0](9,7) = (-27*b1_*b2_)/(160.*delta_) - (27*b1_*b3_)/(320.*delta_) - (27*b2_*b3_)/(320.*delta_) - (27*pow(b3_,2))/(320.*delta_);
-            matrix_N_NxNx_[0](10,7) = (81*b1_*b2_)/(160.*delta_) + (81*pow(b2_,2))/(160.*delta_) + (81*b1_*b3_)/(80.*delta_) + (81*b2_*b3_)/(160.*delta_);
+            matrix_N_NxNx_[0](7,7) = (27*pow(b1_,2))/(32.*delta_) + (27*b1_*b3_)/(32.*delta_) + (27*pow(b3_,2))/(32.*delta_);
+            matrix_N_NxNx_[0](8,7) = (-27*pow(b1_,2))/(160.*delta_) + (27*b1_*b3_)/(80.*delta_) - (27*pow(b3_,2))/(160.*delta_);
+            matrix_N_NxNx_[0](9,7) = (81*pow(b1_,2))/(160.*delta_) + (81*b1_*b2_)/(160.*delta_) + (81*b1_*b3_)/(160.*delta_) + (81*b2_*b3_)/(80.*delta_);
 
+            matrix_N_NxNx_[0](0,8) = matrix_N_NxNx_[0](8,0);
             matrix_N_NxNx_[0](1,8) = matrix_N_NxNx_[0](8,1);
             matrix_N_NxNx_[0](2,8) = matrix_N_NxNx_[0](8,2);
             matrix_N_NxNx_[0](3,8) = matrix_N_NxNx_[0](8,3);
@@ -532,9 +544,9 @@ void SolverTriangle::Compute_N_NxNx_matrix_analytically()
             matrix_N_NxNx_[0](6,8) = matrix_N_NxNx_[0](8,6);
             matrix_N_NxNx_[0](7,8) = matrix_N_NxNx_[0](8,7);
             matrix_N_NxNx_[0](8,8) = (27*pow(b1_,2))/(32.*delta_) + (27*b1_*b3_)/(32.*delta_) + (27*pow(b3_,2))/(32.*delta_);
-            matrix_N_NxNx_[0](9,8) = (-27*pow(b1_,2))/(160.*delta_) + (27*b1_*b3_)/(80.*delta_) - (27*pow(b3_,2))/(160.*delta_);
-            matrix_N_NxNx_[0](10,8) = (81*pow(b1_,2))/(160.*delta_) + (81*b1_*b2_)/(160.*delta_) + (81*b1_*b3_)/(160.*delta_) + (81*b2_*b3_)/(80.*delta_);
+            matrix_N_NxNx_[0](9,8) = (81*b1_*b2_)/(80.*delta_) + (81*b1_*b3_)/(160.*delta_) + (81*b2_*b3_)/(160.*delta_) + (81*pow(b3_,2))/(160.*delta_);
 
+            matrix_N_NxNx_[0](0,9) = matrix_N_NxNx_[0](9,0);
             matrix_N_NxNx_[0](1,9) = matrix_N_NxNx_[0](9,1);
             matrix_N_NxNx_[0](2,9) = matrix_N_NxNx_[0](9,2);
             matrix_N_NxNx_[0](3,9) = matrix_N_NxNx_[0](9,3);
@@ -543,19 +555,7 @@ void SolverTriangle::Compute_N_NxNx_matrix_analytically()
             matrix_N_NxNx_[0](6,9) = matrix_N_NxNx_[0](9,6);
             matrix_N_NxNx_[0](7,9) = matrix_N_NxNx_[0](9,7);
             matrix_N_NxNx_[0](8,9) = matrix_N_NxNx_[0](9,8);
-            matrix_N_NxNx_[0](9,9) = (27*pow(b1_,2))/(32.*delta_) + (27*b1_*b3_)/(32.*delta_) + (27*pow(b3_,2))/(32.*delta_);
-            matrix_N_NxNx_[0](10,9) = (81*b1_*b2_)/(80.*delta_) + (81*b1_*b3_)/(160.*delta_) + (81*b2_*b3_)/(160.*delta_) + (81*pow(b3_,2))/(160.*delta_);
-
-            matrix_N_NxNx_[0](1,10) = matrix_N_NxNx_[0](10,1);
-            matrix_N_NxNx_[0](2,10) = matrix_N_NxNx_[0](10,2);
-            matrix_N_NxNx_[0](3,10) = matrix_N_NxNx_[0](10,3);
-            matrix_N_NxNx_[0](4,10) = matrix_N_NxNx_[0](10,4);
-            matrix_N_NxNx_[0](5,10) = matrix_N_NxNx_[0](10,5);
-            matrix_N_NxNx_[0](6,10) = matrix_N_NxNx_[0](10,6);
-            matrix_N_NxNx_[0](7,10) = matrix_N_NxNx_[0](10,7);
-            matrix_N_NxNx_[0](8,10) = matrix_N_NxNx_[0](10,8);
-            matrix_N_NxNx_[0](9,10) = matrix_N_NxNx_[0](10,9);
-            matrix_N_NxNx_[0](10,10) = (81*pow(b1_,2))/(40.*delta_) + (81*b1_*b2_)/(40.*delta_) + (81*pow(b2_,2))/(40.*delta_) + (81*b1_*b3_)/(40.*delta_) + (81*b2_*b3_)/(40.*delta_) + (81*pow(b3_,2))/(40.*delta_);
+            matrix_N_NxNx_[0](9,9) = (81*pow(b1_,2))/(40.*delta_) + (81*b1_*b2_)/(40.*delta_) + (81*pow(b2_,2))/(40.*delta_) + (81*b1_*b3_)/(40.*delta_) + (81*b2_*b3_)/(40.*delta_) + (81*pow(b3_,2))/(40.*delta_);
         }
         else
             throw(Exception("FEATURE NOT INPLEMENTED","basis_function_order >= 4 not implemented"));
@@ -569,178 +569,178 @@ void SolverTriangle::Compute_N_NxNx_matrix_analytically()
         if (basis_function_order_ == 1)
         {
             // Fill first matrix column-wise (Matrix is simmetric):
-            matrix_N_NxNx_[0](1,1) = pow(b1_,2)/(12.0*delta_);
-            matrix_N_NxNx_[0](2,1) = (b1_*b2_)/(12.0*delta_);
-            matrix_N_NxNx_[0](3,1) = (b1_*b3_)/(12.0*delta_);
+            matrix_N_NxNx_[0](0,0) = pow(b1_,2)/(12.0*delta_);
+            matrix_N_NxNx_[0](1,0) = (b1_*b2_)/(12.0*delta_);
+            matrix_N_NxNx_[0](2,0) = (b1_*b3_)/(12.0*delta_);
 
+            matrix_N_NxNx_[0](0,1) = matrix_N_NxNx_[0](1,0);
+            matrix_N_NxNx_[0](1,1) = pow(b2_,2)/(12.0*delta_);
+            matrix_N_NxNx_[0](2,1) = (b2_*b3_)/(12.0*delta_);
+
+            matrix_N_NxNx_[0](0,2) = matrix_N_NxNx_[0](2,0);
             matrix_N_NxNx_[0](1,2) = matrix_N_NxNx_[0](2,1);
-            matrix_N_NxNx_[0](2,2) = pow(b2_,2)/(12.0*delta_);
-            matrix_N_NxNx_[0](3,2) = (b2_*b3_)/(12.0*delta_);
-
-            matrix_N_NxNx_[0](1,3) = matrix_N_NxNx_[0](3,1);
-            matrix_N_NxNx_[0](2,3) = matrix_N_NxNx_[0](3,2);
-            matrix_N_NxNx_[0](3,3) = pow(b3_,2)/(12.0*delta_);
+            matrix_N_NxNx_[0](2,2) = pow(b3_,2)/(12.0*delta_);
 
 
             // Fill second matrix column-wise (Matrix is simmetric):
-            matrix_N_NxNx_[1](1,1) = pow(b1_,2)/(12.0*delta_);
-            matrix_N_NxNx_[1](2,1) = (b1_*b2_)/(12.0*delta_);
-            matrix_N_NxNx_[1](3,1) = (b1_*b3_)/(12.0*delta_);
+            matrix_N_NxNx_[1](0,0) = pow(b1_,2)/(12.0*delta_);
+            matrix_N_NxNx_[1](1,0) = (b1_*b2_)/(12.0*delta_);
+            matrix_N_NxNx_[1](2,0) = (b1_*b3_)/(12.0*delta_);
 
+            matrix_N_NxNx_[1](0,1) = matrix_N_NxNx_[1](1,0);
+            matrix_N_NxNx_[1](1,1) = pow(b2_,2)/(12.0*delta_);
+            matrix_N_NxNx_[1](2,1) = (b2_*b3_)/(12.0*delta_);
+
+            matrix_N_NxNx_[1](0,2) = matrix_N_NxNx_[1](2,0);
             matrix_N_NxNx_[1](1,2) = matrix_N_NxNx_[1](2,1);
-            matrix_N_NxNx_[1](2,2) = pow(b2_,2)/(12.0*delta_);
-            matrix_N_NxNx_[1](3,2) = (b2_*b3_)/(12.0*delta_);
-
-            matrix_N_NxNx_[1](1,3) = matrix_N_NxNx_[1](3,1);
-            matrix_N_NxNx_[1](2,3) = matrix_N_NxNx_[1](3,2);
-            matrix_N_NxNx_[1](3,3) = pow(b3_,2)/(12.0*delta_);
+            matrix_N_NxNx_[1](2,2) = pow(b3_,2)/(12.0*delta_);
 
 
             // Fill third matrix column-wise (Matrix is simmetric):
-            matrix_N_NxNx_[2](1,1) = pow(b1_,2)/(12.0*delta_);
-            matrix_N_NxNx_[2](2,1) = (b1_*b2_)/(12.0*delta_);
-            matrix_N_NxNx_[2](3,1) = (b1_*b3_)/(12.0*delta_);
+            matrix_N_NxNx_[2](0,0) = pow(b1_,2)/(12.0*delta_);
+            matrix_N_NxNx_[2](1,0) = (b1_*b2_)/(12.0*delta_);
+            matrix_N_NxNx_[2](2,0) = (b1_*b3_)/(12.0*delta_);
 
+            matrix_N_NxNx_[2](0,1) = matrix_N_NxNx_[2](1,0);
+            matrix_N_NxNx_[2](1,1) = pow(b2_,2)/(12.0*delta_);
+            matrix_N_NxNx_[2](2,1) = (b2_*b3_)/(12.0*delta_);
+
+            matrix_N_NxNx_[2](0,2) = matrix_N_NxNx_[2](2,0);
             matrix_N_NxNx_[2](1,2) = matrix_N_NxNx_[2](2,1);
-            matrix_N_NxNx_[2](2,2) = pow(b2_,2)/(12.0*delta_);
-            matrix_N_NxNx_[2](3,2) = (b2_*b3_)/(12.0*delta_);
-
-            matrix_N_NxNx_[2](1,3) = matrix_N_NxNx_[2](3,1);
-            matrix_N_NxNx_[2](2,3) = matrix_N_NxNx_[2](3,2);
-            matrix_N_NxNx_[2](3,3) = pow(b3_,2)/(12.0*delta_);
+            matrix_N_NxNx_[2](2,2) = pow(b3_,2)/(12.0*delta_);
         }
         else if (basis_function_order_ == 2)
         {
             // Fill first matrix column-wise (Matrix is simmetric):
-            matrix_N_NxNx_[0](1,1) = (3.0*pow(b1_,2))/(20.0*delta_);
-            matrix_N_NxNx_[0](2,1) = -(b1_*b2_)/(30.0*delta_);
-            matrix_N_NxNx_[0](3,1) = -(b1_*b3_)/(30.0*delta_);
-            matrix_N_NxNx_[0](4,1) = (b1_*(3.0*b1_ + 14.0*b2_))/(60.0*delta_);
-            matrix_N_NxNx_[0](5,1) = (b1_*(b2_ + b3_))/(20.0*delta_);
-            matrix_N_NxNx_[0](6,1) = (b1_*(3.0*b1_ + 14.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[0](0,0) = (3.0*pow(b1_,2))/(20.0*delta_);
+            matrix_N_NxNx_[0](1,0) = -(b1_*b2_)/(30.0*delta_);
+            matrix_N_NxNx_[0](2,0) = -(b1_*b3_)/(30.0*delta_);
+            matrix_N_NxNx_[0](3,0) = (b1_*(3.0*b1_ + 14.0*b2_))/(60.0*delta_);
+            matrix_N_NxNx_[0](4,0) = (b1_*(b2_ + b3_))/(20.0*delta_);
+            matrix_N_NxNx_[0](5,0) = (b1_*(3.0*b1_ + 14.0*b3_))/(60.0*delta_);
 
+            matrix_N_NxNx_[0](0,1) = matrix_N_NxNx_[0](1,0);
+            matrix_N_NxNx_[0](1,1) = pow(b2_,2)/(20.0*delta_);
+            matrix_N_NxNx_[0](2,1) = -(b2_*b3_)/(60.0*delta_);
+            matrix_N_NxNx_[0](3,1) = ((3.0*b1_ - 2.0*b2_)*b2_)/(60.0*delta_);
+            matrix_N_NxNx_[0](4,1) = -(b2_*(b2_ - 3.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[0](5,1) = -(b2_*(b1_ + 2.0*b3_))/(60.0*delta_);
+
+            matrix_N_NxNx_[0](0,2) = matrix_N_NxNx_[0](2,0);
             matrix_N_NxNx_[0](1,2) = matrix_N_NxNx_[0](2,1);
-            matrix_N_NxNx_[0](2,2) = pow(b2_,2)/(20.0*delta_);
-            matrix_N_NxNx_[0](3,2) = -(b2_*b3_)/(60.0*delta_);
-            matrix_N_NxNx_[0](4,2) = ((3.0*b1_ - 2.0*b2_)*b2_)/(60.0*delta_);
-            matrix_N_NxNx_[0](5,2) = -(b2_*(b2_ - 3.0*b3_))/(60.0*delta_);
-            matrix_N_NxNx_[0](6,2) = -(b2_*(b1_ + 2.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[0](2,2) = pow(b3_,2)/(20.0*delta_);
+            matrix_N_NxNx_[0](3,2) = -((b1_ + 2.0*b2_)*b3_)/(60.0*delta_);
+            matrix_N_NxNx_[0](4,2) = ((3.0*b2_ - b3_)*b3_)/(60.0*delta_);
+            matrix_N_NxNx_[0](5,2) = ((3.0*b1_ - 2.0*b3_)*b3_)/(60.0*delta_);
 
+            matrix_N_NxNx_[0](0,3) = matrix_N_NxNx_[0](3,0);
             matrix_N_NxNx_[0](1,3) = matrix_N_NxNx_[0](3,1);
             matrix_N_NxNx_[0](2,3) = matrix_N_NxNx_[0](3,2);
-            matrix_N_NxNx_[0](3,3) = pow(b3_,2)/(20.0*delta_);
-            matrix_N_NxNx_[0](4,3) = -((b1_ + 2.0*b2_)*b3_)/(60.0*delta_);
-            matrix_N_NxNx_[0](5,3) = ((3.0*b2_ - b3_)*b3_)/(60.0*delta_);
-            matrix_N_NxNx_[0](6,3) = ((3.0*b1_ - 2.0*b3_)*b3_)/(60.0*delta_);
+            matrix_N_NxNx_[0](3,3) = (2.0*(pow(b1_,2) + 2.0*b1_*b2_ + 3.0*pow(b2_,2)))/(15.0*delta_);
+            matrix_N_NxNx_[0](4,3) = (2.0*b2_*(b2_ + b3_) + b1_*(b2_ + 2.0*b3_))/(15.0*delta_);
+            matrix_N_NxNx_[0](5,3) = (pow(b1_,2) + 6.0*b2_*b3_ + 2.0*b1_*(b2_ + b3_))/(15.0*delta_);
 
+            matrix_N_NxNx_[0](0,4) = matrix_N_NxNx_[0](4,0);
             matrix_N_NxNx_[0](1,4) = matrix_N_NxNx_[0](4,1);
             matrix_N_NxNx_[0](2,4) = matrix_N_NxNx_[0](4,2);
             matrix_N_NxNx_[0](3,4) = matrix_N_NxNx_[0](4,3);
-            matrix_N_NxNx_[0](4,4) = (2.0*(pow(b1_,2) + 2.0*b1_*b2_ + 3.0*pow(b2_,2)))/(15.0*delta_);
-            matrix_N_NxNx_[0](5,4) = (2.0*b2_*(b2_ + b3_) + b1_*(b2_ + 2.0*b3_))/(15.0*delta_);
-            matrix_N_NxNx_[0](6,4) = (pow(b1_,2) + 6.0*b2_*b3_ + 2.0*b1_*(b2_ + b3_))/(15.0*delta_);
+            matrix_N_NxNx_[0](4,4) = (2.0*(pow(b2_,2) + b2_*b3_ + pow(b3_,2)))/(15.0*delta_);
+            matrix_N_NxNx_[0](5,4) = (2.0*b3_*(b2_ + b3_) + b1_*(2.0*b2_ + b3_))/(15.0*delta_);
 
+            matrix_N_NxNx_[0](0,5) = matrix_N_NxNx_[0](5,0);
             matrix_N_NxNx_[0](1,5) = matrix_N_NxNx_[0](5,1);
             matrix_N_NxNx_[0](2,5) = matrix_N_NxNx_[0](5,2);
             matrix_N_NxNx_[0](3,5) = matrix_N_NxNx_[0](5,3);
             matrix_N_NxNx_[0](4,5) = matrix_N_NxNx_[0](5,4);
-            matrix_N_NxNx_[0](5,5) = (2.0*(pow(b2_,2) + b2_*b3_ + pow(b3_,2)))/(15.0*delta_);
-            matrix_N_NxNx_[0](6,5) = (2.0*b3_*(b2_ + b3_) + b1_*(2.0*b2_ + b3_))/(15.0*delta_);
-
-            matrix_N_NxNx_[0](1,6) = matrix_N_NxNx_[0](6,1);
-            matrix_N_NxNx_[0](2,6) = matrix_N_NxNx_[0](6,2);
-            matrix_N_NxNx_[0](3,6) = matrix_N_NxNx_[0](6,3);
-            matrix_N_NxNx_[0](4,6) = matrix_N_NxNx_[0](6,4);
-            matrix_N_NxNx_[0](5,6) = matrix_N_NxNx_[0](6,5);
-            matrix_N_NxNx_[0](6,6) = (2.0*(pow(b1_,2) + 2.0*b1_*b3_ + 3.0*pow(b3_,2)))/(15.0*delta_);
+            matrix_N_NxNx_[0](5,5) = (2.0*(pow(b1_,2) + 2.0*b1_*b3_ + 3.0*pow(b3_,2)))/(15.0*delta_);
 
 
             // Fill second matrix column-wise (Matrix is simmetric):
-            matrix_N_NxNx_[1](1,1) = pow(b1_,2)/(20.0*delta_);
-            matrix_N_NxNx_[1](2,1) = -(b1_*b2_)/(30.0*delta_);
-            matrix_N_NxNx_[1](3,1) = -(b1_*b3_)/(60.0*delta_);
-            matrix_N_NxNx_[1](4,1) = (b1_*(-2.0*b1_ + 3.0*b2_))/(60.0*delta_);
-            matrix_N_NxNx_[1](5,1) = -(b1_*(b2_ + 2.0*b3_))/(60.0*delta_);
-            matrix_N_NxNx_[1](6,1) = -(b1_*(b1_ - 3.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[1](0,0) = pow(b1_,2)/(20.0*delta_);
+            matrix_N_NxNx_[1](1,0) = -(b1_*b2_)/(30.0*delta_);
+            matrix_N_NxNx_[1](2,0) = -(b1_*b3_)/(60.0*delta_);
+            matrix_N_NxNx_[1](3,0) = (b1_*(-2.0*b1_ + 3.0*b2_))/(60.0*delta_);
+            matrix_N_NxNx_[1](4,0) = -(b1_*(b2_ + 2.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[1](5,0) = -(b1_*(b1_ - 3.0*b3_))/(60.0*delta_);
 
+            matrix_N_NxNx_[1](0,1) = matrix_N_NxNx_[1](1,0);
+            matrix_N_NxNx_[1](1,1) = (3.0*pow(b2_,2))/(20.0*delta_);
+            matrix_N_NxNx_[1](2,1) = -(b2_*b3_)/(30.0*delta_);
+            matrix_N_NxNx_[1](3,1) = (b2_*(14.0*b1_ + 3.0*b2_))/(60.0*delta_);
+            matrix_N_NxNx_[1](4,1) = (b2_*(3.0*b2_ + 14.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[1](5,1) = (b2_*(b1_ + b3_))/(20.0*delta_);
+
+            matrix_N_NxNx_[1](0,2) = matrix_N_NxNx_[1](2,0);
             matrix_N_NxNx_[1](1,2) = matrix_N_NxNx_[1](2,1);
-            matrix_N_NxNx_[1](2,2) = (3.0*pow(b2_,2))/(20.0*delta_);
-            matrix_N_NxNx_[1](3,2) = -(b2_*b3_)/(30.0*delta_);
-            matrix_N_NxNx_[1](4,2) = (b2_*(14.0*b1_ + 3.0*b2_))/(60.0*delta_);
-            matrix_N_NxNx_[1](5,2) = (b2_*(3.0*b2_ + 14.0*b3_))/(60.0*delta_);
-            matrix_N_NxNx_[1](6,2) = (b2_*(b1_ + b3_))/(20.0*delta_);
+            matrix_N_NxNx_[1](2,2) = pow(b3_,2)/(20.0*delta_);
+            matrix_N_NxNx_[1](3,2) = -((2.0*b1_ + b2_)*b3_)/(60.0*delta_);
+            matrix_N_NxNx_[1](4,2) = ((3.0*b2_ - 2.0*b3_)*b3_)/(60.0*delta_);
+            matrix_N_NxNx_[1](5,2) = ((3.0*b1_ - b3_)*b3_)/(60.0*delta_);
 
+            matrix_N_NxNx_[1](0,3) = matrix_N_NxNx_[1](3,0);
             matrix_N_NxNx_[1](1,3) = matrix_N_NxNx_[1](3,1);
             matrix_N_NxNx_[1](2,3) = matrix_N_NxNx_[1](3,2);
-            matrix_N_NxNx_[1](3,3) = pow(b3_,2)/(20.0*delta_);
-            matrix_N_NxNx_[1](4,3) = -((2.0*b1_ + b2_)*b3_)/(60.0*delta_);
-            matrix_N_NxNx_[1](5,3) = ((3.0*b2_ - 2.0*b3_)*b3_)/(60.0*delta_);
-            matrix_N_NxNx_[1](6,3) = ((3.0*b1_ - b3_)*b3_)/(60.0*delta_);
+            matrix_N_NxNx_[1](3,3) = (2.0*(3.0*pow(b1_,2) + 2.0*b1_*b2_ + pow(b2_,2)))/(15.0*delta_);
+            matrix_N_NxNx_[1](4,3) = (2.0*b1_*b2_ + pow(b2_,2) + 6.0*b1_*b3_ + 2.0*b2_*b3_)/(15.0*delta_);
+            matrix_N_NxNx_[1](5,3) = (2.0*pow(b1_,2) + b1_*b2_ + 2.0*b1_*b3_ + 2.0*b2_*b3_)/(15.0*delta_);
 
+            matrix_N_NxNx_[1](0,4) = matrix_N_NxNx_[1](4,0);
             matrix_N_NxNx_[1](1,4) = matrix_N_NxNx_[1](4,1);
             matrix_N_NxNx_[1](2,4) = matrix_N_NxNx_[1](4,2);
             matrix_N_NxNx_[1](3,4) = matrix_N_NxNx_[1](4,3);
-            matrix_N_NxNx_[1](4,4) = (2.0*(3.0*pow(b1_,2) + 2.0*b1_*b2_ + pow(b2_,2)))/(15.0*delta_);
-            matrix_N_NxNx_[1](5,4) = (2.0*b1_*b2_ + pow(b2_,2) + 6.0*b1_*b3_ + 2.0*b2_*b3_)/(15.0*delta_);
-            matrix_N_NxNx_[1](6,4) = (2.0*pow(b1_,2) + b1_*b2_ + 2.0*b1_*b3_ + 2.0*b2_*b3_)/(15.0*delta_);
+            matrix_N_NxNx_[1](4,4) = (2.0*(pow(b2_,2) + 2.0*b2_*b3_ + 3.0*pow(b3_,2)))/(15.0*delta_);
+            matrix_N_NxNx_[1](5,4) = (2.0*b1_*(b2_ + b3_) + b3_*(b2_ + 2.0*b3_))/(15.0*delta_);
 
+            matrix_N_NxNx_[1](0,5) = matrix_N_NxNx_[1](5,0);
             matrix_N_NxNx_[1](1,5) = matrix_N_NxNx_[1](5,1);
             matrix_N_NxNx_[1](2,5) = matrix_N_NxNx_[1](5,2);
             matrix_N_NxNx_[1](3,5) = matrix_N_NxNx_[1](5,3);
             matrix_N_NxNx_[1](4,5) = matrix_N_NxNx_[1](5,4);
-            matrix_N_NxNx_[1](5,5) = (2.0*(pow(b2_,2) + 2.0*b2_*b3_ + 3.0*pow(b3_,2)))/(15.0*delta_);
-            matrix_N_NxNx_[1](6,5) = (2.0*b1_*(b2_ + b3_) + b3_*(b2_ + 2.0*b3_))/(15.0*delta_);
-
-            matrix_N_NxNx_[1](1,6) = matrix_N_NxNx_[1](6,1);
-            matrix_N_NxNx_[1](2,6) = matrix_N_NxNx_[1](6,2);
-            matrix_N_NxNx_[1](3,6) = matrix_N_NxNx_[1](6,3);
-            matrix_N_NxNx_[1](4,6) = matrix_N_NxNx_[1](6,4);
-            matrix_N_NxNx_[1](5,6) = matrix_N_NxNx_[1](6,5);
-            matrix_N_NxNx_[1](6,6) = (2.0*(pow(b1_,2) + b1_*b3_ + pow(b3_,2)))/(15.0*delta_);
+            matrix_N_NxNx_[1](5,5) = (2.0*(pow(b1_,2) + b1_*b3_ + pow(b3_,2)))/(15.0*delta_);
 
 
             // Fill third matrix column-wise (Matrix is simmetric):
-            matrix_N_NxNx_[2](1,1) = pow(b1_,2)/(20.0*delta_);
-            matrix_N_NxNx_[2](2,1) = -(b1_*b2_)/(60.0*delta_);
-            matrix_N_NxNx_[2](3,1) = -(b1_*b3_)/(30.0*delta_);
-            matrix_N_NxNx_[2](4,1) = -(b1_*(b1_ - 3.0*b2_))/(60.0*delta_);
-            matrix_N_NxNx_[2](5,1) = -(b1_*(2.0*b2_ + b3_))/(60.0*delta_);
-            matrix_N_NxNx_[2](6,1) = (b1_*(-2.0*b1_ + 3.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[2](0,0) = pow(b1_,2)/(20.0*delta_);
+            matrix_N_NxNx_[2](1,0) = -(b1_*b2_)/(60.0*delta_);
+            matrix_N_NxNx_[2](2,0) = -(b1_*b3_)/(30.0*delta_);
+            matrix_N_NxNx_[2](3,0) = -(b1_*(b1_ - 3.0*b2_))/(60.0*delta_);
+            matrix_N_NxNx_[2](4,0) = -(b1_*(2.0*b2_ + b3_))/(60.0*delta_);
+            matrix_N_NxNx_[2](5,0) = (b1_*(-2.0*b1_ + 3.0*b3_))/(60.0*delta_);
 
+            matrix_N_NxNx_[2](0,1) = matrix_N_NxNx_[2](1,0);
+            matrix_N_NxNx_[2](1,1) = pow(b2_,2)/(20.0*delta_);
+            matrix_N_NxNx_[2](2,1) = -(b2_*b3_)/(30.0*delta_);
+            matrix_N_NxNx_[2](3,1) = ((3.0*b1_ - b2_)*b2_)/(60.0*delta_);
+            matrix_N_NxNx_[2](4,1) = (b2_*(-2.0*b2_ + 3.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[2](5,1) = -(b2_*(2.0*b1_ + b3_))/(60.0*delta_);
+
+            matrix_N_NxNx_[2](0,2) = matrix_N_NxNx_[2](2,0);
             matrix_N_NxNx_[2](1,2) = matrix_N_NxNx_[2](2,1);
-            matrix_N_NxNx_[2](2,2) = pow(b2_,2)/(20.0*delta_);
-            matrix_N_NxNx_[2](3,2) = -(b2_*b3_)/(30.0*delta_);
-            matrix_N_NxNx_[2](4,2) = ((3.0*b1_ - b2_)*b2_)/(60.0*delta_);
-            matrix_N_NxNx_[2](5,2) = (b2_*(-2.0*b2_ + 3.0*b3_))/(60.0*delta_);
-            matrix_N_NxNx_[2](6,2) = -(b2_*(2.0*b1_ + b3_))/(60.0*delta_);
+            matrix_N_NxNx_[2](2,2) = (3.0*pow(b3_,2))/(20.0*delta_);
+            matrix_N_NxNx_[2](3,2) = ((b1_ + b2_)*b3_)/(20.0*delta_);
+            matrix_N_NxNx_[2](4,2) = (b3_*(14.0*b2_ + 3.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[2](5,2) = (b3_*(14.0*b1_ + 3.0*b3_))/(60.0*delta_);
 
+            matrix_N_NxNx_[2](0,3) = matrix_N_NxNx_[2](3,0);
             matrix_N_NxNx_[2](1,3) = matrix_N_NxNx_[2](3,1);
             matrix_N_NxNx_[2](2,3) = matrix_N_NxNx_[2](3,2);
-            matrix_N_NxNx_[2](3,3) = (3.0*pow(b3_,2))/(20.0*delta_);
-            matrix_N_NxNx_[2](4,3) = ((b1_ + b2_)*b3_)/(20.0*delta_);
-            matrix_N_NxNx_[2](5,3) = (b3_*(14.0*b2_ + 3.0*b3_))/(60.0*delta_);
-            matrix_N_NxNx_[2](6,3) = (b3_*(14.0*b1_ + 3.0*b3_))/(60.0*delta_);
+            matrix_N_NxNx_[2](3,3) = (2.0*(pow(b1_,2) + b1_*b2_ + pow(b2_,2)))/(15.0*delta_);
+            matrix_N_NxNx_[2](4,3) = (2.0*b1_*(b2_ + b3_) + b2_*(2.0*b2_ + b3_))/(15.0*delta_);
+            matrix_N_NxNx_[2](5,3) = (2.0*pow(b1_,2) + 2.0*b1_*b2_ + b1_*b3_ + 2.0*b2_*b3_)/(15.0*delta_);
 
+            matrix_N_NxNx_[2](0,4) = matrix_N_NxNx_[2](4,0);
             matrix_N_NxNx_[2](1,4) = matrix_N_NxNx_[2](4,1);
             matrix_N_NxNx_[2](2,4) = matrix_N_NxNx_[2](4,2);
             matrix_N_NxNx_[2](3,4) = matrix_N_NxNx_[2](4,3);
-            matrix_N_NxNx_[2](4,4) = (2.0*(pow(b1_,2) + b1_*b2_ + pow(b2_,2)))/(15.0*delta_);
-            matrix_N_NxNx_[2](5,4) = (2.0*b1_*(b2_ + b3_) + b2_*(2.0*b2_ + b3_))/(15.0*delta_);
-            matrix_N_NxNx_[2](6,4) = (2.0*pow(b1_,2) + 2.0*b1_*b2_ + b1_*b3_ + 2.0*b2_*b3_)/(15.0*delta_);
+            matrix_N_NxNx_[2](4,4) = (2.0*(3.0*pow(b2_,2) + 2.0*b2_*b3_ + pow(b3_,2)))/(15.0*delta_);
+            matrix_N_NxNx_[2](5,4) = (6.0*b1_*b2_ + 2.0*b1_*b3_ + 2.0*b2_*b3_ + pow(b3_,2))/(15.0*delta_);
 
+            matrix_N_NxNx_[2](0,5) = matrix_N_NxNx_[2](5,0);
             matrix_N_NxNx_[2](1,5) = matrix_N_NxNx_[2](5,1);
             matrix_N_NxNx_[2](2,5) = matrix_N_NxNx_[2](5,2);
             matrix_N_NxNx_[2](3,5) = matrix_N_NxNx_[2](5,3);
             matrix_N_NxNx_[2](4,5) = matrix_N_NxNx_[2](5,4);
-            matrix_N_NxNx_[2](5,5) = (2.0*(3.0*pow(b2_,2) + 2.0*b2_*b3_ + pow(b3_,2)))/(15.0*delta_);
-            matrix_N_NxNx_[2](6,5) = (6.0*b1_*b2_ + 2.0*b1_*b3_ + 2.0*b2_*b3_ + pow(b3_,2))/(15.0*delta_);
-
-            matrix_N_NxNx_[2](1,6) = matrix_N_NxNx_[2](6,1);
-            matrix_N_NxNx_[2](2,6) = matrix_N_NxNx_[2](6,2);
-            matrix_N_NxNx_[2](3,6) = matrix_N_NxNx_[2](6,3);
-            matrix_N_NxNx_[2](4,6) = matrix_N_NxNx_[2](6,4);
-            matrix_N_NxNx_[2](5,6) = matrix_N_NxNx_[2](6,5);
-            matrix_N_NxNx_[2](6,6) = (2.0*(3.0*pow(b1_,2) + 2.0*b1_*b3_ + pow(b3_,2)))/(15.0*delta_);
+            matrix_N_NxNx_[2](5,5) = (2.0*(3.0*pow(b1_,2) + 2.0*b1_*b3_ + pow(b3_,2)))/(15.0*delta_);
         }
         else if (basis_function_order_ == 3)
         {
@@ -776,143 +776,155 @@ void SolverTriangle::Compute_N_NyNy_matrix_analytically()
         if (basis_function_order_ == 1)
         {
             // Fill matrix column-wise (Matrix is simmetric):
-            matrix_N_NyNy_[0](1,1) = pow(c1_,2)/(4.0*delta_);
-            matrix_N_NyNy_[0](2,1) = (c1_*c2_)/(4.0*delta_);
-            matrix_N_NyNy_[0](3,1) = (c1_*c3_)/(4.0*delta_);
+            matrix_N_NyNy_[0](0,0) = pow(c1_,2)/(4.0*delta_);
+            matrix_N_NyNy_[0](1,0) = (c1_*c2_)/(4.0*delta_);
+            matrix_N_NyNy_[0](2,0) = (c1_*c3_)/(4.0*delta_);
 
+            matrix_N_NyNy_[0](0,1) = matrix_N_NyNy_[0](1,0);
+            matrix_N_NyNy_[0](1,1) = pow(c2_,2)/(4.0*delta_);
+            matrix_N_NyNy_[0](2,1) = (c2_*c3_)/(4.0*delta_);
+
+            matrix_N_NyNy_[0](0,2) = matrix_N_NyNy_[0](2,0);
             matrix_N_NyNy_[0](1,2) = matrix_N_NyNy_[0](2,1);
-            matrix_N_NyNy_[0](2,2) = pow(c2_,2)/(4.0*delta_);
-            matrix_N_NyNy_[0](3,2) = (c2_*c3_)/(4.0*delta_);
-
-            matrix_N_NyNy_[0](1,3) = matrix_N_NyNy_[0](3,1);
-            matrix_N_NyNy_[0](2,3) = matrix_N_NyNy_[0](3,2);
-            matrix_N_NyNy_[0](3,3) = pow(c3_,2)/(4.0*delta_);
+            matrix_N_NyNy_[0](2,2) = pow(c3_,2)/(4.0*delta_);
         }
         else if (basis_function_order_ == 2)
         {
             // Fill matrix column-wise (Matrix is simmetric):
-            matrix_N_NyNy_[0](1,1) = pow(c1_,2)/(4.0*delta_);
-            matrix_N_NyNy_[0](2,1) = -(c1_*c2_)/(12.0*delta_);
-            matrix_N_NyNy_[0](3,1) = -(c1_*c3_)/(12.0*delta_);
-            matrix_N_NyNy_[0](4,1) = (c1_*c2_)/(3.0*delta_);
+            matrix_N_NyNy_[0](0,0) = pow(c1_,2)/(4.0*delta_);
+            matrix_N_NyNy_[0](1,0) = -(c1_*c2_)/(12.0*delta_);
+            matrix_N_NyNy_[0](2,0) = -(c1_*c3_)/(12.0*delta_);
+            matrix_N_NyNy_[0](3,0) = (c1_*c2_)/(3.0*delta_);
+            matrix_N_NyNy_[0](4,0) = 0.0;
+            matrix_N_NyNy_[0](5,0) = (c1_*c3_)/(3.0*delta_);
+
+            matrix_N_NyNy_[0](0,1) = matrix_N_NyNy_[0](1,0);
+            matrix_N_NyNy_[0](1,1) = pow(c2_,2)/(4.0*delta_);
+            matrix_N_NyNy_[0](2,1) = -(c2_*c3_)/(12.0*delta_);
+            matrix_N_NyNy_[0](3,1) = (c1_*c2_)/(3.0*delta_);
+            matrix_N_NyNy_[0](4,1) = (c2_*c3_)/(3.0*delta_);
             matrix_N_NyNy_[0](5,1) = 0.0;
-            matrix_N_NyNy_[0](6,1) = (c1_*c3_)/(3.0*delta_);
 
+            matrix_N_NyNy_[0](0,2) = matrix_N_NyNy_[0](2,0);
             matrix_N_NyNy_[0](1,2) = matrix_N_NyNy_[0](2,1);
-            matrix_N_NyNy_[0](2,2) = pow(c2_,2)/(4.0*delta_);
-            matrix_N_NyNy_[0](3,2) = -(c2_*c3_)/(12.0*delta_);
-            matrix_N_NyNy_[0](4,2) = (c1_*c2_)/(3.0*delta_);
-            matrix_N_NyNy_[0](5,2) = (c2_*c3_)/(3.0*delta_);
-            matrix_N_NyNy_[0](6,2) = 0.0;
+            matrix_N_NyNy_[0](2,2) = pow(c3_,2)/(4.0*delta_);
+            matrix_N_NyNy_[0](3,2) = 0.0;
+            matrix_N_NyNy_[0](4,2) = (c2_*c3_)/(3.0*delta_);
+            matrix_N_NyNy_[0](5,2) = (c1_*c3_)/(3.0*delta_);
 
+            matrix_N_NyNy_[0](0,3) = matrix_N_NyNy_[0](3,0);
             matrix_N_NyNy_[0](1,3) = matrix_N_NyNy_[0](3,1);
             matrix_N_NyNy_[0](2,3) = matrix_N_NyNy_[0](3,2);
-            matrix_N_NyNy_[0](3,3) = pow(c3_,2)/(4.0*delta_);
-            matrix_N_NyNy_[0](4,3) = 0.0;
-            matrix_N_NyNy_[0](5,3) = (c2_*c3_)/(3.0*delta_);
-            matrix_N_NyNy_[0](6,3) = (c1_*c3_)/(3.0*delta_);
+            matrix_N_NyNy_[0](3,3) = (2.0*pow(c1_,2))/(3.0*delta_) + (2.0*c1_*c2_)/(3.0*delta_) + (2.0*pow(c2_,2))/(3.0*delta_);
+            matrix_N_NyNy_[0](4,3) = (c1_*c2_)/(3.0*delta_) + pow(c2_,2)/(3.0*delta_) + (2.0*c1_*c3_)/(3.0*delta_) + (c2_*c3_)/(3.0*delta_);
+            matrix_N_NyNy_[0](5,3) = pow(c1_,2)/(3.0*delta_) + (c1_*c2_)/(3.0*delta_) + (c1_*c3_)/(3.0*delta_) + (2.0*c2_*c3_)/(3.0*delta_);
 
+            matrix_N_NyNy_[0](0,4) = matrix_N_NyNy_[0](4,0);
             matrix_N_NyNy_[0](1,4) = matrix_N_NyNy_[0](4,1);
             matrix_N_NyNy_[0](2,4) = matrix_N_NyNy_[0](4,2);
             matrix_N_NyNy_[0](3,4) = matrix_N_NyNy_[0](4,3);
-            matrix_N_NyNy_[0](4,4) = (2.0*pow(c1_,2))/(3.0*delta_) + (2.0*c1_*c2_)/(3.0*delta_) + (2.0*pow(c2_,2))/(3.0*delta_);
-            matrix_N_NyNy_[0](5,4) = (c1_*c2_)/(3.0*delta_) + pow(c2_,2)/(3.0*delta_) + (2.0*c1_*c3_)/(3.0*delta_) + (c2_*c3_)/(3.0*delta_);
-            matrix_N_NyNy_[0](6,4) = pow(c1_,2)/(3.0*delta_) + (c1_*c2_)/(3.0*delta_) + (c1_*c3_)/(3.0*delta_) + (2.0*c2_*c3_)/(3.0*delta_);
+            matrix_N_NyNy_[0](4,4) = (2.0*pow(c2_,2))/(3.0*delta_) + (2.0*c2_*c3_)/(3.0*delta_) + (2.0*pow(c3_,2))/(3.0*delta_);
+            matrix_N_NyNy_[0](5,4) = (2.0*c1_*c2_)/(3.0*delta_) + (c1_*c3_)/(3.0*delta_) + (c2_*c3_)/(3.0*delta_) + pow(c3_,2)/(3.0*delta_);
 
+            matrix_N_NyNy_[0](0,5) = matrix_N_NyNy_[0](5,0);
             matrix_N_NyNy_[0](1,5) = matrix_N_NyNy_[0](5,1);
             matrix_N_NyNy_[0](2,5) = matrix_N_NyNy_[0](5,2);
             matrix_N_NyNy_[0](3,5) = matrix_N_NyNy_[0](5,3);
             matrix_N_NyNy_[0](4,5) = matrix_N_NyNy_[0](5,4);
-            matrix_N_NyNy_[0](5,5) = (2.0*pow(c2_,2))/(3.0*delta_) + (2.0*c2_*c3_)/(3.0*delta_) + (2.0*pow(c3_,2))/(3.0*delta_);
-            matrix_N_NyNy_[0](6,5) = (2.0*c1_*c2_)/(3.0*delta_) + (c1_*c3_)/(3.0*delta_) + (c2_*c3_)/(3.0*delta_) + pow(c3_,2)/(3.0*delta_);
-
-            matrix_N_NyNy_[0](1,6) = matrix_N_NyNy_[0](6,1);
-            matrix_N_NyNy_[0](2,6) = matrix_N_NyNy_[0](6,2);
-            matrix_N_NyNy_[0](3,6) = matrix_N_NyNy_[0](6,3);
-            matrix_N_NyNy_[0](4,6) = matrix_N_NyNy_[0](6,4);
-            matrix_N_NyNy_[0](5,6) = matrix_N_NyNy_[0](6,5);
-            matrix_N_NyNy_[0](6,6) = (2.0*pow(c1_,2))/(3.0*delta_) + (2.0*c1_*c3_)/(3.0*delta_) + (2.0*pow(c3_,2))/(3.0*delta_);
+            matrix_N_NyNy_[0](5,5) = (2.0*pow(c1_,2))/(3.0*delta_) + (2.0*c1_*c3_)/(3.0*delta_) + (2.0*pow(c3_,2))/(3.0*delta_);
         }
         else if (basis_function_order_ == 3)
         {
             // Fill matrix column-wise (Matrix is simmetric):
-            matrix_N_NyNy_[0](1,1) = (17*pow(c1_,2))/(80.*delta_);
-            matrix_N_NyNy_[0](2,1) = (7*c1_*c2_)/(160.*delta_);
-            matrix_N_NyNy_[0](3,1) = (7*c1_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](4,1) = (3*pow(c1_,2))/(160.*delta_) + (57*c1_*c2_)/(160.*delta_);
-            matrix_N_NyNy_[0](5,1) = (3*pow(c1_,2))/(160.*delta_) - (3*c1_*c2_)/(20.*delta_);
-            matrix_N_NyNy_[0](6,1) = (3*c1_*c2_)/(160.*delta_) + (3*c1_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](7,1) = (3*c1_*c2_)/(160.*delta_) + (3*c1_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](8,1) = (3*pow(c1_,2))/(160.*delta_) - (3*c1_*c3_)/(20.*delta_);
-            matrix_N_NyNy_[0](9,1) = (3*pow(c1_,2))/(160.*delta_) + (57*c1_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](10,1) = (9*pow(c1_,2))/(160.*delta_) + (9*c1_*c2_)/(160.*delta_) + (9*c1_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](0,0) = (17*pow(c1_,2))/(80.*delta_);
+            matrix_N_NyNy_[0](1,0) = (7*c1_*c2_)/(160.*delta_);
+            matrix_N_NyNy_[0](2,0) = (7*c1_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](3,0) = (3*pow(c1_,2))/(160.*delta_) + (57*c1_*c2_)/(160.*delta_);
+            matrix_N_NyNy_[0](4,0) = (3*pow(c1_,2))/(160.*delta_) - (3*c1_*c2_)/(20.*delta_);
+            matrix_N_NyNy_[0](5,0) = (3*c1_*c2_)/(160.*delta_) + (3*c1_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](6,0) = (3*c1_*c2_)/(160.*delta_) + (3*c1_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](7,0) = (3*pow(c1_,2))/(160.*delta_) - (3*c1_*c3_)/(20.*delta_);
+            matrix_N_NyNy_[0](8,0) = (3*pow(c1_,2))/(160.*delta_) + (57*c1_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](9,0) = (9*pow(c1_,2))/(160.*delta_) + (9*c1_*c2_)/(160.*delta_) + (9*c1_*c3_)/(160.*delta_);
 
+            matrix_N_NyNy_[0](0,1) = matrix_N_NyNy_[0](1,0);
+            matrix_N_NyNy_[0](1,1) = (17*pow(c2_,2))/(80.*delta_);
+            matrix_N_NyNy_[0](2,1) = (7*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](3,1) = (-3*c1_*c2_)/(20.*delta_) + (3*pow(c2_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](4,1) = (57*c1_*c2_)/(160.*delta_) + (3*pow(c2_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](5,1) = (3*pow(c2_,2))/(160.*delta_) + (57*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](6,1) = (3*pow(c2_,2))/(160.*delta_) - (3*c2_*c3_)/(20.*delta_);
+            matrix_N_NyNy_[0](7,1) = (3*c1_*c2_)/(160.*delta_) + (3*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](8,1) = (3*c1_*c2_)/(160.*delta_) + (3*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](9,1) = (9*c1_*c2_)/(160.*delta_) + (9*pow(c2_,2))/(160.*delta_) + (9*c2_*c3_)/(160.*delta_);
+
+            matrix_N_NyNy_[0](0,2) = matrix_N_NyNy_[0](2,0);
             matrix_N_NyNy_[0](1,2) = matrix_N_NyNy_[0](2,1);
-            matrix_N_NyNy_[0](2,2) = (17*pow(c2_,2))/(80.*delta_);
-            matrix_N_NyNy_[0](3,2) = (7*c2_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](4,2) = (-3*c1_*c2_)/(20.*delta_) + (3*pow(c2_,2))/(160.*delta_);
-            matrix_N_NyNy_[0](5,2) = (57*c1_*c2_)/(160.*delta_) + (3*pow(c2_,2))/(160.*delta_);
-            matrix_N_NyNy_[0](6,2) = (3*pow(c2_,2))/(160.*delta_) + (57*c2_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](7,2) = (3*pow(c2_,2))/(160.*delta_) - (3*c2_*c3_)/(20.*delta_);
-            matrix_N_NyNy_[0](8,2) = (3*c1_*c2_)/(160.*delta_) + (3*c2_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](9,2) = (3*c1_*c2_)/(160.*delta_) + (3*c2_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](10,2) = (9*c1_*c2_)/(160.*delta_) + (9*pow(c2_,2))/(160.*delta_) + (9*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](2,2) = (17*pow(c3_,2))/(80.*delta_);
+            matrix_N_NyNy_[0](3,2) = (3*c1_*c3_)/(160.*delta_) + (3*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](4,2) = (3*c1_*c3_)/(160.*delta_) + (3*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](5,2) = (-3*c2_*c3_)/(20.*delta_) + (3*pow(c3_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](6,2) = (57*c2_*c3_)/(160.*delta_) + (3*pow(c3_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](7,2) = (57*c1_*c3_)/(160.*delta_) + (3*pow(c3_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](8,2) = (-3*c1_*c3_)/(20.*delta_) + (3*pow(c3_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](9,2) = (9*c1_*c3_)/(160.*delta_) + (9*c2_*c3_)/(160.*delta_) + (9*pow(c3_,2))/(160.*delta_);
 
+            matrix_N_NyNy_[0](0,3) = matrix_N_NyNy_[0](3,0);
             matrix_N_NyNy_[0](1,3) = matrix_N_NyNy_[0](3,1);
             matrix_N_NyNy_[0](2,3) = matrix_N_NyNy_[0](3,2);
-            matrix_N_NyNy_[0](3,3) = (17*pow(c3_,2))/(80.*delta_);
-            matrix_N_NyNy_[0](4,3) = (3*c1_*c3_)/(160.*delta_) + (3*c2_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](5,3) = (3*c1_*c3_)/(160.*delta_) + (3*c2_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](6,3) = (-3*c2_*c3_)/(20.*delta_) + (3*pow(c3_,2))/(160.*delta_);
-            matrix_N_NyNy_[0](7,3) = (57*c2_*c3_)/(160.*delta_) + (3*pow(c3_,2))/(160.*delta_);
-            matrix_N_NyNy_[0](8,3) = (57*c1_*c3_)/(160.*delta_) + (3*pow(c3_,2))/(160.*delta_);
-            matrix_N_NyNy_[0](9,3) = (-3*c1_*c3_)/(20.*delta_) + (3*pow(c3_,2))/(160.*delta_);
-            matrix_N_NyNy_[0](10,3) = (9*c1_*c3_)/(160.*delta_) + (9*c2_*c3_)/(160.*delta_) + (9*pow(c3_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](3,3) = (27*pow(c1_,2))/(32.*delta_) + (27*c1_*c2_)/(32.*delta_) + (27*pow(c2_,2))/(32.*delta_);
+            matrix_N_NyNy_[0](4,3) = (-27*pow(c1_,2))/(160.*delta_) + (27*c1_*c2_)/(80.*delta_) - (27*pow(c2_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](5,3) = (-27*c1_*c2_)/(320.*delta_) - (27*pow(c2_,2))/(320.*delta_) - (27*c1_*c3_)/(160.*delta_) - (27*c2_*c3_)/(320.*delta_);
+            matrix_N_NyNy_[0](6,3) = (-27*c1_*c2_)/(320.*delta_) - (27*pow(c2_,2))/(320.*delta_) - (27*c1_*c3_)/(160.*delta_) - (27*c2_*c3_)/(320.*delta_);
+            matrix_N_NyNy_[0](7,3) = (-27*pow(c1_,2))/(320.*delta_) - (27*c1_*c2_)/(320.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](8,3) = (27*pow(c1_,2))/(64.*delta_) + (27*c1_*c2_)/(64.*delta_) + (27*c1_*c3_)/(64.*delta_) + (27*c2_*c3_)/(32.*delta_);
+            matrix_N_NyNy_[0](9,3) = (81*c1_*c2_)/(160.*delta_) + (81*pow(c2_,2))/(160.*delta_) + (81*c1_*c3_)/(80.*delta_) + (81*c2_*c3_)/(160.*delta_);
 
+            matrix_N_NyNy_[0](0,4) = matrix_N_NyNy_[0](4,0);
             matrix_N_NyNy_[0](1,4) = matrix_N_NyNy_[0](4,1);
             matrix_N_NyNy_[0](2,4) = matrix_N_NyNy_[0](4,2);
             matrix_N_NyNy_[0](3,4) = matrix_N_NyNy_[0](4,3);
             matrix_N_NyNy_[0](4,4) = (27*pow(c1_,2))/(32.*delta_) + (27*c1_*c2_)/(32.*delta_) + (27*pow(c2_,2))/(32.*delta_);
-            matrix_N_NyNy_[0](5,4) = (-27*pow(c1_,2))/(160.*delta_) + (27*c1_*c2_)/(80.*delta_) - (27*pow(c2_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](5,4) = (27*c1_*c2_)/(64.*delta_) + (27*pow(c2_,2))/(64.*delta_) + (27*c1_*c3_)/(32.*delta_) + (27*c2_*c3_)/(64.*delta_);
             matrix_N_NyNy_[0](6,4) = (-27*c1_*c2_)/(320.*delta_) - (27*pow(c2_,2))/(320.*delta_) - (27*c1_*c3_)/(160.*delta_) - (27*c2_*c3_)/(320.*delta_);
-            matrix_N_NyNy_[0](7,4) = (-27*c1_*c2_)/(320.*delta_) - (27*pow(c2_,2))/(320.*delta_) - (27*c1_*c3_)/(160.*delta_) - (27*c2_*c3_)/(320.*delta_);
+            matrix_N_NyNy_[0](7,4) = (-27*pow(c1_,2))/(320.*delta_) - (27*c1_*c2_)/(320.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(160.*delta_);
             matrix_N_NyNy_[0](8,4) = (-27*pow(c1_,2))/(320.*delta_) - (27*c1_*c2_)/(320.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](9,4) = (27*pow(c1_,2))/(64.*delta_) + (27*c1_*c2_)/(64.*delta_) + (27*c1_*c3_)/(64.*delta_) + (27*c2_*c3_)/(32.*delta_);
-            matrix_N_NyNy_[0](10,4) = (81*c1_*c2_)/(160.*delta_) + (81*pow(c2_,2))/(160.*delta_) + (81*c1_*c3_)/(80.*delta_) + (81*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](9,4) = (81*pow(c1_,2))/(160.*delta_) + (81*c1_*c2_)/(160.*delta_) + (81*c1_*c3_)/(160.*delta_) + (81*c2_*c3_)/(80.*delta_);
 
+            matrix_N_NyNy_[0](0,5) = matrix_N_NyNy_[0](5,0);
             matrix_N_NyNy_[0](1,5) = matrix_N_NyNy_[0](5,1);
             matrix_N_NyNy_[0](2,5) = matrix_N_NyNy_[0](5,2);
             matrix_N_NyNy_[0](3,5) = matrix_N_NyNy_[0](5,3);
             matrix_N_NyNy_[0](4,5) = matrix_N_NyNy_[0](5,4);
-            matrix_N_NyNy_[0](5,5) = (27*pow(c1_,2))/(32.*delta_) + (27*c1_*c2_)/(32.*delta_) + (27*pow(c2_,2))/(32.*delta_);
-            matrix_N_NyNy_[0](6,5) = (27*c1_*c2_)/(64.*delta_) + (27*pow(c2_,2))/(64.*delta_) + (27*c1_*c3_)/(32.*delta_) + (27*c2_*c3_)/(64.*delta_);
-            matrix_N_NyNy_[0](7,5) = (-27*c1_*c2_)/(320.*delta_) - (27*pow(c2_,2))/(320.*delta_) - (27*c1_*c3_)/(160.*delta_) - (27*c2_*c3_)/(320.*delta_);
-            matrix_N_NyNy_[0](8,5) = (-27*pow(c1_,2))/(320.*delta_) - (27*c1_*c2_)/(320.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](9,5) = (-27*pow(c1_,2))/(320.*delta_) - (27*c1_*c2_)/(320.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(160.*delta_);
-            matrix_N_NyNy_[0](10,5) = (81*pow(c1_,2))/(160.*delta_) + (81*c1_*c2_)/(160.*delta_) + (81*c1_*c3_)/(160.*delta_) + (81*c2_*c3_)/(80.*delta_);
+            matrix_N_NyNy_[0](5,5) = (27*pow(c2_,2))/(32.*delta_) + (27*c2_*c3_)/(32.*delta_) + (27*pow(c3_,2))/(32.*delta_);
+            matrix_N_NyNy_[0](6,5) = (-27*pow(c2_,2))/(160.*delta_) + (27*c2_*c3_)/(80.*delta_) - (27*pow(c3_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](7,5) = (-27*c1_*c2_)/(160.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(320.*delta_) - (27*pow(c3_,2))/(320.*delta_);
+            matrix_N_NyNy_[0](8,5) = (-27*c1_*c2_)/(160.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(320.*delta_) - (27*pow(c3_,2))/(320.*delta_);
+            matrix_N_NyNy_[0](9,5) = (81*c1_*c2_)/(80.*delta_) + (81*c1_*c3_)/(160.*delta_) + (81*c2_*c3_)/(160.*delta_) + (81*pow(c3_,2))/(160.*delta_);
 
+            matrix_N_NyNy_[0](0,6) = matrix_N_NyNy_[0](6,0);
             matrix_N_NyNy_[0](1,6) = matrix_N_NyNy_[0](6,1);
             matrix_N_NyNy_[0](2,6) = matrix_N_NyNy_[0](6,2);
             matrix_N_NyNy_[0](3,6) = matrix_N_NyNy_[0](6,3);
             matrix_N_NyNy_[0](4,6) = matrix_N_NyNy_[0](6,4);
             matrix_N_NyNy_[0](5,6) = matrix_N_NyNy_[0](6,5);
             matrix_N_NyNy_[0](6,6) = (27*pow(c2_,2))/(32.*delta_) + (27*c2_*c3_)/(32.*delta_) + (27*pow(c3_,2))/(32.*delta_);
-            matrix_N_NyNy_[0](7,6) = (-27*pow(c2_,2))/(160.*delta_) + (27*c2_*c3_)/(80.*delta_) - (27*pow(c3_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](7,6) = (27*c1_*c2_)/(32.*delta_) + (27*c1_*c3_)/(64.*delta_) + (27*c2_*c3_)/(64.*delta_) + (27*pow(c3_,2))/(64.*delta_);
             matrix_N_NyNy_[0](8,6) = (-27*c1_*c2_)/(160.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(320.*delta_) - (27*pow(c3_,2))/(320.*delta_);
-            matrix_N_NyNy_[0](9,6) = (-27*c1_*c2_)/(160.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(320.*delta_) - (27*pow(c3_,2))/(320.*delta_);
-            matrix_N_NyNy_[0](10,6) = (81*c1_*c2_)/(80.*delta_) + (81*c1_*c3_)/(160.*delta_) + (81*c2_*c3_)/(160.*delta_) + (81*pow(c3_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](9,6) = (81*c1_*c2_)/(160.*delta_) + (81*pow(c2_,2))/(160.*delta_) + (81*c1_*c3_)/(80.*delta_) + (81*c2_*c3_)/(160.*delta_);
 
+            matrix_N_NyNy_[0](0,7) = matrix_N_NyNy_[0](7,0);
             matrix_N_NyNy_[0](1,7) = matrix_N_NyNy_[0](7,1);
             matrix_N_NyNy_[0](2,7) = matrix_N_NyNy_[0](7,2);
             matrix_N_NyNy_[0](3,7) = matrix_N_NyNy_[0](7,3);
             matrix_N_NyNy_[0](4,7) = matrix_N_NyNy_[0](7,4);
             matrix_N_NyNy_[0](5,7) = matrix_N_NyNy_[0](7,5);
             matrix_N_NyNy_[0](6,7) = matrix_N_NyNy_[0](7,6);
-            matrix_N_NyNy_[0](7,7) = (27*pow(c2_,2))/(32.*delta_) + (27*c2_*c3_)/(32.*delta_) + (27*pow(c3_,2))/(32.*delta_);
-            matrix_N_NyNy_[0](8,7) = (27*c1_*c2_)/(32.*delta_) + (27*c1_*c3_)/(64.*delta_) + (27*c2_*c3_)/(64.*delta_) + (27*pow(c3_,2))/(64.*delta_);
-            matrix_N_NyNy_[0](9,7) = (-27*c1_*c2_)/(160.*delta_) - (27*c1_*c3_)/(320.*delta_) - (27*c2_*c3_)/(320.*delta_) - (27*pow(c3_,2))/(320.*delta_);
-            matrix_N_NyNy_[0](10,7) = (81*c1_*c2_)/(160.*delta_) + (81*pow(c2_,2))/(160.*delta_) + (81*c1_*c3_)/(80.*delta_) + (81*c2_*c3_)/(160.*delta_);
+            matrix_N_NyNy_[0](7,7) = (27*pow(c1_,2))/(32.*delta_) + (27*c1_*c3_)/(32.*delta_) + (27*pow(c3_,2))/(32.*delta_);
+            matrix_N_NyNy_[0](8,7) = (-27*pow(c1_,2))/(160.*delta_) + (27*c1_*c3_)/(80.*delta_) - (27*pow(c3_,2))/(160.*delta_);
+            matrix_N_NyNy_[0](9,7) = (81*pow(c1_,2))/(160.*delta_) + (81*c1_*c2_)/(160.*delta_) + (81*c1_*c3_)/(160.*delta_) + (81*c2_*c3_)/(80.*delta_);
 
+            matrix_N_NyNy_[0](0,8) = matrix_N_NyNy_[0](8,0);
             matrix_N_NyNy_[0](1,8) = matrix_N_NyNy_[0](8,1);
             matrix_N_NyNy_[0](2,8) = matrix_N_NyNy_[0](8,2);
             matrix_N_NyNy_[0](3,8) = matrix_N_NyNy_[0](8,3);
@@ -921,9 +933,9 @@ void SolverTriangle::Compute_N_NyNy_matrix_analytically()
             matrix_N_NyNy_[0](6,8) = matrix_N_NyNy_[0](8,6);
             matrix_N_NyNy_[0](7,8) = matrix_N_NyNy_[0](8,7);
             matrix_N_NyNy_[0](8,8) = (27*pow(c1_,2))/(32.*delta_) + (27*c1_*c3_)/(32.*delta_) + (27*pow(c3_,2))/(32.*delta_);
-            matrix_N_NyNy_[0](9,8) = (-27*pow(c1_,2))/(160.*delta_) + (27*c1_*c3_)/(80.*delta_) - (27*pow(c3_,2))/(160.*delta_);
-            matrix_N_NyNy_[0](10,8) = (81*pow(c1_,2))/(160.*delta_) + (81*c1_*c2_)/(160.*delta_) + (81*c1_*c3_)/(160.*delta_) + (81*c2_*c3_)/(80.*delta_);
+            matrix_N_NyNy_[0](9,8) = (81*c1_*c2_)/(80.*delta_) + (81*c1_*c3_)/(160.*delta_) + (81*c2_*c3_)/(160.*delta_) + (81*pow(c3_,2))/(160.*delta_);
 
+            matrix_N_NyNy_[0](0,9) = matrix_N_NyNy_[0](9,0);
             matrix_N_NyNy_[0](1,9) = matrix_N_NyNy_[0](9,1);
             matrix_N_NyNy_[0](2,9) = matrix_N_NyNy_[0](9,2);
             matrix_N_NyNy_[0](3,9) = matrix_N_NyNy_[0](9,3);
@@ -932,19 +944,7 @@ void SolverTriangle::Compute_N_NyNy_matrix_analytically()
             matrix_N_NyNy_[0](6,9) = matrix_N_NyNy_[0](9,6);
             matrix_N_NyNy_[0](7,9) = matrix_N_NyNy_[0](9,7);
             matrix_N_NyNy_[0](8,9) = matrix_N_NyNy_[0](9,8);
-            matrix_N_NyNy_[0](9,9) = (27*pow(c1_,2))/(32.*delta_) + (27*c1_*c3_)/(32.*delta_) + (27*pow(c3_,2))/(32.*delta_);
-            matrix_N_NyNy_[0](10,9) = (81*c1_*c2_)/(80.*delta_) + (81*c1_*c3_)/(160.*delta_) + (81*c2_*c3_)/(160.*delta_) + (81*pow(c3_,2))/(160.*delta_);
-
-            matrix_N_NyNy_[0](1,10) = matrix_N_NyNy_[0](10,1);
-            matrix_N_NyNy_[0](2,10) = matrix_N_NyNy_[0](10,2);
-            matrix_N_NyNy_[0](3,10) = matrix_N_NyNy_[0](10,3);
-            matrix_N_NyNy_[0](4,10) = matrix_N_NyNy_[0](10,4);
-            matrix_N_NyNy_[0](5,10) = matrix_N_NyNy_[0](10,5);
-            matrix_N_NyNy_[0](6,10) = matrix_N_NyNy_[0](10,6);
-            matrix_N_NyNy_[0](7,10) = matrix_N_NyNy_[0](10,7);
-            matrix_N_NyNy_[0](8,10) = matrix_N_NyNy_[0](10,8);
-            matrix_N_NyNy_[0](9,10) = matrix_N_NyNy_[0](10,9);
-            matrix_N_NyNy_[0](10,10) = (81*pow(c1_,2))/(40.*delta_) + (81*c1_*c2_)/(40.*delta_) + (81*pow(c2_,2))/(40.*delta_) + (81*c1_*c3_)/(40.*delta_) + (81*c2_*c3_)/(40.*delta_) + (81*pow(c3_,2))/(40.*delta_);
+            matrix_N_NyNy_[0](9,9) = (81*pow(c1_,2))/(40.*delta_) + (81*c1_*c2_)/(40.*delta_) + (81*pow(c2_,2))/(40.*delta_) + (81*c1_*c3_)/(40.*delta_) + (81*c2_*c3_)/(40.*delta_) + (81*pow(c3_,2))/(40.*delta_);
         }
         else
             throw(Exception("FEATURE NOT INPLEMENTED","basis_function_order >= 4 not implemented"));
@@ -958,178 +958,178 @@ void SolverTriangle::Compute_N_NyNy_matrix_analytically()
         if (basis_function_order_ == 1)
         {
             // Fill first matrix column-wise (Matrix is simmetric):
-            matrix_N_NyNy_[0](1,1) = pow(c1_,2)/(12.0*delta_);
-            matrix_N_NyNy_[0](2,1) = (c1_*c2_)/(12.0*delta_);
-            matrix_N_NyNy_[0](3,1) = (c1_*c3_)/(12.0*delta_);
+            matrix_N_NyNy_[0](0,0) = pow(c1_,2)/(12.0*delta_);
+            matrix_N_NyNy_[0](1,0) = (c1_*c2_)/(12.0*delta_);
+            matrix_N_NyNy_[0](2,0) = (c1_*c3_)/(12.0*delta_);
 
+            matrix_N_NyNy_[0](0,1) = matrix_N_NyNy_[0](1,0);
+            matrix_N_NyNy_[0](1,1) = pow(c2_,2)/(12.0*delta_);
+            matrix_N_NyNy_[0](2,1) = (c2_*c3_)/(12.0*delta_);
+
+            matrix_N_NyNy_[0](0,2) = matrix_N_NyNy_[0](2,0);
             matrix_N_NyNy_[0](1,2) = matrix_N_NyNy_[0](2,1);
-            matrix_N_NyNy_[0](2,2) = pow(c2_,2)/(12.0*delta_);
-            matrix_N_NyNy_[0](3,2) = (c2_*c3_)/(12.0*delta_);
-
-            matrix_N_NyNy_[0](1,3) = matrix_N_NyNy_[0](3,1);
-            matrix_N_NyNy_[0](2,3) = matrix_N_NyNy_[0](3,2);
-            matrix_N_NyNy_[0](3,3) = pow(c3_,2)/(12.0*delta_);
+            matrix_N_NyNy_[0](2,2) = pow(c3_,2)/(12.0*delta_);
 
 
             // Fill second matrix column-wise (Matrix is simmetric):
-            matrix_N_NyNy_[1](1,1) = pow(c1_,2)/(12.0*delta_);
-            matrix_N_NyNy_[1](2,1) = (c1_*c2_)/(12.0*delta_);
-            matrix_N_NyNy_[1](3,1) = (c1_*c3_)/(12.0*delta_);
+            matrix_N_NyNy_[1](0,0) = pow(c1_,2)/(12.0*delta_);
+            matrix_N_NyNy_[1](1,0) = (c1_*c2_)/(12.0*delta_);
+            matrix_N_NyNy_[1](2,0) = (c1_*c3_)/(12.0*delta_);
 
+            matrix_N_NyNy_[1](0,1) = matrix_N_NyNy_[1](1,0);
+            matrix_N_NyNy_[1](1,1) = pow(c2_,2)/(12.0*delta_);
+            matrix_N_NyNy_[1](2,1) = (c2_*c3_)/(12.0*delta_);
+
+            matrix_N_NyNy_[1](0,2) = matrix_N_NyNy_[1](2,0);
             matrix_N_NyNy_[1](1,2) = matrix_N_NyNy_[1](2,1);
-            matrix_N_NyNy_[1](2,2) = pow(c2_,2)/(12.0*delta_);
-            matrix_N_NyNy_[1](3,2) = (c2_*c3_)/(12.0*delta_);
-
-            matrix_N_NyNy_[1](1,3) = matrix_N_NyNy_[1](3,1);
-            matrix_N_NyNy_[1](2,3) = matrix_N_NyNy_[1](3,2);
-            matrix_N_NyNy_[1](3,3) = pow(c3_,2)/(12.0*delta_);
+            matrix_N_NyNy_[1](2,2) = pow(c3_,2)/(12.0*delta_);
 
 
             // Fill third matrix column-wise (Matrix is simmetric):
-            matrix_N_NyNy_[2](1,1) = pow(c1_,2)/(12.0*delta_);
-            matrix_N_NyNy_[2](2,1) = (c1_*c2_)/(12.0*delta_);
-            matrix_N_NyNy_[2](3,1) = (c1_*c3_)/(12.0*delta_);
+            matrix_N_NyNy_[2](0,0) = pow(c1_,2)/(12.0*delta_);
+            matrix_N_NyNy_[2](1,0) = (c1_*c2_)/(12.0*delta_);
+            matrix_N_NyNy_[2](2,0) = (c1_*c3_)/(12.0*delta_);
 
+            matrix_N_NyNy_[2](0,1) = matrix_N_NyNy_[2](1,0);
+            matrix_N_NyNy_[2](1,1) = pow(c2_,2)/(12.0*delta_);
+            matrix_N_NyNy_[2](2,1) = (c2_*c3_)/(12.0*delta_);
+
+            matrix_N_NyNy_[2](0,2) = matrix_N_NyNy_[2](2,0);
             matrix_N_NyNy_[2](1,2) = matrix_N_NyNy_[2](2,1);
-            matrix_N_NyNy_[2](2,2) = pow(c2_,2)/(12.0*delta_);
-            matrix_N_NyNy_[2](3,2) = (c2_*c3_)/(12.0*delta_);
-
-            matrix_N_NyNy_[2](1,3) = matrix_N_NyNy_[2](3,1);
-            matrix_N_NyNy_[2](2,3) = matrix_N_NyNy_[2](3,2);
-            matrix_N_NyNy_[2](3,3) = pow(c3_,2)/(12.0*delta_);
+            matrix_N_NyNy_[2](2,2) = pow(c3_,2)/(12.0*delta_);
         }
         else if (basis_function_order_ == 2)
         {
             // Fill first matrix column-wise (Matrix is simmetric):
-            matrix_N_NyNy_[0](1,1) = (3.0*pow(c1_,2))/(20.0*delta_);
-            matrix_N_NyNy_[0](2,1) = -(c1_*c2_)/(30.0*delta_);
-            matrix_N_NyNy_[0](3,1) = -(c1_*c3_)/(30.0*delta_);
-            matrix_N_NyNy_[0](4,1) = (c1_*(3.0*c1_ + 14.0*c2_))/(60.0*delta_);
-            matrix_N_NyNy_[0](5,1) = (c1_*(c2_ + c3_))/(20.0*delta_);
-            matrix_N_NyNy_[0](6,1) = (c1_*(3.0*c1_ + 14.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[0](0,0) = (3.0*pow(c1_,2))/(20.0*delta_);
+            matrix_N_NyNy_[0](1,0) = -(c1_*c2_)/(30.0*delta_);
+            matrix_N_NyNy_[0](2,0) = -(c1_*c3_)/(30.0*delta_);
+            matrix_N_NyNy_[0](3,0) = (c1_*(3.0*c1_ + 14.0*c2_))/(60.0*delta_);
+            matrix_N_NyNy_[0](4,0) = (c1_*(c2_ + c3_))/(20.0*delta_);
+            matrix_N_NyNy_[0](5,0) = (c1_*(3.0*c1_ + 14.0*c3_))/(60.0*delta_);
 
+            matrix_N_NyNy_[0](0,1) = matrix_N_NyNy_[0](1,0);
+            matrix_N_NyNy_[0](1,1) = pow(c2_,2)/(20.0*delta_);
+            matrix_N_NyNy_[0](2,1) = -(c2_*c3_)/(60.0*delta_);
+            matrix_N_NyNy_[0](3,1) = ((3.0*c1_ - 2.0*c2_)*c2_)/(60.0*delta_);
+            matrix_N_NyNy_[0](4,1) = -(c2_*(c2_ - 3.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[0](5,1) = -(c2_*(c1_ + 2.0*c3_))/(60.0*delta_);
+
+            matrix_N_NyNy_[0](0,2) = matrix_N_NyNy_[0](2,0);
             matrix_N_NyNy_[0](1,2) = matrix_N_NyNy_[0](2,1);
-            matrix_N_NyNy_[0](2,2) = pow(c2_,2)/(20.0*delta_);
-            matrix_N_NyNy_[0](3,2) = -(c2_*c3_)/(60.0*delta_);
-            matrix_N_NyNy_[0](4,2) = ((3.0*c1_ - 2.0*c2_)*c2_)/(60.0*delta_);
-            matrix_N_NyNy_[0](5,2) = -(c2_*(c2_ - 3.0*c3_))/(60.0*delta_);
-            matrix_N_NyNy_[0](6,2) = -(c2_*(c1_ + 2.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[0](2,2) = pow(c3_,2)/(20.0*delta_);
+            matrix_N_NyNy_[0](3,2) = -((c1_ + 2.0*c2_)*c3_)/(60.0*delta_);
+            matrix_N_NyNy_[0](4,2) = ((3.0*c2_ - c3_)*c3_)/(60.0*delta_);
+            matrix_N_NyNy_[0](5,2) = ((3.0*c1_ - 2.0*c3_)*c3_)/(60.0*delta_);
 
+            matrix_N_NyNy_[0](0,3) = matrix_N_NyNy_[0](3,0);
             matrix_N_NyNy_[0](1,3) = matrix_N_NyNy_[0](3,1);
             matrix_N_NyNy_[0](2,3) = matrix_N_NyNy_[0](3,2);
-            matrix_N_NyNy_[0](3,3) = pow(c3_,2)/(20.0*delta_);
-            matrix_N_NyNy_[0](4,3) = -((c1_ + 2.0*c2_)*c3_)/(60.0*delta_);
-            matrix_N_NyNy_[0](5,3) = ((3.0*c2_ - c3_)*c3_)/(60.0*delta_);
-            matrix_N_NyNy_[0](6,3) = ((3.0*c1_ - 2.0*c3_)*c3_)/(60.0*delta_);
+            matrix_N_NyNy_[0](3,3) = (2.0*(pow(c1_,2) + 2.0*c1_*c2_ + 3.0*pow(c2_,2)))/(15.0*delta_);
+            matrix_N_NyNy_[0](4,3) = (2.0*c2_*(c2_ + c3_) + c1_*(c2_ + 2.0*c3_))/(15.0*delta_);
+            matrix_N_NyNy_[0](5,3) = (pow(c1_,2) + 6.0*c2_*c3_ + 2.0*c1_*(c2_ + c3_))/(15.0*delta_);
 
+            matrix_N_NyNy_[0](0,4) = matrix_N_NyNy_[0](4,0);
             matrix_N_NyNy_[0](1,4) = matrix_N_NyNy_[0](4,1);
             matrix_N_NyNy_[0](2,4) = matrix_N_NyNy_[0](4,2);
             matrix_N_NyNy_[0](3,4) = matrix_N_NyNy_[0](4,3);
-            matrix_N_NyNy_[0](4,4) = (2.0*(pow(c1_,2) + 2.0*c1_*c2_ + 3.0*pow(c2_,2)))/(15.0*delta_);
-            matrix_N_NyNy_[0](5,4) = (2.0*c2_*(c2_ + c3_) + c1_*(c2_ + 2.0*c3_))/(15.0*delta_);
-            matrix_N_NyNy_[0](6,4) = (pow(c1_,2) + 6.0*c2_*c3_ + 2.0*c1_*(c2_ + c3_))/(15.0*delta_);
+            matrix_N_NyNy_[0](4,4) = (2.0*(pow(c2_,2) + c2_*c3_ + pow(c3_,2)))/(15.0*delta_);
+            matrix_N_NyNy_[0](5,4) = (2.0*c3_*(c2_ + c3_) + c1_*(2.0*c2_ + c3_))/(15.0*delta_);
 
+            matrix_N_NyNy_[0](0,5) = matrix_N_NyNy_[0](5,0);
             matrix_N_NyNy_[0](1,5) = matrix_N_NyNy_[0](5,1);
             matrix_N_NyNy_[0](2,5) = matrix_N_NyNy_[0](5,2);
             matrix_N_NyNy_[0](3,5) = matrix_N_NyNy_[0](5,3);
             matrix_N_NyNy_[0](4,5) = matrix_N_NyNy_[0](5,4);
-            matrix_N_NyNy_[0](5,5) = (2.0*(pow(c2_,2) + c2_*c3_ + pow(c3_,2)))/(15.0*delta_);
-            matrix_N_NyNy_[0](6,5) = (2.0*c3_*(c2_ + c3_) + c1_*(2.0*c2_ + c3_))/(15.0*delta_);
-
-            matrix_N_NyNy_[0](1,6) = matrix_N_NyNy_[0](6,1);
-            matrix_N_NyNy_[0](2,6) = matrix_N_NyNy_[0](6,2);
-            matrix_N_NyNy_[0](3,6) = matrix_N_NyNy_[0](6,3);
-            matrix_N_NyNy_[0](4,6) = matrix_N_NyNy_[0](6,4);
-            matrix_N_NyNy_[0](5,6) = matrix_N_NyNy_[0](6,5);
-            matrix_N_NyNy_[0](6,6) = (2.0*(pow(c1_,2) + 2.0*c1_*c3_ + 3.0*pow(c3_,2)))/(15.0*delta_);
+            matrix_N_NyNy_[0](5,5) = (2.0*(pow(c1_,2) + 2.0*c1_*c3_ + 3.0*pow(c3_,2)))/(15.0*delta_);
 
 
             // Fill second matrix column-wise (Matrix is simmetric):
-            matrix_N_NyNy_[1](1,1) = pow(c1_,2)/(20.0*delta_);
-            matrix_N_NyNy_[1](1,2) = -(c1_*c2_)/(30.0*delta_);
-            matrix_N_NyNy_[1](1,3) = -(c1_*c3_)/(60.0*delta_);
-            matrix_N_NyNy_[1](1,4) = (c1_*(-2.0*c1_ + 3.0*c2_))/(60.0*delta_);
-            matrix_N_NyNy_[1](1,5) = -(c1_*(c2_ + 2.0*c3_))/(60.0*delta_);
-            matrix_N_NyNy_[1](1,6) = -(c1_*(c1_ - 3.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[1](0,0) = pow(c1_,2)/(20.0*delta_);
+            matrix_N_NyNy_[1](0,1) = -(c1_*c2_)/(30.0*delta_);
+            matrix_N_NyNy_[1](0,2) = -(c1_*c3_)/(60.0*delta_);
+            matrix_N_NyNy_[1](0,3) = (c1_*(-2.0*c1_ + 3.0*c2_))/(60.0*delta_);
+            matrix_N_NyNy_[1](0,4) = -(c1_*(c2_ + 2.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[1](0,5) = -(c1_*(c1_ - 3.0*c3_))/(60.0*delta_);
 
+            matrix_N_NyNy_[1](1,0) = matrix_N_NyNy_[1](0,1);
+            matrix_N_NyNy_[1](1,1) = (3.0*pow(c2_,2))/(20.0*delta_);
+            matrix_N_NyNy_[1](1,2) = -(c2_*c3_)/(30.0*delta_);
+            matrix_N_NyNy_[1](1,3) = (c2_*(14.0*c1_ + 3.0*c2_))/(60.0*delta_);
+            matrix_N_NyNy_[1](1,4) = (c2_*(3.0*c2_ + 14.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[1](1,5) = (c2_*(c1_ + c3_))/(20.0*delta_);
+
+            matrix_N_NyNy_[1](2,0) = matrix_N_NyNy_[1](0,2);
             matrix_N_NyNy_[1](2,1) = matrix_N_NyNy_[1](1,2);
-            matrix_N_NyNy_[1](2,2) = (3.0*pow(c2_,2))/(20.0*delta_);
-            matrix_N_NyNy_[1](2,3) = -(c2_*c3_)/(30.0*delta_);
-            matrix_N_NyNy_[1](2,4) = (c2_*(14.0*c1_ + 3.0*c2_))/(60.0*delta_);
-            matrix_N_NyNy_[1](2,5) = (c2_*(3.0*c2_ + 14.0*c3_))/(60.0*delta_);
-            matrix_N_NyNy_[1](2,6) = (c2_*(c1_ + c3_))/(20.0*delta_);
+            matrix_N_NyNy_[1](2,2) = pow(c3_,2)/(20.0*delta_);
+            matrix_N_NyNy_[1](2,3) = -((2.0*c1_ + c2_)*c3_)/(60.0*delta_);
+            matrix_N_NyNy_[1](2,4) = ((3.0*c2_ - 2.0*c3_)*c3_)/(60.0*delta_);
+            matrix_N_NyNy_[1](2,5) = ((3.0*c1_ - c3_)*c3_)/(60.0*delta_);
 
+            matrix_N_NyNy_[1](3,0) = matrix_N_NyNy_[1](0,3);
             matrix_N_NyNy_[1](3,1) = matrix_N_NyNy_[1](1,3);
             matrix_N_NyNy_[1](3,2) = matrix_N_NyNy_[1](2,3);
-            matrix_N_NyNy_[1](3,3) = pow(c3_,2)/(20.0*delta_);
-            matrix_N_NyNy_[1](3,4) = -((2.0*c1_ + c2_)*c3_)/(60.0*delta_);
-            matrix_N_NyNy_[1](3,5) = ((3.0*c2_ - 2.0*c3_)*c3_)/(60.0*delta_);
-            matrix_N_NyNy_[1](3,6) = ((3.0*c1_ - c3_)*c3_)/(60.0*delta_);
+            matrix_N_NyNy_[1](3,3) = (2.0*(3.0*pow(c1_,2) + 2.0*c1_*c2_ + pow(c2_,2)))/(15.0*delta_);
+            matrix_N_NyNy_[1](3,4) = (2.0*c1_*c2_ + pow(c2_,2) + 6.0*c1_*c3_ + 2.0*c2_*c3_)/(15.0*delta_);
+            matrix_N_NyNy_[1](3,5) = (2.0*pow(c1_,2) + c1_*c2_ + 2.0*c1_*c3_ + 2.0*c2_*c3_)/(15.0*delta_);
 
+            matrix_N_NyNy_[1](4,0) = matrix_N_NyNy_[1](0,4);
             matrix_N_NyNy_[1](4,1) = matrix_N_NyNy_[1](1,4);
             matrix_N_NyNy_[1](4,2) = matrix_N_NyNy_[1](2,4);
             matrix_N_NyNy_[1](4,3) = matrix_N_NyNy_[1](3,4);
-            matrix_N_NyNy_[1](4,4) = (2.0*(3.0*pow(c1_,2) + 2.0*c1_*c2_ + pow(c2_,2)))/(15.0*delta_);
-            matrix_N_NyNy_[1](4,5) = (2.0*c1_*c2_ + pow(c2_,2) + 6.0*c1_*c3_ + 2.0*c2_*c3_)/(15.0*delta_);
-            matrix_N_NyNy_[1](4,6) = (2.0*pow(c1_,2) + c1_*c2_ + 2.0*c1_*c3_ + 2.0*c2_*c3_)/(15.0*delta_);
+            matrix_N_NyNy_[1](4,4) = (2.0*(pow(c2_,2) + 2.0*c2_*c3_ + 3.0*pow(c3_,2)))/(15.0*delta_);
+            matrix_N_NyNy_[1](4,5) = (2.0*c1_*(c2_ + c3_) + c3_*(c2_ + 2.0*c3_))/(15.0*delta_);
 
+            matrix_N_NyNy_[1](5,0) = matrix_N_NyNy_[1](0,5);
             matrix_N_NyNy_[1](5,1) = matrix_N_NyNy_[1](1,5);
             matrix_N_NyNy_[1](5,2) = matrix_N_NyNy_[1](2,5);
             matrix_N_NyNy_[1](5,3) = matrix_N_NyNy_[1](3,5);
             matrix_N_NyNy_[1](5,4) = matrix_N_NyNy_[1](4,5);
-            matrix_N_NyNy_[1](5,5) = (2.0*(pow(c2_,2) + 2.0*c2_*c3_ + 3.0*pow(c3_,2)))/(15.0*delta_);
-            matrix_N_NyNy_[1](5,6) = (2.0*c1_*(c2_ + c3_) + c3_*(c2_ + 2.0*c3_))/(15.0*delta_);
-
-            matrix_N_NyNy_[1](6,1) = matrix_N_NyNy_[1](1,6);
-            matrix_N_NyNy_[1](6,2) = matrix_N_NyNy_[1](2,6);
-            matrix_N_NyNy_[1](6,3) = matrix_N_NyNy_[1](3,6);
-            matrix_N_NyNy_[1](6,4) = matrix_N_NyNy_[1](4,6);
-            matrix_N_NyNy_[1](6,5) = matrix_N_NyNy_[1](5,6);
-            matrix_N_NyNy_[1](6,6) = (2.0*(pow(c1_,2) + c1_*c3_ + pow(c3_,2)))/(15.0*delta_);
+            matrix_N_NyNy_[1](5,5) = (2.0*(pow(c1_,2) + c1_*c3_ + pow(c3_,2)))/(15.0*delta_);
 
 
             // Fill third matrix column-wise (Matrix is simmetric):
-            matrix_N_NyNy_[2](1,1) = pow(c1_,2)/(20.0*delta_);
-            matrix_N_NyNy_[2](1,2) = -(c1_*c2_)/(60.0*delta_);
-            matrix_N_NyNy_[2](1,3) = -(c1_*c3_)/(30.0*delta_);
-            matrix_N_NyNy_[2](1,4) = -(c1_*(c1_ - 3.0*c2_))/(60.0*delta_);
-            matrix_N_NyNy_[2](1,5) = -(c1_*(2.0*c2_ + c3_))/(60.0*delta_);
-            matrix_N_NyNy_[2](1,6) = (c1_*(-2.0*c1_ + 3.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[2](0,0) = pow(c1_,2)/(20.0*delta_);
+            matrix_N_NyNy_[2](0,1) = -(c1_*c2_)/(60.0*delta_);
+            matrix_N_NyNy_[2](0,2) = -(c1_*c3_)/(30.0*delta_);
+            matrix_N_NyNy_[2](0,3) = -(c1_*(c1_ - 3.0*c2_))/(60.0*delta_);
+            matrix_N_NyNy_[2](0,4) = -(c1_*(2.0*c2_ + c3_))/(60.0*delta_);
+            matrix_N_NyNy_[2](0,5) = (c1_*(-2.0*c1_ + 3.0*c3_))/(60.0*delta_);
 
+            matrix_N_NyNy_[2](1,0) = matrix_N_NyNy_[2](0,1);
+            matrix_N_NyNy_[2](1,1) = pow(c2_,2)/(20.0*delta_);
+            matrix_N_NyNy_[2](1,2) = -(c2_*c3_)/(30.0*delta_);
+            matrix_N_NyNy_[2](1,3) = ((3.0*c1_ - c2_)*c2_)/(60.0*delta_);
+            matrix_N_NyNy_[2](1,4) = (c2_*(-2.0*c2_ + 3.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[2](1,5) = -(c2_*(2.0*c1_ + c3_))/(60.*delta_);
+
+            matrix_N_NyNy_[2](2,0) = matrix_N_NyNy_[2](0,2);
             matrix_N_NyNy_[2](2,1) = matrix_N_NyNy_[2](1,2);
-            matrix_N_NyNy_[2](2,2) = pow(c2_,2)/(20.0*delta_);
-            matrix_N_NyNy_[2](2,3) = -(c2_*c3_)/(30.0*delta_);
-            matrix_N_NyNy_[2](2,4) = ((3.0*c1_ - c2_)*c2_)/(60.0*delta_);
-            matrix_N_NyNy_[2](2,5) = (c2_*(-2.0*c2_ + 3.0*c3_))/(60.0*delta_);
-            matrix_N_NyNy_[2](2,6) = -(c2_*(2.0*c1_ + c3_))/(60.*delta_);
+            matrix_N_NyNy_[2](2,2) = (3.0*pow(c3_,2))/(20.0*delta_);
+            matrix_N_NyNy_[2](2,3) = ((c1_ + c2_)*c3_)/(20.0*delta_);
+            matrix_N_NyNy_[2](2,4) = (c3_*(14.0*c2_ + 3.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[2](2,5) = (c3_*(14.0*c1_ + 3.0*c3_))/(60.0*delta_);
 
+            matrix_N_NyNy_[2](3,0) = matrix_N_NyNy_[2](0,3);
             matrix_N_NyNy_[2](3,1) = matrix_N_NyNy_[2](1,3);
             matrix_N_NyNy_[2](3,2) = matrix_N_NyNy_[2](2,3);
-            matrix_N_NyNy_[2](3,3) = (3.0*pow(c3_,2))/(20.0*delta_);
-            matrix_N_NyNy_[2](3,4) = ((c1_ + c2_)*c3_)/(20.0*delta_);
-            matrix_N_NyNy_[2](3,5) = (c3_*(14.0*c2_ + 3.0*c3_))/(60.0*delta_);
-            matrix_N_NyNy_[2](3,6) = (c3_*(14.0*c1_ + 3.0*c3_))/(60.0*delta_);
+            matrix_N_NyNy_[2](3,3) = (2.0*(pow(c1_,2) + c1_*c2_ + pow(c2_,2)))/(15.0*delta_);
+            matrix_N_NyNy_[2](3,4) = (2.0*c1_*(c2_ + c3_) + c2_*(2.0*c2_ + c3_))/(15.0*delta_);
+            matrix_N_NyNy_[2](3,5) = (2.0*pow(c1_,2) + 2.0*c1_*c2_ + c1_*c3_ + 2.0*c2_*c3_)/(15.0*delta_);
 
+            matrix_N_NyNy_[2](4,0) = matrix_N_NyNy_[2](0,4);
             matrix_N_NyNy_[2](4,1) = matrix_N_NyNy_[2](1,4);
             matrix_N_NyNy_[2](4,2) = matrix_N_NyNy_[2](2,4);
             matrix_N_NyNy_[2](4,3) = matrix_N_NyNy_[2](3,4);
-            matrix_N_NyNy_[2](4,4) = (2.0*(pow(c1_,2) + c1_*c2_ + pow(c2_,2)))/(15.0*delta_);
-            matrix_N_NyNy_[2](4,5) = (2.0*c1_*(c2_ + c3_) + c2_*(2.0*c2_ + c3_))/(15.0*delta_);
-            matrix_N_NyNy_[2](4,6) = (2.0*pow(c1_,2) + 2.0*c1_*c2_ + c1_*c3_ + 2.0*c2_*c3_)/(15.0*delta_);
+            matrix_N_NyNy_[2](4,4) = (2.0*(3.0*pow(c2_,2) + 2.0*c2_*c3_ + pow(c3_,2)))/(15.0*delta_);
+            matrix_N_NyNy_[2](4,5) = (6.0*c1_*c2_ + 2.0*c1_*c3_ + 2.0*c2_*c3_ + pow(c3_,2))/(15.0*delta_);
 
+            matrix_N_NyNy_[2](5,0) = matrix_N_NyNy_[2](0,5);
             matrix_N_NyNy_[2](5,1) = matrix_N_NyNy_[2](1,5);
             matrix_N_NyNy_[2](5,2) = matrix_N_NyNy_[2](2,5);
             matrix_N_NyNy_[2](5,3) = matrix_N_NyNy_[2](3,5);
             matrix_N_NyNy_[2](5,4) = matrix_N_NyNy_[2](4,5);
-            matrix_N_NyNy_[2](5,5) = (2.0*(3.0*pow(c2_,2) + 2.0*c2_*c3_ + pow(c3_,2)))/(15.0*delta_);
-            matrix_N_NyNy_[2](5,6) = (6.0*c1_*c2_ + 2.0*c1_*c3_ + 2.0*c2_*c3_ + pow(c3_,2))/(15.0*delta_);
-
-            matrix_N_NyNy_[2](6,1) = matrix_N_NyNy_[2](1,6);
-            matrix_N_NyNy_[2](6,2) = matrix_N_NyNy_[2](2,6);
-            matrix_N_NyNy_[2](6,3) = matrix_N_NyNy_[2](3,6);
-            matrix_N_NyNy_[2](6,4) = matrix_N_NyNy_[2](4,6);
-            matrix_N_NyNy_[2](6,5) = matrix_N_NyNy_[2](5,6);
-            matrix_N_NyNy_[2](6,6) = (2.0*(3.0*pow(c1_,2) + 2.0*c1_*c3_ + pow(c3_,2)))/(15.0*delta_);
+            matrix_N_NyNy_[2](5,5) = (2.0*(3.0*pow(c1_,2) + 2.0*c1_*c3_ + pow(c3_,2)))/(15.0*delta_);
         }
         else
             throw(Exception("FEATURE NOT INPLEMENTED","basis_function_order >= 3 not implemented"));
@@ -1160,62 +1160,62 @@ void SolverTriangle::Compute_N_NN_matrix_analytically()
         if (basis_function_order_ == 1)
         {
             // Fill matrix column-wise (Matrix is simmetric):
+            matrix_N_NN_[0](0,0) = delta_/6.0;
+            matrix_N_NN_[0](1,0) = delta_/12.0;
+            matrix_N_NN_[0](2,0) = delta_/12.0;
+
+            matrix_N_NN_[0](0,1) = matrix_N_NN_[0](1,0);
             matrix_N_NN_[0](1,1) = delta_/6.0;
             matrix_N_NN_[0](2,1) = delta_/12.0;
-            matrix_N_NN_[0](3,1) = delta_/12.0;
 
+            matrix_N_NN_[0](0,2) = matrix_N_NN_[0](2,0);
             matrix_N_NN_[0](1,2) = matrix_N_NN_[0](2,1);
             matrix_N_NN_[0](2,2) = delta_/6.0;
-            matrix_N_NN_[0](3,2) = delta_/12.0;
-
-            matrix_N_NN_[0](1,3) = matrix_N_NN_[0](3,1);
-            matrix_N_NN_[0](2,3) = matrix_N_NN_[0](3,2);
-            matrix_N_NN_[0](3,3) = delta_/6.0;
         }
         else if (basis_function_order_ == 2)
         {
             // Fill matrix column-wise (Matrix is simmetric):
+            matrix_N_NN_[0](0,0) = delta_/30.0;
+            matrix_N_NN_[0](1,0) = -delta_/180.0;
+            matrix_N_NN_[0](2,0) = -delta_/180.0;
+            matrix_N_NN_[0](3,0) = 0.0;
+            matrix_N_NN_[0](4,0) = -delta_/45.0;
+            matrix_N_NN_[0](5,0) = 0.0;
+
+            matrix_N_NN_[0](0,1) = matrix_N_NN_[0](1,0);
             matrix_N_NN_[0](1,1) = delta_/30.0;
             matrix_N_NN_[0](2,1) = -delta_/180.0;
-            matrix_N_NN_[0](3,1) = -delta_/180.0;
+            matrix_N_NN_[0](3,1) = 0.0;
             matrix_N_NN_[0](4,1) = 0.0;
             matrix_N_NN_[0](5,1) = -delta_/45.0;
-            matrix_N_NN_[0](6,1) = 0.0;
 
+            matrix_N_NN_[0](0,2) = matrix_N_NN_[0](2,0);
             matrix_N_NN_[0](1,2) = matrix_N_NN_[0](2,1);
             matrix_N_NN_[0](2,2) = delta_/30.0;
-            matrix_N_NN_[0](3,2) = -delta_/180.0;
+            matrix_N_NN_[0](3,2) = -delta_/45.0;
             matrix_N_NN_[0](4,2) = 0.0;
             matrix_N_NN_[0](5,2) = 0.0;
-            matrix_N_NN_[0](6,2) = -delta_/45.0;
 
+            matrix_N_NN_[0](0,3) = matrix_N_NN_[0](3,0);
             matrix_N_NN_[0](1,3) = matrix_N_NN_[0](3,1);
             matrix_N_NN_[0](2,3) = matrix_N_NN_[0](3,2);
-            matrix_N_NN_[0](3,3) = delta_/30.0;
-            matrix_N_NN_[0](4,3) = -delta_/45.0;
-            matrix_N_NN_[0](5,3) = 0.0;
-            matrix_N_NN_[0](6,3) = 0.0;
+            matrix_N_NN_[0](3,3) = (8*delta_)/45.0;
+            matrix_N_NN_[0](4,3) = (4*delta_)/45.0;
+            matrix_N_NN_[0](5,3) = (4*delta_)/45.0;
 
+            matrix_N_NN_[0](0,4) = matrix_N_NN_[0](4,0);
             matrix_N_NN_[0](1,4) = matrix_N_NN_[0](4,1);
             matrix_N_NN_[0](2,4) = matrix_N_NN_[0](4,2);
             matrix_N_NN_[0](3,4) = matrix_N_NN_[0](4,3);
             matrix_N_NN_[0](4,4) = (8*delta_)/45.0;
             matrix_N_NN_[0](5,4) = (4*delta_)/45.0;
-            matrix_N_NN_[0](6,4) = (4*delta_)/45.0;
 
+            matrix_N_NN_[0](0,5) = matrix_N_NN_[0](5,0);
             matrix_N_NN_[0](1,5) = matrix_N_NN_[0](5,1);
             matrix_N_NN_[0](2,5) = matrix_N_NN_[0](5,2);
             matrix_N_NN_[0](3,5) = matrix_N_NN_[0](5,3);
             matrix_N_NN_[0](4,5) = matrix_N_NN_[0](5,4);
             matrix_N_NN_[0](5,5) = (8*delta_)/45.0;
-            matrix_N_NN_[0](6,5) = (4*delta_)/45.0;
-
-            matrix_N_NN_[0](1,6) = matrix_N_NN_[0](6,1);
-            matrix_N_NN_[0](2,6) = matrix_N_NN_[0](6,2);
-            matrix_N_NN_[0](3,6) = matrix_N_NN_[0](6,3);
-            matrix_N_NN_[0](4,6) = matrix_N_NN_[0](6,4);
-            matrix_N_NN_[0](5,6) = matrix_N_NN_[0](6,5);
-            matrix_N_NN_[0](6,6) = (8*delta_)/45.0;
         }
         else
             throw(Exception("FEATURE NOT INPLEMENTED","basis_function_order >= 3 not implemented"));
@@ -1229,178 +1229,178 @@ void SolverTriangle::Compute_N_NN_matrix_analytically()
         if (basis_function_order_ == 1)
         {
             // Fill first matrix column-wise (Matrix is simmetric):
-            matrix_N_NN_[0](1,1) = delta_/10.0;
-            matrix_N_NN_[0](2,1) = delta_/30.0;
-            matrix_N_NN_[0](3,1) = delta_/30.0;
+            matrix_N_NN_[0](0,0) = delta_/10.0;
+            matrix_N_NN_[0](1,0) = delta_/30.0;
+            matrix_N_NN_[0](2,0) = delta_/30.0;
 
+            matrix_N_NN_[0](0,1) = matrix_N_NN_[0](1,0);
+            matrix_N_NN_[0](1,1) = delta_/30.0;
+            matrix_N_NN_[0](2,1) = delta_/60.0;
+
+            matrix_N_NN_[0](0,2) = matrix_N_NN_[0](2,0);
             matrix_N_NN_[0](1,2) = matrix_N_NN_[0](2,1);
             matrix_N_NN_[0](2,2) = delta_/30.0;
-            matrix_N_NN_[0](3,2) = delta_/60.0;
-
-            matrix_N_NN_[0](1,3) = matrix_N_NN_[0](3,1);
-            matrix_N_NN_[0](2,3) = matrix_N_NN_[0](3,2);
-            matrix_N_NN_[0](3,3) = delta_/30.0;
 
 
             // Fill second matrix column-wise (Matrix is simmetric):
-            matrix_N_NN_[1](1,1) = delta_/30.0;
+            matrix_N_NN_[1](0,0) = delta_/30.0;
+            matrix_N_NN_[1](1,0) = delta_/30.0;
+            matrix_N_NN_[1](2,0) = delta_/60.0;
+
+            matrix_N_NN_[1](0,1) = matrix_N_NN_[1](1,0);
+            matrix_N_NN_[1](1,1) = delta_/10.0;
             matrix_N_NN_[1](2,1) = delta_/30.0;
-            matrix_N_NN_[1](3,1) = delta_/60.0;
 
+            matrix_N_NN_[1](0,2) = matrix_N_NN_[1](2,0);
             matrix_N_NN_[1](1,2) = matrix_N_NN_[1](2,1);
-            matrix_N_NN_[1](2,2) = delta_/10.0;
-            matrix_N_NN_[1](3,2) = delta_/30.0;
-
-            matrix_N_NN_[1](1,3) = matrix_N_NN_[1](3,1);
-            matrix_N_NN_[1](2,3) = matrix_N_NN_[1](3,2);
-            matrix_N_NN_[1](3,3) = delta_/30.0;
+            matrix_N_NN_[1](2,2) = delta_/30.0;
 
 
             // Fill third matrix column-wise (Matrix is simmetric):
+            matrix_N_NN_[2](0,0) = delta_/30.0;
+            matrix_N_NN_[2](1,0) = delta_/60.0;
+            matrix_N_NN_[2](2,0) = delta_/30.0;
+
+            matrix_N_NN_[2](0,1) = matrix_N_NN_[2](1,0);
             matrix_N_NN_[2](1,1) = delta_/30.0;
-            matrix_N_NN_[2](2,1) = delta_/60.0;
-            matrix_N_NN_[2](3,1) = delta_/30.0;
+            matrix_N_NN_[2](2,1) = delta_/30.0;
 
+            matrix_N_NN_[2](0,2) = matrix_N_NN_[2](2,0);
             matrix_N_NN_[2](1,2) = matrix_N_NN_[2](2,1);
-            matrix_N_NN_[2](2,2) = delta_/30.0;
-            matrix_N_NN_[2](3,2) = delta_/30.0;
-
-            matrix_N_NN_[2](1,3) = matrix_N_NN_[2](3,1);
-            matrix_N_NN_[2](2,3) = matrix_N_NN_[2](3,2);
-            matrix_N_NN_[2](3,3) = delta_/10.0;
+            matrix_N_NN_[2](2,2) = delta_/10.0;
         }
         else if (basis_function_order_ == 2)
         {
             // Fill first matrix column-wise (Matrix is simmetric):
-            matrix_N_NN_[0](1,1) = delta_/42.0;
-            matrix_N_NN_[0](2,1) = -delta_/315.0;
-            matrix_N_NN_[0](3,1) = -delta_/315.0;
-            matrix_N_NN_[0](4,1) = delta_/105.0;
-            matrix_N_NN_[0](5,1) = -delta_/315.0;
-            matrix_N_NN_[0](6,1) = delta_/105.0;
+            matrix_N_NN_[0](0,0) = delta_/42.0;
+            matrix_N_NN_[0](1,0) = -delta_/315.0;
+            matrix_N_NN_[0](2,0) = -delta_/315.0;
+            matrix_N_NN_[0](3,0) = delta_/105.0;
+            matrix_N_NN_[0](4,0) = -delta_/315.0;
+            matrix_N_NN_[0](5,0) = delta_/105.0;
 
+            matrix_N_NN_[0](0,1) = matrix_N_NN_[0](1,0);
+            matrix_N_NN_[0](1,1) = delta_/210.0;
+            matrix_N_NN_[0](2,1) = delta_/1260.0;
+            matrix_N_NN_[0](3,1) = (-2.0*delta_)/315.0;
+            matrix_N_NN_[0](4,1) = -delta_/315.0;
+            matrix_N_NN_[0](5,1) = -delta_/105.0;
+
+            matrix_N_NN_[0](0,2) = matrix_N_NN_[0](2,0);
             matrix_N_NN_[0](1,2) = matrix_N_NN_[0](2,1);
             matrix_N_NN_[0](2,2) = delta_/210.0;
-            matrix_N_NN_[0](3,2) = delta_/1260.0;
-            matrix_N_NN_[0](4,2) = (-2.0*delta_)/315.0;
-            matrix_N_NN_[0](5,2) = -delta_/315.0;
-            matrix_N_NN_[0](6,2) = -delta_/105.0;
+            matrix_N_NN_[0](3,2) = -delta_/105.0;
+            matrix_N_NN_[0](4,2) = -delta_/315.0;
+            matrix_N_NN_[0](5,2) = (-2.0*delta_)/315.0;
 
+            matrix_N_NN_[0](0,3) = matrix_N_NN_[0](3,0);
             matrix_N_NN_[0](1,3) = matrix_N_NN_[0](3,1);
             matrix_N_NN_[0](2,3) = matrix_N_NN_[0](3,2);
-            matrix_N_NN_[0](3,3) = delta_/210.0;
-            matrix_N_NN_[0](4,3) = -delta_/105.0;
-            matrix_N_NN_[0](5,3) = -delta_/315.0;
-            matrix_N_NN_[0](6,3) = (-2.0*delta_)/315.0;
+            matrix_N_NN_[0](3,3) = (8.0*delta_)/105.0;
+            matrix_N_NN_[0](4,3) = (8.0*delta_)/315.0;
+            matrix_N_NN_[0](5,3) = (4.0*delta_)/105.0;
 
+            matrix_N_NN_[0](0,4) = matrix_N_NN_[0](4,0);
             matrix_N_NN_[0](1,4) = matrix_N_NN_[0](4,1);
             matrix_N_NN_[0](2,4) = matrix_N_NN_[0](4,2);
             matrix_N_NN_[0](3,4) = matrix_N_NN_[0](4,3);
-            matrix_N_NN_[0](4,4) = (8.0*delta_)/105.0;
+            matrix_N_NN_[0](4,4) = (8.0*delta_)/315.0;
             matrix_N_NN_[0](5,4) = (8.0*delta_)/315.0;
-            matrix_N_NN_[0](6,4) = (4.0*delta_)/105.0;
 
+            matrix_N_NN_[0](0,5) = matrix_N_NN_[0](5,0);
             matrix_N_NN_[0](1,5) = matrix_N_NN_[0](5,1);
             matrix_N_NN_[0](2,5) = matrix_N_NN_[0](5,2);
             matrix_N_NN_[0](3,5) = matrix_N_NN_[0](5,3);
             matrix_N_NN_[0](4,5) = matrix_N_NN_[0](5,4);
-            matrix_N_NN_[0](5,5) = (8.0*delta_)/315.0;
-            matrix_N_NN_[0](6,5) = (8.0*delta_)/315.0;
-
-            matrix_N_NN_[0](1,6) = matrix_N_NN_[0](6,1);
-            matrix_N_NN_[0](2,6) = matrix_N_NN_[0](6,2);
-            matrix_N_NN_[0](3,6) = matrix_N_NN_[0](6,3);
-            matrix_N_NN_[0](4,6) = matrix_N_NN_[0](6,4);
-            matrix_N_NN_[0](5,6) = matrix_N_NN_[0](6,5);
-            matrix_N_NN_[0](6,6) = (8.0*delta_)/105.0;
+            matrix_N_NN_[0](5,5) = (8.0*delta_)/105.0;
 
 
             // Fill second matrix column-wise (Matrix is simmetric):
-            matrix_N_NN_[1](1,1) = delta_/210.0;
+            matrix_N_NN_[1](0,0) = delta_/210.0;
+            matrix_N_NN_[1](1,0) = -delta_/315.0;
+            matrix_N_NN_[1](2,0) = delta_/1260.0;
+            matrix_N_NN_[1](3,0) = (-2.0*delta_)/315.0;
+            matrix_N_NN_[1](4,0) = -delta_/105.0;
+            matrix_N_NN_[1](5,0) = -delta_/315.0;
+
+            matrix_N_NN_[1](0,1) = matrix_N_NN_[1](1,0);
+            matrix_N_NN_[1](1,1) = delta_/42.0;
             matrix_N_NN_[1](2,1) = -delta_/315.0;
-            matrix_N_NN_[1](3,1) = delta_/1260.0;
-            matrix_N_NN_[1](4,1) = (-2.0*delta_)/315.0;
-            matrix_N_NN_[1](5,1) = -delta_/105.0;
-            matrix_N_NN_[1](6,1) = -delta_/315.0;
+            matrix_N_NN_[1](3,1) = delta_/105.0;
+            matrix_N_NN_[1](4,1) = delta_/105.0;
+            matrix_N_NN_[1](5,1) = -delta_/315.0;
 
+            matrix_N_NN_[1](0,2) = matrix_N_NN_[1](2,0);
             matrix_N_NN_[1](1,2) = matrix_N_NN_[1](2,1);
-            matrix_N_NN_[1](2,2) = delta_/42.0;
-            matrix_N_NN_[1](3,2) = -delta_/315.0;
-            matrix_N_NN_[1](4,2) = delta_/105.0;
-            matrix_N_NN_[1](5,2) = delta_/105.0;
-            matrix_N_NN_[1](6,2) = -delta_/315.0;
+            matrix_N_NN_[1](2,2) = delta_/210.0;
+            matrix_N_NN_[1](3,2) = -delta_/105.0;
+            matrix_N_NN_[1](4,2) = (-2.0*delta_)/315.0;
+            matrix_N_NN_[1](5,2) = -delta_/315.0;
 
+            matrix_N_NN_[1](0,3) = matrix_N_NN_[1](3,0);
             matrix_N_NN_[1](1,3) = matrix_N_NN_[1](3,1);
             matrix_N_NN_[1](2,3) = matrix_N_NN_[1](3,2);
-            matrix_N_NN_[1](3,3) = delta_/210.0;
-            matrix_N_NN_[1](4,3) = -delta_/105.0;
-            matrix_N_NN_[1](5,3) = (-2.0*delta_)/315.0;
-            matrix_N_NN_[1](6,3) = -delta_/315.0;
+            matrix_N_NN_[1](3,3) = (8.0*delta_)/105.0;
+            matrix_N_NN_[1](4,3) = (4.0*delta_)/105.0;
+            matrix_N_NN_[1](5,3) = (8.0*delta_)/315.0;
 
+            matrix_N_NN_[1](0,4) = matrix_N_NN_[1](4,0);
             matrix_N_NN_[1](1,4) = matrix_N_NN_[1](4,1);
             matrix_N_NN_[1](2,4) = matrix_N_NN_[1](4,2);
             matrix_N_NN_[1](3,4) = matrix_N_NN_[1](4,3);
             matrix_N_NN_[1](4,4) = (8.0*delta_)/105.0;
-            matrix_N_NN_[1](5,4) = (4.0*delta_)/105.0;
-            matrix_N_NN_[1](6,4) = (8.0*delta_)/315.0;
+            matrix_N_NN_[1](5,4) = (8.0*delta_)/315.0;
 
+            matrix_N_NN_[1](0,5) = matrix_N_NN_[1](5,0);
             matrix_N_NN_[1](1,5) = matrix_N_NN_[1](5,1);
             matrix_N_NN_[1](2,5) = matrix_N_NN_[1](5,2);
             matrix_N_NN_[1](3,5) = matrix_N_NN_[1](5,3);
             matrix_N_NN_[1](4,5) = matrix_N_NN_[1](5,4);
-            matrix_N_NN_[1](5,5) = (8.0*delta_)/105.0;
-            matrix_N_NN_[1](6,5) = (8.0*delta_)/315.0;
-
-            matrix_N_NN_[1](1,6) = matrix_N_NN_[1](6,1);
-            matrix_N_NN_[1](2,6) = matrix_N_NN_[1](6,2);
-            matrix_N_NN_[1](3,6) = matrix_N_NN_[1](6,3);
-            matrix_N_NN_[1](4,6) = matrix_N_NN_[1](6,4);
-            matrix_N_NN_[1](5,6) = matrix_N_NN_[1](6,5);
-            matrix_N_NN_[1](6,6) = (8.0*delta_)/315.0;
+            matrix_N_NN_[1](5,5) = (8.0*delta_)/315.0;
 
 
             // Fill third matrix column-wise (Matrix is simmetric):
+            matrix_N_NN_[2](0,0) = delta_/210.0;
+            matrix_N_NN_[2](1,0) = delta_/1260.0;
+            matrix_N_NN_[2](2,0) = -delta_/315.0;
+            matrix_N_NN_[2](3,0) = -delta_/315.0;
+            matrix_N_NN_[2](4,0) = -delta_/105.0;
+            matrix_N_NN_[2](5,0) = (-2.0*delta_)/315.0;
+
+            matrix_N_NN_[2](0,1) = matrix_N_NN_[2](1,0);
             matrix_N_NN_[2](1,1) = delta_/210.0;
-            matrix_N_NN_[2](2,1) = delta_/1260.0;
+            matrix_N_NN_[2](2,1) = -delta_/315.0;
             matrix_N_NN_[2](3,1) = -delta_/315.0;
-            matrix_N_NN_[2](4,1) = -delta_/315.0;
+            matrix_N_NN_[2](4,1) = (-2.0*delta_)/315.0;
             matrix_N_NN_[2](5,1) = -delta_/105.0;
-            matrix_N_NN_[2](6,1) = (-2.0*delta_)/315.0;
 
+            matrix_N_NN_[2](0,2) = matrix_N_NN_[2](2,0);
             matrix_N_NN_[2](1,2) = matrix_N_NN_[2](2,1);
-            matrix_N_NN_[2](2,2) = delta_/210.0;
+            matrix_N_NN_[2](2,2) = delta_/42.0;
             matrix_N_NN_[2](3,2) = -delta_/315.0;
-            matrix_N_NN_[2](4,2) = -delta_/315.0;
-            matrix_N_NN_[2](5,2) = (-2.0*delta_)/315.0;
-            matrix_N_NN_[2](6,2) = -delta_/105.0;
+            matrix_N_NN_[2](4,2) = delta_/105.0;
+            matrix_N_NN_[2](5,2) = delta_/105.0;
 
+            matrix_N_NN_[2](0,3) = matrix_N_NN_[2](3,0);
             matrix_N_NN_[2](1,3) = matrix_N_NN_[2](3,1);
             matrix_N_NN_[2](2,3) = matrix_N_NN_[2](3,2);
-            matrix_N_NN_[2](3,3) = delta_/42.0;
-            matrix_N_NN_[2](4,3) = -delta_/315.0;
-            matrix_N_NN_[2](5,3) = delta_/105.0;
-            matrix_N_NN_[2](6,3) = delta_/105.0;
+            matrix_N_NN_[2](3,3) = (8.0*delta_)/315.0;
+            matrix_N_NN_[2](4,3) = (8.0*delta_)/315.0;
+            matrix_N_NN_[2](5,3) = (8.0*delta_)/315.0;
 
+            matrix_N_NN_[2](0,4) = matrix_N_NN_[2](4,0);
             matrix_N_NN_[2](1,4) = matrix_N_NN_[2](4,1);
             matrix_N_NN_[2](2,4) = matrix_N_NN_[2](4,2);
             matrix_N_NN_[2](3,4) = matrix_N_NN_[2](4,3);
-            matrix_N_NN_[2](4,4) = (8.0*delta_)/315.0;
-            matrix_N_NN_[2](5,4) = (8.0*delta_)/315.0;
-            matrix_N_NN_[2](6,4) = (8.0*delta_)/315.0;
+            matrix_N_NN_[2](4,4) = (8.0*delta_)/105.0;
+            matrix_N_NN_[2](5,4) = (4.0*delta_)/105.0;
 
+            matrix_N_NN_[2](0,5) = matrix_N_NN_[2](5,0);
             matrix_N_NN_[2](1,5) = matrix_N_NN_[2](5,1);
             matrix_N_NN_[2](2,5) = matrix_N_NN_[2](5,2);
             matrix_N_NN_[2](3,5) = matrix_N_NN_[2](5,3);
             matrix_N_NN_[2](4,5) = matrix_N_NN_[2](5,4);
             matrix_N_NN_[2](5,5) = (8.0*delta_)/105.0;
-            matrix_N_NN_[2](6,5) = (4.0*delta_)/105.0;
-
-            matrix_N_NN_[2](1,6) = matrix_N_NN_[2](6,1);
-            matrix_N_NN_[2](2,6) = matrix_N_NN_[2](6,2);
-            matrix_N_NN_[2](3,6) = matrix_N_NN_[2](6,3);
-            matrix_N_NN_[2](4,6) = matrix_N_NN_[2](6,4);
-            matrix_N_NN_[2](5,6) = matrix_N_NN_[2](6,5);
-            matrix_N_NN_[2](6,6) = (8.0*delta_)/105.0;
         }
         else
             throw(Exception("FEATURE NOT INPLEMENTED","basis_function_order >= 3 not implemented"));
@@ -1427,12 +1427,12 @@ void SolverTriangle::Compute_N_NxNx_matrix_numerically(const cemINT& coefficient
     cemINT num_basis_functions = (basis_function_order_+1)*(basis_function_order_+2)/2;
     cemINT matrix_index = 0;
     if (coefficient_order_ > 0)
-        matrix_index = coefficient_index - 1;
+        matrix_index = coefficient_index;
 
     matrix_N_NxNx_[matrix_index].resize(num_basis_functions,num_basis_functions);
-    for (cemINT j=1; j<=num_basis_functions; ++j)
+    for (cemINT j=0; j<num_basis_functions; ++j)
     {
-        for (cemINT i=1; i<=num_basis_functions; ++i)
+        for (cemINT i=0; i<num_basis_functions; ++i)
             matrix_N_NxNx_[matrix_index](i,j) = Compute_N_NxNx_matrix_entry(coefficient_index,i,j);
     }
 }
@@ -1455,12 +1455,12 @@ void SolverTriangle::Compute_N_NyNy_matrix_numerically(const cemINT& coefficient
     cemINT num_basis_functions = (basis_function_order_+1)*(basis_function_order_+2)/2;
     cemINT matrix_index = 0;
     if (coefficient_order_ > 0)
-        matrix_index = coefficient_index - 1;
+        matrix_index = coefficient_index;
 
     matrix_N_NyNy_[matrix_index].resize(num_basis_functions,num_basis_functions);
-    for (cemINT j=1; j<=num_basis_functions; ++j)
+    for (cemINT j=0; j<num_basis_functions; ++j)
     {
-        for (cemINT i=1; i<=num_basis_functions; ++i)
+        for (cemINT i=0; i<num_basis_functions; ++i)
             matrix_N_NyNy_[matrix_index](i,j) = Compute_N_NyNy_matrix_entry(coefficient_index,i,j);
     }
 }
@@ -1483,12 +1483,12 @@ void SolverTriangle::Compute_N_NN_matrix_numerically(const cemINT& coefficient_i
     cemINT num_basis_functions = (basis_function_order_+1)*(basis_function_order_+2)/2;
     cemINT matrix_index = 0;
     if (coefficient_order_ > 0)
-        matrix_index = coefficient_index - 1;
+        matrix_index = coefficient_index;
 
     matrix_N_NN_[matrix_index].resize(num_basis_functions,num_basis_functions);
-    for (cemINT j=1; j<=num_basis_functions; ++j)
+    for (cemINT j=0; j<num_basis_functions; ++j)
     {
-        for (cemINT i=1; i<=num_basis_functions; ++i)
+        for (cemINT i=0; i<num_basis_functions; ++i)
             matrix_N_NN_[matrix_index](i,j) = Compute_N_NN_matrix_entry(coefficient_index,i,j);
     }
 }
@@ -1547,8 +1547,8 @@ cemDOUBLE SolverTriangle::Compute_N_NxNx_matrix_entry(const cemINT& coefficient_
     // Add everything up:
     cemDOUBLE integral = 0;
     cemDOUBLE term = 0;
-    cemDOUBLE dksi_dx = inverse_jacobian_matrix_(1,1);
-    cemDOUBLE deta_dx = inverse_jacobian_matrix_(1,2);
+    cemDOUBLE dksi_dx = inverse_jacobian_matrix_(0,0);
+    cemDOUBLE deta_dx = inverse_jacobian_matrix_(0,1);
     for (cemINT i=0; i<num_points; ++i)
     {
         term = coefficient_function[i];
@@ -1616,8 +1616,8 @@ cemDOUBLE SolverTriangle::Compute_N_NyNy_matrix_entry(const cemINT& coefficient_
     // Add everything up:
     cemDOUBLE integral = 0;
     cemDOUBLE term = 0;
-    cemDOUBLE dksi_dy = inverse_jacobian_matrix_(2,1);
-    cemDOUBLE deta_dy = inverse_jacobian_matrix_(2,2);
+    cemDOUBLE dksi_dy = inverse_jacobian_matrix_(1,0);
+    cemDOUBLE deta_dy = inverse_jacobian_matrix_(1,1);
     for (cemINT i=0; i<num_points; ++i)
     {
         term = coefficient_function[i];
@@ -1716,17 +1716,17 @@ void SolverTriangle::GetShapeFunctionIndices(const cemINT& shape_function_order,
     {
         switch (basis_function_index)
         {
-        case 1:
+        case 0:
             index_i = 1;
             index_j = 0;
             index_k = 0;
             break;
-        case 2:
+        case 1:
             index_i = 0;
             index_j = 1;
             index_k = 0;
             break;
-        case 3:
+        case 2:
             index_i = 0;
             index_j = 0;
             index_k = 1;
@@ -1740,32 +1740,32 @@ void SolverTriangle::GetShapeFunctionIndices(const cemINT& shape_function_order,
     {
         switch (basis_function_index)
         {
-        case 1:
+        case 0:
             index_i = 2;
             index_j = 0;
             index_k = 0;
             break;
-        case 2:
+        case 1:
             index_i = 0;
             index_j = 2;
             index_k = 0;
             break;
-        case 3:
+        case 2:
             index_i = 0;
             index_j = 0;
             index_k = 2;
             break;
-        case 4:
+        case 3:
             index_i = 1;
             index_j = 1;
             index_k = 0;
             break;
-        case 5:
+        case 4:
             index_i = 0;
             index_j = 1;
             index_k = 1;
             break;
-        case 6:
+        case 5:
             index_i = 1;
             index_j = 0;
             index_k = 1;
@@ -1779,52 +1779,52 @@ void SolverTriangle::GetShapeFunctionIndices(const cemINT& shape_function_order,
     {
         switch (basis_function_index)
         {
-        case 1:
+        case 0:
             index_i = 3;
             index_j = 0;
             index_k = 0;
             break;
-        case 2:
+        case 1:
             index_i = 0;
             index_j = 3;
             index_k = 0;
             break;
-        case 3:
+        case 2:
             index_i = 0;
             index_j = 0;
             index_k = 3;
             break;
-        case 4:
+        case 3:
             index_i = 2;
             index_j = 1;
+            index_k = 0;
+            break;
+        case 4:
+            index_i = 1;
+            index_j = 2;
             index_k = 0;
             break;
         case 5:
-            index_i = 1;
-            index_j = 2;
-            index_k = 0;
-            break;
-        case 6:
             index_i = 0;
             index_j = 2;
             index_k = 1;
             break;
-        case 7:
+        case 6:
             index_i = 0;
             index_j = 1;
             index_k = 2;
             break;
-        case 8:
+        case 7:
             index_i = 1;
             index_j = 0;
             index_k = 2;
             break;
-        case 9:
+        case 8:
             index_i = 2;
             index_j = 0;
             index_k = 1;
             break;
-        case 10:
+        case 9:
             index_i = 1;
             index_j = 1;
             index_k = 1;
@@ -1878,10 +1878,10 @@ void SolverTriangle::setUpGeometry()
 
         // Jacobian Matrix of mapping from reference to actual triangle:
         jacobian_matrix_.resize(2,2);
-        jacobian_matrix_(1,1) = x1_ - x3_;
-        jacobian_matrix_(1,2) = y1_ - y3_;
-        jacobian_matrix_(2,1) = x2_ - x3_;
-        jacobian_matrix_(2,2) = y2_ - y3_;
+        jacobian_matrix_(0,0) = x1_ - x3_;
+        jacobian_matrix_(0,1) = y1_ - y3_;
+        jacobian_matrix_(1,0) = x2_ - x3_;
+        jacobian_matrix_(1,1) = y2_ - y3_;
         inverse_jacobian_matrix_ = jacobian_matrix_.inverse();
 
         geometry_is_Up_ = true;

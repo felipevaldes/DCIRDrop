@@ -44,7 +44,7 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_0_1)
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::HIERARCHICAL,0);
+    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::INTERPOLATORY,0);
 
     // Get matrices:
     solver_element.setUp_matrix_N_NxNx(false);
@@ -54,9 +54,9 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_0_1)
     DenseMatrix<cemDOUBLE> K_numeric = solver_element.matrix_N_NxNx(0);
 
     // Compare matrices:
-    for (cemINT i=1; i<=K_analytic.num_rows(); ++i)
+    for (cemINT i=0; i<K_analytic.num_rows(); ++i)
     {
-        for (cemINT j=1; j<=K_analytic.num_columns(); ++j)
+        for (cemINT j=0; j<K_analytic.num_columns(); ++j)
         {
          if (K_analytic(i,j) != 0.0)
              ASSERT_NEAR(1.0,K_numeric(i,j)/K_analytic(i,j),1.0e-14);
@@ -71,7 +71,7 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_0_2)
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::HIERARCHICAL,0);
+    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::INTERPOLATORY,0);
 
     // Get matrices:
     solver_element.setUp_matrix_N_NxNx(false);
@@ -81,9 +81,9 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_0_2)
     DenseMatrix<cemDOUBLE> K_numeric = solver_element.matrix_N_NxNx(0);
 
     // Compare matrices:
-    for (cemINT i=1; i<=K_analytic.num_rows(); ++i)
+    for (cemINT i=0; i<K_analytic.num_rows(); ++i)
     {
-        for (cemINT j=1; j<=K_analytic.num_columns(); ++j)
+        for (cemINT j=0; j<K_analytic.num_columns(); ++j)
         {
          if (K_analytic(i,j) != 0.0)
              ASSERT_NEAR(1.0,K_numeric(i,j)/K_analytic(i,j),1.0e-14);
@@ -103,7 +103,7 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_1_1)
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::HIERARCHICAL,1);
+    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
 
     // Get matrices:
     solver_element.setUp_matrix_N_NxNx(false);
@@ -117,9 +117,9 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_1_1)
     DenseMatrix<cemDOUBLE> K_numeric_2 = solver_element.matrix_N_NxNx(2);
 
     // Compare matrices:
-    for (cemINT i=1; i<=K_analytic_0.num_rows(); ++i)
+    for (cemINT i=0; i<K_analytic_0.num_rows(); ++i)
     {
-        for (cemINT j=1; j<=K_analytic_0.num_columns(); ++j)
+        for (cemINT j=0; j<K_analytic_0.num_columns(); ++j)
         {
          if (K_analytic_0(i,j) != 0.0)
              ASSERT_NEAR(1.0,K_numeric_0(i,j)/K_analytic_0(i,j),1.0e-14);
@@ -145,7 +145,7 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_1_2)
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::HIERARCHICAL,1);
+    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
 
     // Get matrices:
     solver_element.setUp_matrix_N_NxNx(false);
@@ -159,9 +159,9 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_1_2)
     DenseMatrix<cemDOUBLE> K_numeric_2 = solver_element.matrix_N_NxNx(2);
 
     // Compare matrices:
-    for (cemINT i=1; i<=K_analytic_0.num_rows(); ++i)
+    for (cemINT i=0; i<K_analytic_0.num_rows(); ++i)
     {
-        for (cemINT j=1; j<=K_analytic_0.num_columns(); ++j)
+        for (cemINT j=0; j<K_analytic_0.num_columns(); ++j)
         {
          if (K_analytic_0(i,j) != 0.0)
              ASSERT_NEAR(1.0,K_numeric_0(i,j)/K_analytic_0(i,j),5.0e-14);
@@ -194,7 +194,7 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_0_1)
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::HIERARCHICAL,0);
+    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::INTERPOLATORY,0);
 
     // Get matrices:
     solver_element.setUp_matrix_N_NyNy(false);
@@ -204,9 +204,9 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_0_1)
     DenseMatrix<cemDOUBLE> K_numeric = solver_element.matrix_N_NyNy(0);
 
     // Compare matrices:
-    for (cemINT i=1; i<=K_analytic.num_rows(); ++i)
+    for (cemINT i=0; i<K_analytic.num_rows(); ++i)
     {
-        for (cemINT j=1; j<=K_analytic.num_columns(); ++j)
+        for (cemINT j=0; j<K_analytic.num_columns(); ++j)
         {
             if (K_analytic(i,j) != 0.0)
                 ASSERT_NEAR(1.0,K_numeric(i,j)/K_analytic(i,j),1.0e-14);
@@ -221,7 +221,7 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_0_2)
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::HIERARCHICAL,0);
+    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::INTERPOLATORY,0);
 
     // Get matrices:
     solver_element.setUp_matrix_N_NyNy(false);
@@ -231,9 +231,9 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_0_2)
     DenseMatrix<cemDOUBLE> K_numeric = solver_element.matrix_N_NyNy(0);
 
     // Compare matrices:
-    for (cemINT i=1; i<=K_analytic.num_rows(); ++i)
+    for (cemINT i=0; i<K_analytic.num_rows(); ++i)
     {
-        for (cemINT j=1; j<=K_analytic.num_columns(); ++j)
+        for (cemINT j=0; j<K_analytic.num_columns(); ++j)
         {
             if (K_analytic(i,j) != 0.0)
                 ASSERT_NEAR(1.0,K_numeric(i,j)/K_analytic(i,j),1.0e-14);
@@ -252,7 +252,7 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_1_1)
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::HIERARCHICAL,1);
+    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
 
     // Get matrices:
     solver_element.setUp_matrix_N_NyNy(false);
@@ -266,9 +266,9 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_1_1)
     DenseMatrix<cemDOUBLE> K_numeric_2 = solver_element.matrix_N_NyNy(2);
 
     // Compare matrices:
-    for (cemINT i=1; i<=K_analytic_0.num_rows(); ++i)
+    for (cemINT i=0; i<K_analytic_0.num_rows(); ++i)
     {
-        for (cemINT j=1; j<=K_analytic_0.num_columns(); ++j)
+        for (cemINT j=0; j<K_analytic_0.num_columns(); ++j)
         {
             if (K_analytic_0(i,j) != 0.0)
                 ASSERT_NEAR(1.0,K_numeric_0(i,j)/K_analytic_0(i,j),1.0e-14);
@@ -293,7 +293,7 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_1_2)
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::HIERARCHICAL,1);
+    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
 
     // Get matrices:
     solver_element.setUp_matrix_N_NyNy(false);
@@ -307,9 +307,9 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_1_2)
     DenseMatrix<cemDOUBLE> K_numeric_2 = solver_element.matrix_N_NyNy(2);
 
     // Compare matrices:
-    for (cemINT i=1; i<=K_analytic_0.num_rows(); ++i)
+    for (cemINT i=0; i<K_analytic_0.num_rows(); ++i)
     {
-        for (cemINT j=1; j<=K_analytic_0.num_columns(); ++j)
+        for (cemINT j=0; j<K_analytic_0.num_columns(); ++j)
         {
             if (K_analytic_0(i,j) != 0.0)
                 ASSERT_NEAR(1.0,K_numeric_0(i,j)/K_analytic_0(i,j),5.0e-14);
@@ -372,7 +372,7 @@ int TestSolverElementBasics()
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::HIERARCHICAL,1);
+    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
 
     DenseMatrix<cemDOUBLE> K_analytic,K_numeric;
 

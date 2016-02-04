@@ -43,6 +43,7 @@ DenseMatrix<T>::~DenseMatrix()
 template <class T>
 DenseMatrix<T>::DenseMatrix(cemUINT n_rows, cemUINT n_columns)
 {
+    matrix_entries_ = NULL;
     resize(n_rows,n_columns);
 }
 
@@ -54,6 +55,7 @@ DenseMatrix<T>::DenseMatrix(cemUINT n_rows, cemUINT n_columns)
 template <class T>
 void DenseMatrix<T>::copy(const DenseMatrix<T>& other)
 {
+    matrix_entries_ = NULL;
     resize(other.num_rows_,other.num_columns_);
 
     cemUINT8 size = num_rows_;
@@ -104,32 +106,32 @@ cemUINT DenseMatrix<T>::num_columns() const {return num_columns_;}
 
 //************************************************************************************************//
 /** @brief DenseMatrix<T>::operator () : Random access operator for read only purposes.
- * @param row : row of matrix entry to get, from 1 to num_rows_
- * @param col : column of matrix entry to get, from 1 to num_columns_
+ * @param row : row of matrix entry to get, from 0 to num_rows_ - 1
+ * @param col : column of matrix entry to get, from 0 to num_columns_ - 1
  * @return : Matrix(row,col) */
 //************************************************************************************************//
 template <class T>
 const T& DenseMatrix<T>::operator () (cemUINT row, cemUINT col) const
 {
     cemUINT8 location = num_rows_;
-    location *= col - 1;
-    location += row - 1;
+    location *= col;
+    location += row;
     return(matrix_entries_[location]);
 }
 
 
 //************************************************************************************************//
 /** @brief DenseMatrix<T>::operator () : Random access operator for read-write purposes.
- * @param row : row of matrix entry to get, from 1 to num_rows_
- * @param col : column of matrix entry to get, from 1 to num_columns_
+ * @param row : row of matrix entry to get, from 0 to num_rows_ - 1
+ * @param col : column of matrix entry to get, from 0 to num_columns_ - 1
  * @return : Matrix(row,col) */
 //************************************************************************************************//
 template <class T>
 T& DenseMatrix<T>::operator () (cemUINT row, cemUINT col)
 {
     cemUINT8 location = num_rows_;
-    location *= col - 1;
-    location += row - 1;
+    location *= col;
+    location += row;
     return(matrix_entries_[location]);
 }
 
@@ -154,7 +156,7 @@ void DenseMatrix<T>::initialize()
 template <class T>
 void DenseMatrix<T>::resize(cemUINT n_rows, cemUINT n_columns)
 {
-    if (!matrix_entries_)
+    if (matrix_entries_ != NULL)
         CLEAN_ARRAY(matrix_entries_);
     num_rows_ = n_rows;
     num_columns_ = n_columns;
@@ -267,7 +269,7 @@ T DenseMatrix<T>::determinant() const
         return matrix_entries_[0];
 
     if (num_rows_ == 2)
-        return (*this)(1,1)*(*this)(2,2) - (*this)(1,2)*(*this)(2,1);
+        return (*this)(0,0)*(*this)(1,1) - (*this)(0,1)*(*this)(1,0);
 }
 
 
@@ -284,10 +286,10 @@ DenseMatrix<T> DenseMatrix<T>::inverse() const
 
     DenseMatrix<T> inverse(2,2);
     T det = this->determinant();
-    inverse(1,1) = (*this)(2,2)/det;
-    inverse(1,2) = -(*this)(1,2)/det;
-    inverse(2,1) = -(*this)(2,1)/det;
-    inverse(2,2) = (*this)(1,1)/det;
+    inverse(0,0) = (*this)(1,1)/det;
+    inverse(0,1) = -(*this)(0,1)/det;
+    inverse(1,0) = -(*this)(1,0)/det;
+    inverse(1,1) = (*this)(0,0)/det;
 
     return inverse;
 }

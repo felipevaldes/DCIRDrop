@@ -785,15 +785,15 @@ TEST(DenseMatrix,ConstructorWithSize)
 TEST(DenseMatrix,SetAndGetEntryD)
 {
     DenseMatrix<cemDOUBLE> A(2,2);
-    A(1,1) = 2.;
-    A(1,2) = cem_const::PI4;
-    A(2,1) = -1.5;
-    A(2,2) = 1.3e-4;
+    A(0,0) = 2.;
+    A(0,1) = cem_const::PI4;
+    A(1,0) = -1.5;
+    A(1,1) = 1.3e-4;
 
-    cemDOUBLE A11 = A(1,1);
-    cemDOUBLE A12 = A(1,2);
-    cemDOUBLE A21 = A(2,1);
-    cemDOUBLE A22 = A(2,2);
+    cemDOUBLE A11 = A(0,0);
+    cemDOUBLE A12 = A(0,1);
+    cemDOUBLE A21 = A(1,0);
+    cemDOUBLE A22 = A(1,1);
 
     ASSERT_DOUBLE_EQ(2.,A11);
     ASSERT_DOUBLE_EQ(cem_const::PI4,A12);
@@ -804,15 +804,15 @@ TEST(DenseMatrix,SetAndGetEntryD)
 TEST(DenseMatrix,SetAndGetEntryF)
 {
     DenseMatrix<cemFLOAT> A(2,2);
-    A(1,1) = 2.;
-    A(1,2) = cem_const::PI4;
-    A(2,1) = -1.5;
-    A(2,2) = 1.3e-4;
+    A(0,0) = 2.;
+    A(0,1) = cem_const::PI4;
+    A(1,0) = -1.5;
+    A(1,1) = 1.3e-4;
 
-    cemFLOAT A11 = A(1,1);
-    cemFLOAT A12 = A(1,2);
-    cemFLOAT A21 = A(2,1);
-    cemDOUBLE A22 = A(2,2);
+    cemFLOAT A11 = A(0,0);
+    cemFLOAT A12 = A(0,1);
+    cemFLOAT A21 = A(1,0);
+    cemDOUBLE A22 = A(1,1);
 
     ASSERT_FLOAT_EQ(2.,A11);
     ASSERT_FLOAT_EQ(cem_const::PI4,A12);
@@ -823,15 +823,15 @@ TEST(DenseMatrix,SetAndGetEntryF)
 TEST(DenseMatrix,SetAndGetEntryDC)
 {
     DenseMatrix<cemDCOMPLEX> A(2,2);
-    A(1,1) = cemDCOMPLEX(2.,-2.);
-    A(1,2) = cemDCOMPLEX(cem_const::PI4,-cem_const::PI4);
-    A(2,1) = cemDCOMPLEX(-1.5,1.5);
-    A(2,2) = cemDCOMPLEX(1.3e-4,-1.3e-4);
+    A(0,0) = cemDCOMPLEX(2.,-2.);
+    A(0,1) = cemDCOMPLEX(cem_const::PI4,-cem_const::PI4);
+    A(1,0) = cemDCOMPLEX(-1.5,1.5);
+    A(1,1) = cemDCOMPLEX(1.3e-4,-1.3e-4);
 
-    cemDCOMPLEX A11 = A(1,1);
-    cemDCOMPLEX A12 = A(1,2);
-    cemDCOMPLEX A21 = A(2,1);
-    cemDCOMPLEX A22 = A(2,2);
+    cemDCOMPLEX A11 = A(0,0);
+    cemDCOMPLEX A12 = A(0,1);
+    cemDCOMPLEX A21 = A(1,0);
+    cemDCOMPLEX A22 = A(1,1);
 
     ASSERT_DOUBLE_EQ(2.,A11.real());
     ASSERT_DOUBLE_EQ(-2.,A11.imag());
@@ -846,15 +846,15 @@ TEST(DenseMatrix,SetAndGetEntryDC)
 TEST(DenseMatrix,SetAndGetEntryFC)
 {
     DenseMatrix<cemFCOMPLEX> A(2,2);
-    A(1,1) = cemFCOMPLEX(2.,-2.);
-    A(1,2) = cemFCOMPLEX(cem_const::PI4,-cem_const::PI4);
-    A(2,1) = cemFCOMPLEX(-1.5,1.5);
-    A(2,2) = cemFCOMPLEX(1.3e-4,-1.3e-4);
+    A(0,0) = cemFCOMPLEX(2.,-2.);
+    A(0,1) = cemFCOMPLEX(cem_const::PI4,-cem_const::PI4);
+    A(1,0) = cemFCOMPLEX(-1.5,1.5);
+    A(1,1) = cemFCOMPLEX(1.3e-4,-1.3e-4);
 
-    cemFCOMPLEX A11 = A(1,1);
-    cemFCOMPLEX A12 = A(1,2);
-    cemFCOMPLEX A21 = A(2,1);
-    cemFCOMPLEX A22 = A(2,2);
+    cemFCOMPLEX A11 = A(0,0);
+    cemFCOMPLEX A12 = A(0,1);
+    cemFCOMPLEX A21 = A(1,0);
+    cemFCOMPLEX A22 = A(1,1);
 
     ASSERT_FLOAT_EQ(2.,A11.real());
     ASSERT_FLOAT_EQ(-2.,A11.imag());
@@ -870,9 +870,9 @@ TEST(DenseMatrix,CopyConstructorD)
 {
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             A(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
     }
 
@@ -880,9 +880,9 @@ TEST(DenseMatrix,CopyConstructorD)
 
     ASSERT_EQ(A.num_rows(),B.num_rows());
     ASSERT_EQ(A.num_columns(),B.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             ASSERT_DOUBLE_EQ(A(i,j),B(i,j));
     }
 }
@@ -891,9 +891,9 @@ TEST(DenseMatrix,CopyConstructorF)
 {
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             A(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
     }
 
@@ -901,9 +901,9 @@ TEST(DenseMatrix,CopyConstructorF)
 
     ASSERT_EQ(A.num_rows(),B.num_rows());
     ASSERT_EQ(A.num_columns(),B.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             ASSERT_FLOAT_EQ(A(i,j),B(i,j));
     }
 }
@@ -914,9 +914,9 @@ TEST(DenseMatrix,CopyConstructorDC)
     srand(time(NULL));
 
     DenseMatrix<cemDCOMPLEX> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             a = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             b = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -928,9 +928,9 @@ TEST(DenseMatrix,CopyConstructorDC)
 
     ASSERT_EQ(A.num_rows(),B.num_rows());
     ASSERT_EQ(A.num_columns(),B.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             ASSERT_DOUBLE_EQ(A(i,j).real(),B(i,j).real());
             ASSERT_DOUBLE_EQ(A(i,j).imag(),B(i,j).imag());
@@ -944,9 +944,9 @@ TEST(DenseMatrix,CopyConstructorFC)
     srand(time(NULL));
 
     DenseMatrix<cemFCOMPLEX> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             a = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             b = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -958,9 +958,9 @@ TEST(DenseMatrix,CopyConstructorFC)
 
     ASSERT_EQ(A.num_rows(),B.num_rows());
     ASSERT_EQ(A.num_columns(),B.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             ASSERT_FLOAT_EQ(A(i,j).real(),B(i,j).real());
             ASSERT_FLOAT_EQ(A(i,j).imag(),B(i,j).imag());
@@ -972,9 +972,9 @@ TEST(DenseMatrix,CopyOperatorD)
 {
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             A(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
     }
 
@@ -982,9 +982,9 @@ TEST(DenseMatrix,CopyOperatorD)
 
     ASSERT_EQ(A.num_rows(),B.num_rows());
     ASSERT_EQ(A.num_columns(),B.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             ASSERT_DOUBLE_EQ(A(i,j),B(i,j));
     }
 }
@@ -993,9 +993,9 @@ TEST(DenseMatrix,CopyOperatorF)
 {
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             A(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
     }
 
@@ -1003,9 +1003,9 @@ TEST(DenseMatrix,CopyOperatorF)
 
     ASSERT_EQ(A.num_rows(),B.num_rows());
     ASSERT_EQ(A.num_columns(),B.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             ASSERT_FLOAT_EQ(A(i,j),B(i,j));
     }
 }
@@ -1016,9 +1016,9 @@ TEST(DenseMatrix,CopyOperatorDC)
     srand(time(NULL));
 
     DenseMatrix<cemDCOMPLEX> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             a = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             b = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1030,9 +1030,9 @@ TEST(DenseMatrix,CopyOperatorDC)
 
     ASSERT_EQ(A.num_rows(),B.num_rows());
     ASSERT_EQ(A.num_columns(),B.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             ASSERT_DOUBLE_EQ(A(i,j).real(),B(i,j).real());
             ASSERT_DOUBLE_EQ(A(i,j).imag(),B(i,j).imag());
@@ -1046,9 +1046,9 @@ TEST(DenseMatrix,CopyOperatorFC)
     srand(time(NULL));
 
     DenseMatrix<cemFCOMPLEX> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             a = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             b = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1060,9 +1060,9 @@ TEST(DenseMatrix,CopyOperatorFC)
 
     ASSERT_EQ(A.num_rows(),B.num_rows());
     ASSERT_EQ(A.num_columns(),B.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             ASSERT_FLOAT_EQ(A(i,j).real(),B(i,j).real());
             ASSERT_FLOAT_EQ(A(i,j).imag(),B(i,j).imag());
@@ -1074,9 +1074,9 @@ TEST(DenseMatrix,InitializeD)
 {
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             A(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
     }
 
@@ -1084,9 +1084,9 @@ TEST(DenseMatrix,InitializeD)
 
     ASSERT_EQ(10,A.num_rows());
     ASSERT_EQ(5,A.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             ASSERT_DOUBLE_EQ(0.0,A(i,j));
     }
 }
@@ -1095,9 +1095,9 @@ TEST(DenseMatrix,InitializeF)
 {
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             A(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
     }
 
@@ -1105,9 +1105,9 @@ TEST(DenseMatrix,InitializeF)
 
     ASSERT_EQ(10,A.num_rows());
     ASSERT_EQ(5,A.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             ASSERT_FLOAT_EQ(0.0,A(i,j));
     }
 }
@@ -1118,9 +1118,9 @@ TEST(DenseMatrix,InitializeDC)
     srand(time(NULL));
 
     DenseMatrix<cemDCOMPLEX> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             a = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             b = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1132,9 +1132,9 @@ TEST(DenseMatrix,InitializeDC)
 
     ASSERT_EQ(10,A.num_rows());
     ASSERT_EQ(5,A.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             ASSERT_DOUBLE_EQ(0.0,A(i,j).real());
             ASSERT_DOUBLE_EQ(0.0,A(i,j).imag());
@@ -1148,9 +1148,9 @@ TEST(DenseMatrix,InitializeFC)
     srand(time(NULL));
 
     DenseMatrix<cemFCOMPLEX> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             a = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             b = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1162,9 +1162,9 @@ TEST(DenseMatrix,InitializeFC)
 
     ASSERT_EQ(10,A.num_rows());
     ASSERT_EQ(5,A.num_columns());
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             ASSERT_FLOAT_EQ(0.0,A(i,j).real());
             ASSERT_FLOAT_EQ(0.0,A(i,j).imag());
@@ -1200,9 +1200,9 @@ TEST(DenseMatrix,AdditionD)
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             B(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1214,21 +1214,22 @@ TEST(DenseMatrix,AdditionD)
 
     ASSERT_EQ(A.num_rows(),A_plus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_plus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
             ASSERT_DOUBLE_EQ(A(i,j)+B(i,j),A_plus_B(i,j));
     }
 }
+
 
 TEST(DenseMatrix,AdditionF)
 {
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             B(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1240,9 +1241,9 @@ TEST(DenseMatrix,AdditionF)
 
     ASSERT_EQ(A.num_rows(),A_plus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_plus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
             ASSERT_FLOAT_EQ(A(i,j)+B(i,j),A_plus_B(i,j));
     }
 }
@@ -1252,9 +1253,9 @@ TEST(DenseMatrix,AdditionDC)
     srand(time(NULL));
     DenseMatrix<cemDCOMPLEX> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j).real() = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             A(i,j).imag() = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1268,9 +1269,9 @@ TEST(DenseMatrix,AdditionDC)
 
     ASSERT_EQ(A.num_rows(),A_plus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_plus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
         {
             ASSERT_DOUBLE_EQ((A(i,j)+B(i,j)).real(), A_plus_B(i,j).real());
             ASSERT_DOUBLE_EQ((A(i,j)+B(i,j)).imag(), A_plus_B(i,j).imag());
@@ -1283,9 +1284,9 @@ TEST(DenseMatrix,AdditionFC)
     srand(time(NULL));
     DenseMatrix<cemFCOMPLEX> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j).real() = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             A(i,j).imag() = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1299,9 +1300,9 @@ TEST(DenseMatrix,AdditionFC)
 
     ASSERT_EQ(A.num_rows(),A_plus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_plus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
         {
             ASSERT_FLOAT_EQ((A(i,j)+B(i,j)).real(), A_plus_B(i,j).real());
             ASSERT_FLOAT_EQ((A(i,j)+B(i,j)).imag(), A_plus_B(i,j).imag());
@@ -1314,9 +1315,9 @@ TEST(DenseMatrix,AdditionOperatorD)
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             B(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1328,9 +1329,9 @@ TEST(DenseMatrix,AdditionOperatorD)
 
     ASSERT_EQ(A.num_rows(),A_plus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_plus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
             ASSERT_DOUBLE_EQ(A(i,j)+B(i,j),A_plus_B(i,j));
     }
 }
@@ -1340,9 +1341,9 @@ TEST(DenseMatrix,AdditionOperatorF)
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             B(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1354,9 +1355,9 @@ TEST(DenseMatrix,AdditionOperatorF)
 
     ASSERT_EQ(A.num_rows(),A_plus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_plus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
             ASSERT_FLOAT_EQ(A(i,j)+B(i,j),A_plus_B(i,j));
     }
 }
@@ -1366,9 +1367,9 @@ TEST(DenseMatrix,AdditionOperatorDC)
     srand(time(NULL));
     DenseMatrix<cemDCOMPLEX> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j).real() = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             A(i,j).imag() = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1382,9 +1383,9 @@ TEST(DenseMatrix,AdditionOperatorDC)
 
     ASSERT_EQ(A.num_rows(),A_plus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_plus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
         {
             ASSERT_DOUBLE_EQ((A(i,j)+B(i,j)).real(), A_plus_B(i,j).real());
             ASSERT_DOUBLE_EQ((A(i,j)+B(i,j)).imag(), A_plus_B(i,j).imag());
@@ -1397,9 +1398,9 @@ TEST(DenseMatrix,AdditionOperatorFC)
     srand(time(NULL));
     DenseMatrix<cemFCOMPLEX> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j).real() = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             A(i,j).imag() = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1413,9 +1414,9 @@ TEST(DenseMatrix,AdditionOperatorFC)
 
     ASSERT_EQ(A.num_rows(),A_plus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_plus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
         {
             ASSERT_FLOAT_EQ((A(i,j)+B(i,j)).real(), A_plus_B(i,j).real());
             ASSERT_FLOAT_EQ((A(i,j)+B(i,j)).imag(), A_plus_B(i,j).imag());
@@ -1428,9 +1429,9 @@ TEST(DenseMatrix,SubstractionD)
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             B(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1442,9 +1443,9 @@ TEST(DenseMatrix,SubstractionD)
 
     ASSERT_EQ(A.num_rows(),A_minus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_minus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
             ASSERT_DOUBLE_EQ(A(i,j)-B(i,j),A_minus_B(i,j));
     }
 }
@@ -1454,9 +1455,9 @@ TEST(DenseMatrix,SubstractionF)
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             B(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1468,9 +1469,9 @@ TEST(DenseMatrix,SubstractionF)
 
     ASSERT_EQ(A.num_rows(),A_minus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_minus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
             ASSERT_FLOAT_EQ(A(i,j)-B(i,j),A_minus_B(i,j));
     }
 }
@@ -1480,9 +1481,9 @@ TEST(DenseMatrix,SubstractionDC)
     srand(time(NULL));
     DenseMatrix<cemDCOMPLEX> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j).real() = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             A(i,j).imag() = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1496,9 +1497,9 @@ TEST(DenseMatrix,SubstractionDC)
 
     ASSERT_EQ(A.num_rows(),A_minus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_minus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
         {
             ASSERT_DOUBLE_EQ((A(i,j)-B(i,j)).real(), A_minus_B(i,j).real());
             ASSERT_DOUBLE_EQ((A(i,j)-B(i,j)).imag(), A_minus_B(i,j).imag());
@@ -1511,9 +1512,9 @@ TEST(DenseMatrix,SubstractionFC)
     srand(time(NULL));
     DenseMatrix<cemFCOMPLEX> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j).real() = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             A(i,j).imag() = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1527,9 +1528,9 @@ TEST(DenseMatrix,SubstractionFC)
 
     ASSERT_EQ(A.num_rows(),A_minus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_minus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
         {
             ASSERT_FLOAT_EQ((A(i,j)-B(i,j)).real(), A_minus_B(i,j).real());
             ASSERT_FLOAT_EQ((A(i,j)-B(i,j)).imag(), A_minus_B(i,j).imag());
@@ -1542,9 +1543,9 @@ TEST(DenseMatrix,SubstractionOperatorD)
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             B(i,j) = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1556,9 +1557,9 @@ TEST(DenseMatrix,SubstractionOperatorD)
 
     ASSERT_EQ(A.num_rows(),A_minus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_minus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
             ASSERT_DOUBLE_EQ(A(i,j)-B(i,j),A_minus_B(i,j));
     }
 }
@@ -1568,9 +1569,9 @@ TEST(DenseMatrix,SubstractionOperatorF)
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             B(i,j) = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1582,9 +1583,9 @@ TEST(DenseMatrix,SubstractionOperatorF)
 
     ASSERT_EQ(A.num_rows(),A_minus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_minus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
             ASSERT_FLOAT_EQ(A(i,j)-B(i,j),A_minus_B(i,j));
     }
 }
@@ -1594,9 +1595,9 @@ TEST(DenseMatrix,SubstractionOperatorDC)
     srand(time(NULL));
     DenseMatrix<cemDCOMPLEX> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j).real() = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
             A(i,j).imag() = static_cast<cemDOUBLE>(rand() % 2000 - 1000)/static_cast<cemDOUBLE>(rand() % 100 + 1);
@@ -1610,9 +1611,9 @@ TEST(DenseMatrix,SubstractionOperatorDC)
 
     ASSERT_EQ(A.num_rows(),A_minus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_minus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
         {
             ASSERT_DOUBLE_EQ((A(i,j)-B(i,j)).real(), A_minus_B(i,j).real());
             ASSERT_DOUBLE_EQ((A(i,j)-B(i,j)).imag(), A_minus_B(i,j).imag());
@@ -1625,9 +1626,9 @@ TEST(DenseMatrix,SubstractionOperatorFC)
     srand(time(NULL));
     DenseMatrix<cemFCOMPLEX> A(3,5),B(3,5);
 
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=3; ++i)
+        for (cemINT i=0; i<3; ++i)
         {
             A(i,j).real() = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
             A(i,j).imag() = static_cast<cemFLOAT>(rand() % 2000 - 1000)/static_cast<cemFLOAT>(rand() % 100 + 1);
@@ -1641,9 +1642,9 @@ TEST(DenseMatrix,SubstractionOperatorFC)
 
     ASSERT_EQ(A.num_rows(),A_minus_B.num_rows());
     ASSERT_EQ(A.num_columns(),A_minus_B.num_columns());
-    for (cemINT j=1; j<=A.num_columns(); ++j)
+    for (cemINT j=0; j<A.num_columns(); ++j)
     {
-        for (cemINT i=1; i<=A.num_rows(); ++i)
+        for (cemINT i=0; i<A.num_rows(); ++i)
         {
             ASSERT_FLOAT_EQ((A(i,j)-B(i,j)).real(), A_minus_B(i,j).real());
             ASSERT_FLOAT_EQ((A(i,j)-B(i,j)).imag(), A_minus_B(i,j).imag());
@@ -1655,24 +1656,24 @@ TEST(DenseMatrix,MultiplyByScalarD)
 {
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             A(i,j) = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
     }
 
     cemDOUBLE scalar = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
     DenseMatrix<cemDOUBLE> B(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             B(i,j) = scalar*A(i,j);
     }
 
     A.multiply_by_scalar(scalar);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             ASSERT_DOUBLE_EQ(B(i,j),A(i,j));
     }
 }
@@ -1681,24 +1682,24 @@ TEST(DenseMatrix,MultiplyByScalarF)
 {
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             A(i,j) = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
     }
 
     cemFLOAT scalar = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
     DenseMatrix<cemFLOAT> B(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             B(i,j) = scalar*A(i,j);
     }
 
     A.multiply_by_scalar(scalar);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             ASSERT_FLOAT_EQ(B(i,j),A(i,j));
     }
 }
@@ -1708,9 +1709,9 @@ TEST(DenseMatrix,MultiplyByScalarDC)
     srand(time(NULL));
     DenseMatrix<cemDCOMPLEX> A(10,5);
     cemDOUBLE a,b;
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             a = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
             b = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
@@ -1722,16 +1723,16 @@ TEST(DenseMatrix,MultiplyByScalarDC)
     b = cemDOUBLE(rand() % 2000 - 1000)/cemDOUBLE(rand() % 100 + 1);
     cemDCOMPLEX scalar = cemDCOMPLEX(a,b);
     DenseMatrix<cemDCOMPLEX> B(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             B(i,j) = scalar*A(i,j);
     }
 
     A.multiply_by_scalar(scalar);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             // Check relative difference:
             ASSERT_NEAR(B(i,j).real()/B(i,j).real(),A(i,j).real()/B(i,j).real(),1.0e-14);
@@ -1745,9 +1746,9 @@ TEST(DenseMatrix,MultiplyByScalarFC)
     srand(time(NULL));
     DenseMatrix<cemFCOMPLEX> A(10,5);
     cemFLOAT a,b;
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             a = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
             b = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
@@ -1759,16 +1760,16 @@ TEST(DenseMatrix,MultiplyByScalarFC)
     b = cemFLOAT(rand() % 2000 - 1000)/cemFLOAT(rand() % 100 + 1);
     cemFCOMPLEX scalar = cemFCOMPLEX(a,b);
     DenseMatrix<cemFCOMPLEX> B(10,5);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
             B(i,j) = scalar*A(i,j);
     }
 
     A.multiply_by_scalar(scalar);
-    for (cemINT j=1; j<=5; ++j)
+    for (cemINT j=0; j<5; ++j)
     {
-        for (cemINT i=1; i<=10; ++i)
+        for (cemINT i=0; i<10; ++i)
         {
             ASSERT_NEAR(B(i,j).real()/B(i,j).real(),A(i,j).real()/B(i,j).real(),1.0e-5);
             ASSERT_NEAR(B(i,j).imag()/B(i,j).imag(),A(i,j).imag()/B(i,j).imag(),1.0e-5);
@@ -1780,10 +1781,10 @@ TEST(DenseMatrix,DeterminantD)
 {
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(2,2);
-    A(1,1) = 0.814723686393179;
-    A(1,2) = 0.126986816293506;
-    A(2,1) = 0.905791937075619;
-    A(2,2) = 0.913375856139019;
+    A(0,0) = 0.814723686393179;
+    A(0,1) = 0.126986816293506;
+    A(1,0) = 0.905791937075619;
+    A(1,1) = 0.913375856139019;
     ASSERT_DOUBLE_EQ(0.629125310262547,A.determinant());
 
     A.resize(2,3);
@@ -1797,10 +1798,10 @@ TEST(DenseMatrix,DeterminantF)
 {
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(2,2);
-    A(1,1) = 0.81472368;
-    A(1,2) = 0.12698681;
-    A(2,1) = 0.90579193;
-    A(2,2) = 0.91337585;
+    A(0,0) = 0.81472368;
+    A(0,1) = 0.12698681;
+    A(1,0) = 0.90579193;
+    A(1,1) = 0.91337585;
     ASSERT_FLOAT_EQ(0.6291253,A.determinant());
 
     A.resize(2,3);
@@ -1814,10 +1815,10 @@ TEST(DenseMatrix,DeterminantDC)
 {
     srand(time(NULL));
     DenseMatrix<cemDCOMPLEX> A(2,2);
-    A(1,1) = cemDCOMPLEX(0.814723686393179,0.632359246225410);
-    A(1,2) = cemDCOMPLEX(0.126986816293506,0.278498218867048);
-    A(2,1) = cemDCOMPLEX(0.905791937075619,0.097540404999410);
-    A(2,2) = cemDCOMPLEX(0.913375856139019,0.546881519204984);
+    A(0,0) = cemDCOMPLEX(0.814723686393179,0.632359246225410);
+    A(0,1) = cemDCOMPLEX(0.126986816293506,0.278498218867048);
+    A(1,0) = cemDCOMPLEX(0.905791937075619,0.097540404999410);
+    A(1,1) = cemDCOMPLEX(0.913375856139019,0.546881519204984);
 
     ASSERT_NEAR(0.310464554063383,A.determinant().real(),1.0e-15);
     ASSERT_NEAR(0.758491208624997,A.determinant().imag(),1.0e-15);
@@ -1833,10 +1834,10 @@ TEST(DenseMatrix,DeterminantFC)
 {
     srand(time(NULL));
     DenseMatrix<cemFCOMPLEX> A(2,2);
-    A(1,1) = cemFCOMPLEX(0.81472368,0.63235924);
-    A(1,2) = cemFCOMPLEX(0.12698681,0.27849821);
-    A(2,1) = cemFCOMPLEX(0.90579193,0.09754040);
-    A(2,2) = cemFCOMPLEX(0.91337585,0.54688151);
+    A(0,0) = cemFCOMPLEX(0.81472368,0.63235924);
+    A(0,1) = cemFCOMPLEX(0.12698681,0.27849821);
+    A(1,0) = cemFCOMPLEX(0.90579193,0.09754040);
+    A(1,1) = cemFCOMPLEX(0.91337585,0.54688151);
 
     ASSERT_NEAR(0.31046455,A.determinant().real(),1.0e-7);
     ASSERT_NEAR(0.75849121,A.determinant().imag(),1.0e-7);
@@ -1852,16 +1853,16 @@ TEST(DenseMatrix,InverseD)
 {
     srand(time(NULL));
     DenseMatrix<cemDOUBLE> A(2,2);
-    A(1,1) = 0.814723686393179;
-    A(1,2) = 0.126986816293506;
-    A(2,1) = 0.905791937075619;
-    A(2,2) = 0.913375856139019;
+    A(0,0) = 0.814723686393179;
+    A(0,1) = 0.126986816293506;
+    A(1,0) = 0.905791937075619;
+    A(1,1) = 0.913375856139019;
     DenseMatrix<cemDOUBLE> B = A.inverse();
 
-    ASSERT_NEAR(1.451818646046602,B(1,1),1.0e-15);
-    ASSERT_NEAR(-0.201846618188850,B(1,2),1.0e-15);
-    ASSERT_NEAR(-1.439763942572289,B(2,1),1.0e-15);
-    ASSERT_NEAR(1.295010188118449,B(2,2),1.0e-15);
+    ASSERT_NEAR(1.451818646046602,B(0,0),1.0e-15);
+    ASSERT_NEAR(-0.201846618188850,B(0,1),1.0e-15);
+    ASSERT_NEAR(-1.439763942572289,B(1,0),1.0e-15);
+    ASSERT_NEAR(1.295010188118449,B(1,1),1.0e-15);
 
     A.resize(2,3);
     ASSERT_THROW(A.inverse(),Exception);
@@ -1874,16 +1875,16 @@ TEST(DenseMatrix,InverseF)
 {
     srand(time(NULL));
     DenseMatrix<cemFLOAT> A(2,2);
-    A(1,1) = 0.81472368;
-    A(1,2) = 0.12698681;
-    A(2,1) = 0.90579193;
-    A(2,2) = 0.91337585;
+    A(0,0) = 0.81472368;
+    A(0,1) = 0.12698681;
+    A(1,0) = 0.90579193;
+    A(1,1) = 0.91337585;
     DenseMatrix<cemFLOAT> B = A.inverse();
 
-    ASSERT_NEAR(1.45181864,B(1,1),1.0e-7);
-    ASSERT_NEAR(-0.20184661,B(1,2),1.0e-7);
-    ASSERT_NEAR(-1.43976394,B(2,1),1.0e-7);
-    ASSERT_NEAR(1.295010188,B(2,2),1.0e-7);
+    ASSERT_NEAR(1.45181864,B(0,0),1.0e-7);
+    ASSERT_NEAR(-0.20184661,B(0,1),1.0e-7);
+    ASSERT_NEAR(-1.43976394,B(1,0),1.0e-7);
+    ASSERT_NEAR(1.295010188,B(1,1),1.0e-7);
 
     A.resize(2,3);
     ASSERT_THROW(A.inverse(),Exception);
@@ -1896,50 +1897,50 @@ TEST(DenseMatrix,InverseDC)
 {
     srand(time(NULL));
     DenseMatrix<cemDCOMPLEX> A(2,2);
-    A(1,1) = cemDCOMPLEX(0.814723686393179,0.632359246225410);
-    A(1,2) = cemDCOMPLEX(0.126986816293506,0.278498218867048);
-    A(2,1) = cemDCOMPLEX(0.905791937075619,0.097540404999410);
-    A(2,2) = cemDCOMPLEX(0.913375856139019,0.546881519204984);
+    A(0,0) = cemDCOMPLEX(0.814723686393179,0.632359246225410);
+    A(0,1) = cemDCOMPLEX(0.126986816293506,0.278498218867048);
+    A(1,0) = cemDCOMPLEX(0.905791937075619,0.097540404999410);
+    A(1,1) = cemDCOMPLEX(0.913375856139019,0.546881519204984);
     DenseMatrix<cemDCOMPLEX> B = A.inverse();
 
-    ASSERT_NEAR(1.039718047544057,B(1,1).real(),1.0e-14);
-    ASSERT_NEAR(-0.778625051208193,B(1,1).imag(),1.0e-15);
-    ASSERT_NEAR(-0.373179125208346,B(1,2).real(),1.0e-15);
-    ASSERT_NEAR(0.014671133262186,B(1,2).imag(),1.0e-15);
-    ASSERT_NEAR(-0.528809490954782,B(2,1).real(),1.0e-15);
-    ASSERT_NEAR(0.977750731780093,B(2,1).imag(),1.0e-15);
-    ASSERT_NEAR(1.090642936005292,B(2,2).real(),1.0e-15);
-    ASSERT_NEAR(-0.627716851836727,B(2,2).imag(),1.0e-15);
+    ASSERT_NEAR(1.039718047544057,B(0,0).real(),1.0e-14);
+    ASSERT_NEAR(-0.778625051208193,B(0,0).imag(),1.0e-15);
+    ASSERT_NEAR(-0.373179125208346,B(0,1).real(),1.0e-15);
+    ASSERT_NEAR(0.014671133262186,B(0,1).imag(),1.0e-15);
+    ASSERT_NEAR(-0.528809490954782,B(1,0).real(),1.0e-15);
+    ASSERT_NEAR(0.977750731780093,B(1,0).imag(),1.0e-15);
+    ASSERT_NEAR(1.090642936005292,B(1,1).real(),1.0e-15);
+    ASSERT_NEAR(-0.627716851836727,B(1,1).imag(),1.0e-15);
 }
 
 TEST(DenseMatrix,InverseFC)
 {
     srand(time(NULL));
     DenseMatrix<cemFCOMPLEX> A(2,2);
-    A(1,1) = cemFCOMPLEX(0.81472368,0.63235924);
-    A(1,2) = cemFCOMPLEX(0.12698681,0.27849821);
-    A(2,1) = cemFCOMPLEX(0.90579193,0.09754040);
-    A(2,2) = cemFCOMPLEX(0.91337585,0.54688151);
+    A(0,0) = cemFCOMPLEX(0.81472368,0.63235924);
+    A(0,1) = cemFCOMPLEX(0.12698681,0.27849821);
+    A(1,0) = cemFCOMPLEX(0.90579193,0.09754040);
+    A(1,1) = cemFCOMPLEX(0.91337585,0.54688151);
     DenseMatrix<cemFCOMPLEX> B = A.inverse();
 
-    ASSERT_NEAR(1.03971804,B(1,1).real(),1.0e-7);
-    ASSERT_NEAR(-0.77862505,B(1,1).imag(),1.0e-6);
-    ASSERT_NEAR(-0.37317912,B(1,2).real(),1.0e-7);
-    ASSERT_NEAR(0.01467113,B(1,2).imag(),1.0e-7);
-    ASSERT_NEAR(-0.52880949,B(2,1).real(),1.0e-7);
-    ASSERT_NEAR(0.97775073,B(2,1).imag(),1.0e-6);
-    ASSERT_NEAR(1.09064293,B(2,2).real(),1.0e-7);
-    ASSERT_NEAR(-0.62771685,B(2,2).imag(),1.0e-6);
+    ASSERT_NEAR(1.03971804,B(0,0).real(),1.0e-7);
+    ASSERT_NEAR(-0.77862505,B(0,0).imag(),1.0e-6);
+    ASSERT_NEAR(-0.37317912,B(0,1).real(),1.0e-7);
+    ASSERT_NEAR(0.01467113,B(0,1).imag(),1.0e-7);
+    ASSERT_NEAR(-0.52880949,B(1,0).real(),1.0e-7);
+    ASSERT_NEAR(0.97775073,B(1,0).imag(),1.0e-6);
+    ASSERT_NEAR(1.09064293,B(1,1).real(),1.0e-7);
+    ASSERT_NEAR(-0.62771685,B(1,1).imag(),1.0e-6);
 }
 
 
 int TestMathBasics()
 {
     DenseMatrix<cemFCOMPLEX> A(2,2);
-    A(1,1) = cemFCOMPLEX(0.81472368,0.63235924);
-    A(1,2) = cemFCOMPLEX(0.12698681,0.27849821);
-    A(2,1) = cemFCOMPLEX(0.90579193,0.09754040);
-    A(2,2) = cemFCOMPLEX(0.91337585,0.54688151);
+    A(0,0) = cemFCOMPLEX(0.81472368,0.63235924);
+    A(0,1) = cemFCOMPLEX(0.12698681,0.27849821);
+    A(1,0) = cemFCOMPLEX(0.90579193,0.09754040);
+    A(1,1) = cemFCOMPLEX(0.91337585,0.54688151);
 
     std::ofstream myfile;
     myfile.open("TestMatrix.out",std::ofstream::out);
