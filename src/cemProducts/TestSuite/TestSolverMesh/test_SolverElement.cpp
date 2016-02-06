@@ -93,10 +93,33 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_0_2)
     }
 }
 
-//TEST(SolverTriangle,setUp_matrix_N_NxNx_0_3)
-//{
+TEST(SolverTriangle,setUp_matrix_N_NxNx_0_3)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,3,cem_core::SCALAR,cem_core::INTERPOLATORY,0);
 
-//}
+    // Get matrices:
+    solver_element.setUp_matrix_N_NxNx(false);
+    DenseMatrix<cemDOUBLE> K_analytic = solver_element.matrix_N_NxNx(0);
+
+    solver_element.setUp_matrix_N_NxNx(true);
+    DenseMatrix<cemDOUBLE> K_numeric = solver_element.matrix_N_NxNx(0);
+
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic.num_columns(); ++j)
+        {
+         if (K_analytic(i,j) != 0.0)
+             ASSERT_NEAR(1.0,K_numeric(i,j)/K_analytic(i,j),3.0e-13);
+         else
+             ASSERT_NEAR(K_numeric(i,j),K_analytic(i,j),1.0e-14);
+        }
+    }
+}
+
 
 TEST(SolverTriangle,setUp_matrix_N_NxNx_1_1)
 {
@@ -139,7 +162,6 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_1_1)
     }
 }
 
-
 TEST(SolverTriangle,setUp_matrix_N_NxNx_1_2)
 {
     // Create single element:
@@ -181,12 +203,46 @@ TEST(SolverTriangle,setUp_matrix_N_NxNx_1_2)
     }
 }
 
+TEST(SolverTriangle,setUp_matrix_N_NxNx_1_3)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,3,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
 
-//TEST(SolverTriangle,setUp_matrix_N_NxNx_1_3)
-//{
+    // Get matrices:
+    solver_element.setUp_matrix_N_NxNx(false);
+    DenseMatrix<cemDOUBLE> K_analytic_0 = solver_element.matrix_N_NxNx(0);
+    DenseMatrix<cemDOUBLE> K_analytic_1 = solver_element.matrix_N_NxNx(1);
+    DenseMatrix<cemDOUBLE> K_analytic_2 = solver_element.matrix_N_NxNx(2);
 
-//}
+    solver_element.setUp_matrix_N_NxNx(true);
+    DenseMatrix<cemDOUBLE> K_numeric_0 = solver_element.matrix_N_NxNx(0);
+    DenseMatrix<cemDOUBLE> K_numeric_1 = solver_element.matrix_N_NxNx(1);
+    DenseMatrix<cemDOUBLE> K_numeric_2 = solver_element.matrix_N_NxNx(2);
 
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic_0.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic_0.num_columns(); ++j)
+        {
+         if (K_analytic_0(i,j) != 0.0)
+             ASSERT_NEAR(1.0,K_numeric_0(i,j)/K_analytic_0(i,j),9.0e-14);
+         else
+             ASSERT_NEAR(K_numeric_0(i,j),K_analytic_0(i,j),1.0e-14);
+
+         if (K_analytic_1(i,j) != 0.0)
+             ASSERT_NEAR(1.0,K_numeric_1(i,j)/K_analytic_1(i,j),6.0e-13);
+         else
+             ASSERT_NEAR(K_numeric_1(i,j),K_analytic_1(i,j),1.0e-14);
+
+         if (K_analytic_2(i,j) != 0.0)
+             ASSERT_NEAR(1.0,K_numeric_2(i,j)/K_analytic_2(i,j),5.0e-14);
+         else
+             ASSERT_NEAR(K_numeric_2(i,j),K_analytic_2(i,j),1.0e-14);
+        }
+    }
+}
 
 
 TEST(SolverTriangle,setUp_matrix_N_NyNy_0_1)
@@ -240,12 +296,36 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_0_2)
             else
                 ASSERT_NEAR(K_numeric(i,j),K_analytic(i,j),1.0e-14);
         }
-    }}
+    }
+}
 
-//TEST(SolverTriangle,setUp_matrix_N_NyNy_0_3)
-//{
+TEST(SolverTriangle,setUp_matrix_N_NyNy_0_3)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,3,cem_core::SCALAR,cem_core::INTERPOLATORY,0);
 
-//}
+    // Get matrices:
+    solver_element.setUp_matrix_N_NyNy(false);
+    DenseMatrix<cemDOUBLE> K_analytic = solver_element.matrix_N_NyNy(0);
+
+    solver_element.setUp_matrix_N_NyNy(true);
+    DenseMatrix<cemDOUBLE> K_numeric = solver_element.matrix_N_NyNy(0);
+
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic.num_columns(); ++j)
+        {
+            if (K_analytic(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric(i,j)/K_analytic(i,j),5.0e-14);
+            else
+                ASSERT_NEAR(K_numeric(i,j),K_analytic(i,j),1.0e-14);
+        }
+    }
+}
+
 
 TEST(SolverTriangle,setUp_matrix_N_NyNy_1_1)
 {
@@ -329,42 +409,252 @@ TEST(SolverTriangle,setUp_matrix_N_NyNy_1_2)
     }
 }
 
-//TEST(SolverTriangle,setUp_matrix_N_NyNy_1_3)
-//{
+TEST(SolverTriangle,setUp_matrix_N_NyNy_1_3)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,3,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
 
-//}
+    // Get matrices:
+    solver_element.setUp_matrix_N_NyNy(false);
+    DenseMatrix<cemDOUBLE> K_analytic_0 = solver_element.matrix_N_NyNy(0);
+    DenseMatrix<cemDOUBLE> K_analytic_1 = solver_element.matrix_N_NyNy(1);
+    DenseMatrix<cemDOUBLE> K_analytic_2 = solver_element.matrix_N_NyNy(2);
+
+    solver_element.setUp_matrix_N_NyNy(true);
+    DenseMatrix<cemDOUBLE> K_numeric_0 = solver_element.matrix_N_NyNy(0);
+    DenseMatrix<cemDOUBLE> K_numeric_1 = solver_element.matrix_N_NyNy(1);
+    DenseMatrix<cemDOUBLE> K_numeric_2 = solver_element.matrix_N_NyNy(2);
+
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic_0.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic_0.num_columns(); ++j)
+        {
+            if (K_analytic_0(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_0(i,j)/K_analytic_0(i,j),3.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_0(i,j),K_analytic_0(i,j),1.0e-14);
+
+            if (K_analytic_1(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_1(i,j)/K_analytic_1(i,j),3.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_1(i,j),K_analytic_1(i,j),1.0e-14);
+
+            if (K_analytic_2(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_2(i,j)/K_analytic_2(i,j),3.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_2(i,j),K_analytic_2(i,j),1.0e-14);
+        }
+    }
+}
 
 
+TEST(SolverTriangle,setUp_matrix_N_NN_0_1)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::INTERPOLATORY,0);
 
-//TEST(SolverTriangle,setUp_matrix_N_NN_0_1)
-//{
+    // Get matrices:
+    solver_element.setUp_matrix_N_NN(false);
+    DenseMatrix<cemDOUBLE> K_analytic = solver_element.matrix_N_NN(0);
 
-//}
+    solver_element.setUp_matrix_N_NN(true);
+    DenseMatrix<cemDOUBLE> K_numeric = solver_element.matrix_N_NN(0);
 
-//TEST(SolverTriangle,setUp_matrix_N_NN_0_2)
-//{
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic.num_columns(); ++j)
+        {
+            if (K_analytic(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric(i,j)/K_analytic(i,j),1.0e-14);
+            else
+                ASSERT_NEAR(K_numeric(i,j),K_analytic(i,j),1.0e-14);
+        }
+    }
+}
 
-//}
+TEST(SolverTriangle,setUp_matrix_N_NN_0_2)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::INTERPOLATORY,0);
 
-//TEST(SolverTriangle,setUp_matrix_N_NN_0_3)
-//{
+    // Get matrices:
+    solver_element.setUp_matrix_N_NN(false);
+    DenseMatrix<cemDOUBLE> K_analytic = solver_element.matrix_N_NN(0);
 
-//}
+    solver_element.setUp_matrix_N_NN(true);
+    DenseMatrix<cemDOUBLE> K_numeric = solver_element.matrix_N_NN(0);
 
-//TEST(SolverTriangle,setUp_matrix_N_NN_1_1)
-//{
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic.num_columns(); ++j)
+        {
+            if (K_analytic(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric(i,j)/K_analytic(i,j),1.0e-14);
+            else
+                ASSERT_NEAR(K_numeric(i,j),K_analytic(i,j),1.0e-14);
+        }
+    }
+}
 
-//}
+TEST(SolverTriangle,setUp_matrix_N_NN_0_3)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,3,cem_core::SCALAR,cem_core::INTERPOLATORY,0);
 
-//TEST(SolverTriangle,setUp_matrix_N_NN_1_2)
-//{
+    // Get matrices:
+    solver_element.setUp_matrix_N_NN(false);
+    DenseMatrix<cemDOUBLE> K_analytic = solver_element.matrix_N_NN(0);
 
-//}
+    solver_element.setUp_matrix_N_NN(true);
+    DenseMatrix<cemDOUBLE> K_numeric = solver_element.matrix_N_NN(0);
 
-//TEST(SolverTriangle,setUp_matrix_N_NN_1_3)
-//{
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic.num_columns(); ++j)
+        {
+            if (K_analytic(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric(i,j)/K_analytic(i,j),5.0e-14);
+            else
+                ASSERT_NEAR(K_numeric(i,j),K_analytic(i,j),1.0e-14);
+        }
+    }
+}
 
-//}
+
+TEST(SolverTriangle,setUp_matrix_N_NN_1_1)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,1,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
+
+    // Get matrices:
+    solver_element.setUp_matrix_N_NN(false);
+    DenseMatrix<cemDOUBLE> K_analytic_0 = solver_element.matrix_N_NN(0);
+    DenseMatrix<cemDOUBLE> K_analytic_1 = solver_element.matrix_N_NN(1);
+    DenseMatrix<cemDOUBLE> K_analytic_2 = solver_element.matrix_N_NN(2);
+
+    solver_element.setUp_matrix_N_NN(true);
+    DenseMatrix<cemDOUBLE> K_numeric_0 = solver_element.matrix_N_NN(0);
+    DenseMatrix<cemDOUBLE> K_numeric_1 = solver_element.matrix_N_NN(1);
+    DenseMatrix<cemDOUBLE> K_numeric_2 = solver_element.matrix_N_NN(2);
+
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic_0.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic_0.num_columns(); ++j)
+        {
+            if (K_analytic_0(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_0(i,j)/K_analytic_0(i,j),1.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_0(i,j),K_analytic_0(i,j),1.0e-14);
+
+            if (K_analytic_1(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_1(i,j)/K_analytic_1(i,j),1.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_1(i,j),K_analytic_1(i,j),1.0e-14);
+
+            if (K_analytic_2(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_2(i,j)/K_analytic_2(i,j),1.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_2(i,j),K_analytic_2(i,j),1.0e-14);
+        }
+    }
+}
+
+TEST(SolverTriangle,setUp_matrix_N_NN_1_2)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
+
+    // Get matrices:
+    solver_element.setUp_matrix_N_NN(false);
+    DenseMatrix<cemDOUBLE> K_analytic_0 = solver_element.matrix_N_NN(0);
+    DenseMatrix<cemDOUBLE> K_analytic_1 = solver_element.matrix_N_NN(1);
+    DenseMatrix<cemDOUBLE> K_analytic_2 = solver_element.matrix_N_NN(2);
+
+    solver_element.setUp_matrix_N_NN(true);
+    DenseMatrix<cemDOUBLE> K_numeric_0 = solver_element.matrix_N_NN(0);
+    DenseMatrix<cemDOUBLE> K_numeric_1 = solver_element.matrix_N_NN(1);
+    DenseMatrix<cemDOUBLE> K_numeric_2 = solver_element.matrix_N_NN(2);
+
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic_0.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic_0.num_columns(); ++j)
+        {
+            if (K_analytic_0(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_0(i,j)/K_analytic_0(i,j),1.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_0(i,j),K_analytic_0(i,j),1.0e-14);
+
+            if (K_analytic_1(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_1(i,j)/K_analytic_1(i,j),1.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_1(i,j),K_analytic_1(i,j),1.0e-14);
+
+            if (K_analytic_2(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_2(i,j)/K_analytic_2(i,j),5.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_2(i,j),K_analytic_2(i,j),1.0e-14);
+        }
+    }
+}
+
+TEST(SolverTriangle,setUp_matrix_N_NN_1_3)
+{
+    // Create single element:
+    Element test_element;
+    CreateSingleElement(test_element);
+    cem_core::SolverTriangle solver_element(&test_element,3,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
+
+    // Get matrices:
+    solver_element.setUp_matrix_N_NN(false);
+    DenseMatrix<cemDOUBLE> K_analytic_0 = solver_element.matrix_N_NN(0);
+    DenseMatrix<cemDOUBLE> K_analytic_1 = solver_element.matrix_N_NN(1);
+    DenseMatrix<cemDOUBLE> K_analytic_2 = solver_element.matrix_N_NN(2);
+
+    solver_element.setUp_matrix_N_NN(true);
+    DenseMatrix<cemDOUBLE> K_numeric_0 = solver_element.matrix_N_NN(0);
+    DenseMatrix<cemDOUBLE> K_numeric_1 = solver_element.matrix_N_NN(1);
+    DenseMatrix<cemDOUBLE> K_numeric_2 = solver_element.matrix_N_NN(2);
+
+    // Compare matrices:
+    for (cemINT i=0; i<K_analytic_0.num_rows(); ++i)
+    {
+        for (cemINT j=0; j<K_analytic_0.num_columns(); ++j)
+        {
+            if (K_analytic_0(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_0(i,j)/K_analytic_0(i,j),5.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_0(i,j),K_analytic_0(i,j),1.0e-14);
+
+            if (K_analytic_1(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_1(i,j)/K_analytic_1(i,j),5.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_1(i,j),K_analytic_1(i,j),1.0e-14);
+
+            if (K_analytic_2(i,j) != 0.0)
+                ASSERT_NEAR(1.0,K_numeric_2(i,j)/K_analytic_2(i,j),5.0e-14);
+            else
+                ASSERT_NEAR(K_numeric_2(i,j),K_analytic_2(i,j),1.0e-14);
+        }
+    }
+}
 
 
 int TestSolverElementBasics()
@@ -372,7 +662,7 @@ int TestSolverElementBasics()
     // Create single element:
     Element test_element;
     CreateSingleElement(test_element);
-    cem_core::SolverTriangle solver_element(&test_element,2,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
+    cem_core::SolverTriangle solver_element(&test_element,3,cem_core::SCALAR,cem_core::INTERPOLATORY,1);
 
     DenseMatrix<cemDOUBLE> K_analytic,K_numeric;
 
@@ -380,16 +670,16 @@ int TestSolverElementBasics()
     file_analytic.open("K_analytic.out",std::ofstream::out);
     file_analytic.precision(15);
 
-    solver_element.setUp_matrix_N_NyNy(false);
-    K_analytic = solver_element.matrix_N_NyNy(0);
+    solver_element.setUp_matrix_N_NxNx(false);
+    K_analytic = solver_element.matrix_N_NxNx(2);
     K_analytic.WriteToFileByColumns(file_analytic);
 
     std::ofstream file_numeric;
     file_numeric.open("K_numeric.out",std::ofstream::out);
     file_numeric.precision(15);
 
-    solver_element.setUp_matrix_N_NyNy(true);
-    K_numeric = solver_element.matrix_N_NyNy(0);
+    solver_element.setUp_matrix_N_NxNx(true);
+    K_numeric = solver_element.matrix_N_NxNx(2);
     K_numeric.WriteToFileByColumns(file_numeric);
 
     return 0;
